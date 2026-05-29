@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terra · Slide 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Google Sans', sans-serif;
+            background: linear-gradient(160deg, #ecfdf5 0%, #fefce8 40%, #f0fdf4 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background: linear-gradient(160deg, #ecfdf5 0%, #fefce8 35%, #f0fdf4 70%, #dcfce7 100%);
+            border-radius: 24px;
+            box-shadow: 0 24px 80px -20px rgba(6, 95, 70, 0.15), 0 8px 24px -12px rgba(16, 24, 40, 0.08);
+            position: relative;
+            overflow: hidden;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+        }
+        .ambient-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.12;
+            animation: float 8s ease-in-out infinite;
+        }
+        .shape-1 { width: 350px; height: 350px; background: radial-gradient(circle, #f59e0b 0%, transparent 70%); top: -80px; right: -60px; animation-delay: 0s; }
+        .shape-2 { width: 250px; height: 250px; background: radial-gradient(circle, #10b981 0%, transparent 70%); bottom: -40px; left: 30%; animation-delay: -3s; }
+        @keyframes float { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-20px) scale(1.05); } }
+
+        .header { position: relative; z-index: 10; margin-bottom: 32px; }
+        .eyebrow {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #10b981;
+            margin-bottom: 8px;
+        }
+        .title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 44px;
+            font-weight: 700;
+            color: #065f46;
+            line-height: 1.15;
+            letter-spacing: -1px;
+        }
+
+        .content-grid {
+            display: flex;
+            gap: 48px;
+            flex: 1;
+            position: relative;
+            z-index: 10;
+        }
+        .left-col { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+        .right-col { width: 420px; display: flex; flex-direction: column; justify-content: flex-end; position: relative; }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px -8px rgba(16, 185, 129, 0.25); }
+        .stat-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .stat-icon.emerald { background: linear-gradient(135deg, #d1fae5, #a7f3d0); }
+        .stat-icon.amber { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+        .stat-icon.rose { background: linear-gradient(135deg, #ffe4e6, #fecdd3); }
+        .stat-icon.sky { background: linear-gradient(135deg, #e0f2fe, #bae6fd); }
+        .stat-number {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #065f46;
+            line-height: 1.2;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #6b7280;
+            line-height: 1.35;
+        }
+
+        .problem-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(245, 158, 11, 0.06));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 18px;
+            padding: 18px 22px;
+            margin-top: 0;
+        }
+        .problem-title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: #065f46;
+            margin-bottom: 10px;
+        }
+        .problem-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+        .problem-list li {
+            font-size: 12.5px;
+            color: #4b5563;
+            line-height: 1.45;
+            padding-left: 20px;
+            position: relative;
+        }
+        .problem-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #f59e0b;
+            opacity: 0.6;
+        }
+
+        /* Three stacked planets */
+        .planets-container {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+        .planet-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+        }
+        .planet-label {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #065f46;
+            width: 70px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+        .planet {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 8px 32px -8px rgba(0,0,0,0.15), inset -8px -8px 20px rgba(0,0,0,0.1), inset 8px 8px 20px rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            animation: planetFloat 5s ease-in-out infinite;
+        }
+        .planet.scope1 { background: linear-gradient(160deg, #fca5a5, #f87171); animation-delay: 0s; }
+        .planet.scope2 { background: linear-gradient(160deg, #93c5fd, #60a5fa); animation-delay: -1.5s; }
+        .planet.scope3 { background: linear-gradient(160deg, #86efac, #4ade80); animation-delay: -3s; }
+        @keyframes planetFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+        .planet-items {
+            display: flex;
+            gap: 6px;
+            font-size: 20px;
+        }
+        .connector-ribbon {
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(to bottom, #fca5a5, #93c5fd, #86efac);
+            opacity: 0.4;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 100px;
+            bottom: 100px;
+            border-radius: 2px;
+        }
+        .carbon-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #9ca3af;
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: rise 4s ease-in-out infinite;
+        }
+        @keyframes rise {
+            0% { transform: translateY(0); opacity: 0.4; }
+            100% { transform: translateY(-60px); opacity: 0; }
+        }
+
+        .analogy-box {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: 16px;
+            padding: 16px 20px;
+            font-style: italic;
+            font-size: 13px;
+            color: #065f46;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 24px;
+            right: 32px;
+            font-family: 'Google Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            z-index: 10;
+        }
+
+        @media (max-width: 1320px) { .slide-container { transform: scale(0.75); } }
+        @media (max-width: 1000px) { .slide-container { transform: scale(0.55); } }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="ambient-shape shape-1"></div>
+        <div class="ambient-shape shape-2"></div>
+
+        <div class="header">
+            <div class="eyebrow">The Sustainability Crisis</div>
+            <h1 class="title">The Invisible Weight<br>We All Carry</h1>
+        </div>
+
+        <div class="content-grid">
+            <div class="left-col">
+                <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-icon emerald"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M17 3v18"/><path d="M3 7h4"/><path d="M3 11h4"/><path d="M3 15h4"/><path d="M17 7h4"/><path d="M17 11h4"/><path d="M17 15h4"/></svg></div>
+                    <div>
+                        <div class="stat-number">1.13M tCO₂e</div>
+                        <div class="stat-label">Netflix corporate footprint (2024)</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon amber"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                    <div>
+                        <div class="stat-number">175,000 tCO₂e</div>
+                        <div class="stat-label">UK film/TV industry annually (BAFTA albert)</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon rose"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M3 22V8a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v14"/><path d="M2 22h14"/><path d="M6 10h3"/><path d="M6 14h3"/><path d="M16 5h1a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2v-5"/><path d="M16 22V8"/></svg></div>
+                    <div>
+                        <div class="stat-number">48%</div>
+                        <div class="stat-label">of tentpole film emissions from fuel & generators</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon sky"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                    <div>
+                        <div class="stat-number">~90%</div>
+                        <div class="stat-label">Scope 3 (value chain) of most corporate footprints</div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="problem-box">
+                    <div class="problem-title">The Core Problem</div>
+                    <ul class="problem-list">
+                        <li><strong>Invisible Emissions</strong> · supply chains, grids, travel happen unseen</li>
+                        <li><strong>Delayed Feedback</strong> · you learn months after the damage</li>
+                        <li><strong>No Atomic Action</strong> · advice is generic, not specific to <em>your</em> day</li>
+                        <li><strong>Cost vs. Planet</strong> · sustainability framed as expensive; savings missed</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="right-col">
+                <img src="slide_02_scopes_nobg.png" style="position:absolute; top:44%; left:50%; transform:translate(-50%,-50%); width:82%; object-fit:contain; opacity:1; z-index:1;">
+                <div class="analogy-box" style="margin-bottom:8px;">
+                    "Trying to reduce your carbon footprint without data is like trying to save money without looking at your bank statement."
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Logo strip -->
+        <div style="position:absolute; top:20px; right:32px; display:flex; align-items:center; gap:14px; z-index:20;">
+            <img src="j2w_nobg.png"      style="height:28px; object-fit:contain; opacity:0.85;">
+            <div style="width:1px; height:22px; background:rgba(6,95,70,0.25);"></div>
+            <img src="netflix_nobg.png"  style="height:20px; object-fit:contain; opacity:0.85;">
+        </div>
+        <div class="page-number">02 / 11</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,2032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Netflix Production Sustainability Framework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Display:wght@400;500;700&family=Google+Sans+Text:wght@400;500;700&family=Google+Sans+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Surfaces */
+  --bg-page:#F7F7F8;
+  --bg-card:#FFFFFF;
+  --bg-soft:#F2F2F4;
+  --bg-softer:#FAFAFB;
+  --bg-ink:#101113;
+  --bg-ink-2:#1B1D20;
+
+  /* Borders */
+  --border-1:#ECECEF;
+  --border-2:#DEDEE3;
+  --border-3:#C8C8CE;
+
+  /* Text */
+  --text-1:#0E1013;
+  --text-2:#52555C;
+  --text-3:#8A8D94;
+  --text-inv:#FFFFFF;
+  --text-inv-2:rgba(255,255,255,.72);
+  --text-inv-3:rgba(255,255,255,.55);
+
+  /* Brand */
+  --netflix:#E50914;
+  --netflix-2:#B3060F;
+
+  /* Accents */
+  --green:#0F8A5F;     --green-2:#13A372;     --green-bg:#E5F3EC;     --green-bg-2:#D5EBDF;
+  --blue:#1457B5;      --blue-2:#2E78D6;      --blue-bg:#E4EEFB;      --blue-bg-2:#D2E2F8;
+  --purple:#5044C4;    --purple-2:#6A5CDB;    --purple-bg:#ECE9FA;    --purple-bg-2:#DCD7F5;
+  --amber:#A35E0E;     --amber-2:#C9791C;     --amber-bg:#FBEDD7;     --amber-bg-2:#F7DDB1;
+  --coral:#A33A1B;     --coral-2:#C8512A;     --coral-bg:#FBEAE2;     --coral-bg-2:#F6D2C2;
+  --teal:#0E7A82;      --teal-2:#119AA3;      --teal-bg:#DEF1F3;
+  --gray:#5C636E;      --gray-bg:#EEEFF1;
+
+  /* Radii */
+  --r-xs:6px; --r-sm:8px; --r-md:10px; --r-lg:14px; --r-xl:20px; --r-pill:999px;
+
+  /* Type */
+  --font-sans:'Google Sans Text','Google Sans','Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --font-display:'Google Sans Display','Google Sans Text','Google Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --font-mono:'Google Sans Code','JetBrains Mono','Roboto Mono',Menlo,Consolas,monospace;
+
+  /* Shadows */
+  --sh-xs:0 1px 2px rgba(15,17,20,.04);
+  --sh-sm:0 1px 2px rgba(15,17,20,.05),0 2px 6px rgba(15,17,20,.04);
+  --sh-md:0 4px 12px rgba(15,17,20,.06),0 2px 4px rgba(15,17,20,.04);
+  --sh-lg:0 12px 32px rgba(15,17,20,.10),0 4px 12px rgba(15,17,20,.06);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg-page);
+  color:var(--text-1);
+  font-family:var(--font-sans);
+  font-size:14px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.wrap{max-width:1240px;margin:0 auto;padding:28px 22px 80px}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;
+  background:radial-gradient(1200px 480px at 90% -20%,rgba(229,9,20,.18),transparent 60%),linear-gradient(180deg,#0B0C0E 0%,#1A1C20 100%);
+  color:var(--text-inv);
+  border-radius:var(--r-xl);
+  padding:36px 36px 28px;
+  margin-bottom:22px;
+  overflow:hidden;
+  box-shadow:var(--sh-md);
+}
+.hero::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(800px 400px at 0% 120%,rgba(80,68,196,.18),transparent 55%);
+  pointer-events:none;
+}
+.hero-row{display:flex;align-items:center;gap:14px;margin-bottom:18px;position:relative;z-index:1}
+.hero-mark{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,var(--netflix) 0%,var(--netflix-2) 100%);
+  display:grid;place-items:center;font-weight:700;color:#fff;
+  font-family:var(--font-display);font-size:18px;
+  box-shadow:0 4px 14px rgba(229,9,20,.4);
+}
+.hero-eyebrow{font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.hero-eyebrow b{color:var(--netflix);font-weight:500}
+.hero-title{
+  font-family:var(--font-display);font-weight:700;
+  font-size:34px;line-height:1.1;letter-spacing:-.02em;
+  margin:0 0 12px;position:relative;z-index:1;
+}
+.hero-sub{
+  font-size:15px;line-height:1.6;color:var(--text-inv-2);
+  max-width:780px;margin:0;position:relative;z-index:1;
+}
+.hero-stats{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;
+  margin-top:26px;position:relative;z-index:1;
+}
+.hs{
+  padding:14px 16px;border-radius:var(--r-md);
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.09);
+  backdrop-filter:blur(20px);
+}
+.hs-num{font-family:var(--font-display);font-weight:700;font-size:22px;letter-spacing:-.02em;line-height:1.1}
+.hs-lbl{font-size:11.5px;color:var(--text-inv-3);margin-top:6px;line-height:1.4}
+.hs-accent-r{color:#FF6B6B}
+.hs-accent-g{color:#4FE0A4}
+.hs-accent-b{color:#7BB7FF}
+.hs-accent-p{color:#B4A8FF}
+
+/* ============ TAB NAV ============ */
+.tnav{
+  display:flex;gap:4px;flex-wrap:wrap;padding:6px;
+  background:rgba(255,255,255,.92);
+  border:1px solid var(--border-1);
+  border-radius:var(--r-pill);
+  margin-bottom:22px;
+  box-shadow:var(--sh-sm);
+  backdrop-filter:blur(12px);
+  position:sticky;top:12px;z-index:50;
+}
+.tbtn{
+  padding:9px 16px;font-size:13px;font-weight:500;
+  color:var(--text-2);border:none;background:none;cursor:pointer;
+  border-radius:var(--r-pill);font-family:var(--font-sans);
+  transition:background .18s ease,color .18s ease,transform .18s ease;
+  white-space:nowrap;
+}
+.tbtn:hover:not(.on){background:var(--bg-soft);color:var(--text-1)}
+.tbtn.on{background:var(--text-1);color:var(--text-inv)}
+
+/* ============ PANES ============ */
+.pane{display:none;animation:in .25s ease}
+.pane.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+.surface{
+  background:var(--bg-card);
+  border:1px solid var(--border-1);
+  border-radius:var(--r-lg);
+  padding:22px;
+  box-shadow:var(--sh-xs);
+  margin-bottom:14px;
+}
+.section-h{
+  font-family:var(--font-display);font-weight:500;
+  font-size:18px;letter-spacing:-.01em;color:var(--text-1);
+  margin:0 0 6px;
+}
+.section-sub{font-size:13.5px;color:var(--text-2);line-height:1.6;margin:0 0 18px}
+.kicker{
+  display:inline-block;font-size:11px;font-weight:500;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-3);margin-bottom:8px;
+}
+
+/* ============ CARDS / GRIDS ============ */
+.sg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.sc{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-lg);padding:18px;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.sc:hover{transform:translateY(-2px);box-shadow:var(--sh-md);border-color:var(--border-2)}
+.sl{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.st{font-family:var(--font-display);font-size:15px;font-weight:500;margin-bottom:12px;color:var(--text-1)}
+.ei{font-size:12.5px;color:var(--text-2);padding:5px 0 5px 12px;border-left:2px solid;margin-bottom:4px;line-height:1.5}
+
+.tg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.tc{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-md);padding:16px;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.tc:hover{transform:translateY(-1px);box-shadow:var(--sh-sm)}
+.tn{font-family:var(--font-display);font-size:14px;font-weight:500;margin-bottom:6px;color:var(--text-1)}
+.tb{font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--r-pill);display:inline-block;margin-bottom:8px}
+.td{font-size:12.5px;color:var(--text-2);line-height:1.55}
+
+.mg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:10px}
+.mc{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-md);padding:16px;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.mc:hover{transform:translateY(-1px);box-shadow:var(--sh-sm)}
+.mn{font-family:var(--font-display);font-size:14px;font-weight:500;margin-bottom:6px;color:var(--text-1)}
+.md{font-size:12.5px;color:var(--text-2);line-height:1.55}
+
+/* Confidence calculator */
+.cdemo{
+  border:1px solid var(--border-1);
+  border-radius:var(--r-lg);padding:22px;margin-top:14px;
+  background:linear-gradient(180deg,#FBFBFC 0%,#F4F4F6 100%);
+}
+.cdemo-h{font-family:var(--font-display);font-size:14px;font-weight:500;margin-bottom:18px;color:var(--text-1);display:flex;align-items:center;gap:8px}
+.cdemo-h::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green)}
+.srow{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.slbl{font-size:13px;color:var(--text-2);min-width:120px;font-weight:500}
+.sbtns{display:flex;gap:6px}
+.sb{
+  font-size:12px;font-weight:500;padding:6px 14px;
+  border:1px solid var(--border-2);border-radius:var(--r-pill);
+  cursor:pointer;background:var(--bg-card);color:var(--text-2);
+  font-family:var(--font-sans);transition:all .15s ease;
+}
+.sb:hover{border-color:var(--text-3);color:var(--text-1)}
+.sb.on{background:var(--text-1);color:var(--text-inv);border-color:transparent}
+.scout{display:flex;gap:18px;align-items:center;margin-top:18px;padding-top:18px;border-top:1px solid var(--border-1)}
+.snum{font-family:var(--font-display);font-size:44px;font-weight:700;min-width:80px;line-height:1;letter-spacing:-.02em}
+.sdet{flex:1}
+.bw{background:var(--border-1);border-radius:var(--r-pill);height:10px;margin:8px 0;overflow:hidden}
+.bf{height:100%;border-radius:var(--r-pill);transition:width .45s ease,background .45s ease}
+
+/* References */
+.rg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.rc{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-md);padding:18px;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.rc:hover{transform:translateY(-1px);box-shadow:var(--sh-sm);border-color:var(--border-2)}
+.rn{font-family:var(--font-display);font-size:14px;font-weight:500;margin-bottom:6px;color:var(--text-1)}
+.rd{font-size:12.5px;color:var(--text-2);line-height:1.55;margin-bottom:10px}
+.rt{
+  font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--r-pill);
+  margin-right:5px;background:var(--bg-soft);color:var(--text-2);
+  border:1px solid var(--border-1);display:inline-block;margin-bottom:4px;
+}
+.ig{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.ic{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-md);padding:14px;font-size:12.5px;color:var(--text-2);
+  text-align:center;font-weight:500;
+  transition:background .15s ease,color .15s ease;
+}
+.ic:hover{background:var(--bg-soft);color:var(--text-1)}
+
+/* Lifecycle */
+.lc{display:flex;gap:10px;margin-bottom:18px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.lp{
+  flex:1;min-width:160px;cursor:pointer;
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-md);padding:14px;position:relative;
+  transition:all .2s ease;
+}
+.lp:hover{border-color:var(--border-3);transform:translateY(-1px)}
+.lp.on{
+  border-color:var(--text-1);background:var(--text-1);color:var(--text-inv);
+  box-shadow:var(--sh-md);
+}
+.lp.on .lpp,.lp.on .lph{color:inherit}
+.lp.on .lpp{color:var(--text-inv-2)}
+.lp.on .lpb{background:rgba(255,255,255,.14);color:var(--text-inv);border-color:rgba(255,255,255,.18)}
+.lph{font-family:var(--font-display);font-size:13px;font-weight:500;color:var(--text-1);margin-bottom:4px}
+.lpp{font-size:11.5px;color:var(--text-2);margin-bottom:8px}
+.lpb{
+  font-size:10.5px;font-weight:500;padding:2px 9px;border-radius:var(--r-pill);
+  background:var(--bg-soft);color:var(--text-2);
+  border:1px solid var(--border-1);display:inline-block;
+}
+.lcd{
+  margin-top:14px;background:var(--bg-card);
+  border:1px solid var(--border-1);border-radius:var(--r-lg);
+  padding:22px;animation:in .25s ease;
+}
+.lcdh{font-family:var(--font-display);font-size:15px;font-weight:500;margin-bottom:14px;color:var(--text-1)}
+.lcdi{
+  display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;
+  font-size:13px;color:var(--text-2);line-height:1.6;
+  padding:10px 12px;background:var(--bg-softer);
+  border-radius:var(--r-sm);
+  border-left:3px solid var(--border-2);
+  transition:background .15s ease,border-color .15s ease;
+}
+.lcdi:hover{background:var(--bg-soft);border-left-color:var(--green)}
+.lcdi b{color:var(--text-1);font-weight:500}
+
+/* OED */
+.oed{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:14px}
+.oedc{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-lg);padding:20px;position:relative;overflow:hidden;
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.oedc::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;border-radius:var(--r-lg) var(--r-lg) 0 0}
+.oedc:hover{transform:translateY(-2px);box-shadow:var(--sh-md)}
+.oedc.g::before{background:linear-gradient(90deg,var(--green),var(--green-2))}
+.oedc.b::before{background:linear-gradient(90deg,var(--blue),var(--blue-2))}
+.oedc.p::before{background:linear-gradient(90deg,var(--purple),var(--purple-2))}
+.oedh{font-family:var(--font-display);font-size:15px;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.oedh .num{
+  width:24px;height:24px;border-radius:50%;display:grid;place-items:center;
+  font-size:12px;font-weight:500;color:#fff;
+}
+.oedc.g .oedh{color:var(--green)}.oedc.g .num{background:var(--green)}
+.oedc.b .oedh{color:var(--blue)}.oedc.b .num{background:var(--blue)}
+.oedc.p .oedh{color:var(--purple)}.oedc.p .num{background:var(--purple)}
+.oedl{font-size:13px;color:var(--text-2);line-height:1.6;padding-left:18px;margin:0}
+.oedl li{margin-bottom:5px}
+.oedt{
+  margin-top:12px;padding:8px 12px;
+  background:var(--bg-soft);border-radius:var(--r-sm);
+  font-size:11.5px;color:var(--text-2);line-height:1.5;
+}
+
+/* Progress bars */
+.pbr{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.pbrl{font-size:12.5px;color:var(--text-2);min-width:200px;font-weight:500}
+.pbrb{flex:1;background:var(--bg-soft);border-radius:var(--r-pill);height:10px;overflow:hidden}
+.pbrf{height:100%;border-radius:var(--r-pill);transition:width .8s cubic-bezier(.4,0,.2,1)}
+.pbrn{font-size:12.5px;color:var(--text-1);min-width:80px;text-align:right;font-weight:500;font-variant-numeric:tabular-nums}
+
+/* Action playbook */
+.ap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.apc{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-md);padding:18px;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.apc:hover{transform:translateY(-1px);box-shadow:var(--sh-sm)}
+.aph{
+  font-family:var(--font-display);font-size:14px;font-weight:500;margin-bottom:12px;
+  color:var(--text-1);display:flex;align-items:center;gap:10px;
+  padding-bottom:10px;border-bottom:1px solid var(--border-1);
+}
+.api{
+  font-size:12.5px;color:var(--text-2);line-height:1.55;margin-bottom:8px;
+  padding-left:16px;position:relative;
+}
+.api::before{content:"→";position:absolute;left:0;color:var(--green);font-weight:500}
+.apb{
+  font-size:10.5px;font-weight:500;padding:2px 9px;border-radius:var(--r-pill);
+  margin-left:6px;background:var(--green-bg);color:var(--green);
+  border:1px solid var(--green-bg-2);display:inline-block;
+  vertical-align:1px;letter-spacing:.02em;
+}
+.apb.y{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-bg-2)}
+.apb.r{background:var(--coral-bg);color:var(--coral);border-color:var(--coral-bg-2)}
+
+/* Certification flow */
+.cf{display:flex;align-items:center;gap:10px;margin:16px 0;flex-wrap:wrap}
+.cfc{
+  flex:1;min-width:180px;background:var(--bg-card);
+  border:1px solid var(--border-1);border-radius:var(--r-md);
+  padding:14px;text-align:center;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.cfc:hover{transform:translateY(-1px);box-shadow:var(--sh-sm);border-color:var(--border-2)}
+.cfn{
+  width:24px;height:24px;border-radius:50%;background:var(--text-1);color:var(--text-inv);
+  display:inline-grid;place-items:center;font-size:12px;font-weight:500;margin-bottom:6px;
+}
+.cfh{font-family:var(--font-display);font-size:13px;font-weight:500;color:var(--text-1);margin-bottom:4px}
+.cfp{font-size:11.5px;color:var(--text-2);line-height:1.5}
+.cfa{font-size:18px;color:var(--text-3);font-weight:500;flex-shrink:0}
+
+/* Summary callout */
+.callout{
+  margin-top:14px;
+  background:linear-gradient(135deg,#FAFAFB 0%,#F2F2F4 100%);
+  border:1px solid var(--border-1);
+  border-left:4px solid var(--green);
+  border-radius:var(--r-md);
+  padding:16px 18px;font-size:13px;color:var(--text-2);line-height:1.65;
+}
+.callout b{color:var(--text-1);font-weight:500}
+.callout.amber{border-left-color:var(--amber)}
+.callout.purple{border-left-color:var(--purple)}
+.callout.blue{border-left-color:var(--blue)}
+
+/* Architecture SVG */
+.arch-wrap{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-lg);padding:22px;
+}
+.arch-wrap svg{width:100%;height:auto;display:block;font-family:var(--font-sans)}
+.arch-wrap .ts{font-size:11.5px;fill:var(--text-2);font-weight:400}
+.arch-wrap .th{font-size:13px;fill:var(--text-1);font-weight:500;font-family:var(--font-display)}
+.arch-wrap .arr{stroke:var(--border-3);stroke-width:1.5;fill:none}
+.arch-wrap .node{cursor:pointer;transition:transform .2s ease,filter .2s ease}
+.arch-wrap .node:hover{transform:translateY(-2px);filter:drop-shadow(0 4px 8px rgba(0,0,0,.08))}
+.arch-wrap .node rect{transition:fill .2s ease,stroke .2s ease}
+
+.arch-wrap .c-teal rect{fill:var(--teal-bg);stroke:var(--teal-2)}
+.arch-wrap .c-teal:hover rect{fill:#CFEAEC}
+.arch-wrap .c-teal .th{fill:var(--teal)}
+
+.arch-wrap .c-blue rect{fill:var(--blue-bg);stroke:var(--blue-2)}
+.arch-wrap .c-blue:hover rect{fill:var(--blue-bg-2)}
+.arch-wrap .c-blue .th{fill:var(--blue)}
+
+.arch-wrap .c-purple rect{fill:var(--purple-bg);stroke:var(--purple-2)}
+.arch-wrap .c-purple:hover rect{fill:var(--purple-bg-2)}
+.arch-wrap .c-purple .th{fill:var(--purple)}
+
+.arch-wrap .c-green rect{fill:var(--green-bg);stroke:var(--green-2)}
+.arch-wrap .c-green:hover rect{fill:var(--green-bg-2)}
+.arch-wrap .c-green .th{fill:var(--green)}
+
+.arch-wrap .c-amber rect{fill:var(--amber-bg);stroke:var(--amber-2)}
+.arch-wrap .c-amber:hover rect{fill:var(--amber-bg-2)}
+.arch-wrap .c-amber .th{fill:var(--amber)}
+
+.arch-wrap .c-coral rect{fill:var(--coral-bg);stroke:var(--coral-2)}
+.arch-wrap .c-coral:hover rect{fill:var(--coral-bg-2)}
+.arch-wrap .c-coral .th{fill:var(--coral)}
+
+.arch-wrap .c-gray rect{fill:var(--gray-bg);stroke:var(--gray)}
+.arch-wrap .c-gray:hover rect{fill:#E2E4E7}
+.arch-wrap .c-gray .th{fill:var(--gray)}
+
+/* Footer */
+.foot{
+  margin-top:32px;padding:22px;text-align:center;
+  font-size:12px;color:var(--text-3);
+  border-top:1px solid var(--border-1);
+}
+.foot b{color:var(--text-2);font-weight:500}
+
+/* Tab nav group labels */
+.tgrp{
+  font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-3);padding:0 8px 0 10px;align-self:center;user-select:none;
+}
+.tdiv{width:1px;height:20px;background:var(--border-2);align-self:center;margin:0 4px}
+
+/* Data source cards (data layer) */
+.ds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dsc{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-md);padding:16px;
+  display:flex;gap:14px;align-items:flex-start;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.dsc:hover{transform:translateY(-1px);box-shadow:var(--sh-sm);border-color:var(--border-2)}
+.dsi{
+  width:38px;height:38px;border-radius:10px;
+  display:grid;place-items:center;flex-shrink:0;
+  font-family:var(--font-display);font-weight:500;font-size:13px;
+  letter-spacing:.02em;
+}
+.dsi.g{background:var(--green-bg);color:var(--green)}
+.dsi.b{background:var(--blue-bg);color:var(--blue)}
+.dsi.p{background:var(--purple-bg);color:var(--purple)}
+.dsi.a{background:var(--amber-bg);color:var(--amber)}
+.dsi.c{background:var(--coral-bg);color:var(--coral)}
+.dsi.t{background:var(--teal-bg);color:var(--teal)}
+.dsb{flex:1;min-width:0}
+.dsn{font-family:var(--font-display);font-size:13.5px;font-weight:500;color:var(--text-1);margin-bottom:4px}
+.dsd{font-size:12.5px;color:var(--text-2);line-height:1.5;margin-bottom:6px}
+.dsm{font-size:11px;color:var(--text-3);font-family:var(--font-mono)}
+
+/* Pipeline / medallion flow */
+.pipe{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}
+.pipes{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-md);padding:16px;position:relative;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.pipes:hover{transform:translateY(-1px);box-shadow:var(--sh-sm)}
+.pipes::before{
+  content:"";position:absolute;top:14px;left:14px;
+  width:8px;height:8px;border-radius:50%;
+}
+.pipes.bronze::before{background:#B8744A}
+.pipes.silver::before{background:#A8AEB7}
+.pipes.gold::before{background:#D4A03A}
+.pipest{font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);margin:0 0 8px 18px}
+.pipesn{font-family:var(--font-display);font-size:14px;font-weight:500;color:var(--text-1);margin:0 0 6px 18px}
+.pipesd{font-size:12.5px;color:var(--text-2);line-height:1.55;margin:0 0 8px 18px}
+.pipesm{font-size:11px;color:var(--text-3);font-family:var(--font-mono);margin-left:18px}
+
+/* Model card grid (ML engine) */
+.mdg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:14px}
+.mdc{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-lg);padding:20px;position:relative;overflow:hidden;
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.mdc::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;border-radius:var(--r-lg) var(--r-lg) 0 0}
+.mdc:hover{transform:translateY(-2px);box-shadow:var(--sh-md)}
+.mdc.b::before{background:linear-gradient(90deg,var(--blue),var(--blue-2))}
+.mdc.p::before{background:linear-gradient(90deg,var(--purple),var(--purple-2))}
+.mdc.t::before{background:linear-gradient(90deg,var(--teal),var(--teal-2))}
+.mdct{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.mdc.b .mdct{color:var(--blue)}.mdc.p .mdct{color:var(--purple)}.mdc.t .mdct{color:var(--teal)}
+.mdcn{font-family:var(--font-display);font-size:16px;font-weight:500;margin-bottom:10px;color:var(--text-1)}
+.mdcd{font-size:12.5px;color:var(--text-2);line-height:1.55;margin-bottom:10px}
+.mdcl{font-size:12px;color:var(--text-2);line-height:1.6;padding-left:16px;margin:0}
+.mdcl li{margin-bottom:3px}
+.mdcm{
+  margin-top:12px;padding:8px 10px;background:var(--bg-soft);
+  border-radius:var(--r-sm);font-size:11px;color:var(--text-2);
+  font-family:var(--font-mono);line-height:1.5;
+}
+
+/* Stack groups (tech stack) */
+.stack{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.stackg{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-md);padding:18px;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.stackg:hover{transform:translateY(-1px);box-shadow:var(--sh-sm)}
+.stackgh{
+  font-family:var(--font-display);font-size:14px;font-weight:500;color:var(--text-1);
+  margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border-1);
+  display:flex;align-items:center;gap:8px;
+}
+.stackgh::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green)}
+.stackg.b .stackgh::before{background:var(--blue)}
+.stackg.p .stackgh::before{background:var(--purple)}
+.stackg.a .stackgh::before{background:var(--amber)}
+.stackg.c .stackgh::before{background:var(--coral)}
+.stackg.t .stackgh::before{background:var(--teal)}
+.stacki{
+  display:flex;align-items:center;gap:10px;
+  font-size:12.5px;color:var(--text-2);line-height:1.5;
+  padding:8px 0;border-bottom:1px solid var(--bg-soft);
+}
+.stacki:last-child{border-bottom:none}
+.stacki b{color:var(--text-1);font-weight:500;min-width:120px;display:inline-block}
+.stacki .pref{
+  font-size:10px;font-weight:500;padding:2px 8px;border-radius:var(--r-pill);
+  background:var(--green-bg);color:var(--green);border:1px solid var(--green-bg-2);
+  margin-left:auto;flex-shrink:0;letter-spacing:.04em;
+}
+
+/* Roadmap phases */
+.phases{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:14px}
+.phase{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-lg);padding:20px;position:relative;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.phase:hover{transform:translateY(-2px);box-shadow:var(--sh-md);border-color:var(--border-2)}
+.phaseh{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.phasenum{
+  width:34px;height:34px;border-radius:10px;
+  display:grid;place-items:center;flex-shrink:0;
+  font-family:var(--font-display);font-weight:700;font-size:14px;
+  background:var(--text-1);color:var(--text-inv);
+}
+.phase.p1 .phasenum{background:linear-gradient(135deg,var(--green),var(--green-2))}
+.phase.p2 .phasenum{background:linear-gradient(135deg,var(--blue),var(--blue-2))}
+.phase.p3 .phasenum{background:linear-gradient(135deg,var(--purple),var(--purple-2))}
+.phase.p4 .phasenum{background:linear-gradient(135deg,var(--amber),var(--amber-2))}
+.phase.p5 .phasenum{background:linear-gradient(135deg,var(--coral),var(--coral-2))}
+.phaset{font-family:var(--font-display);font-size:15px;font-weight:500;color:var(--text-1);line-height:1.2}
+.phasep{font-size:11.5px;color:var(--text-3);font-weight:500;text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.phasel{font-size:12.5px;color:var(--text-2);line-height:1.6;padding-left:18px;margin:14px 0 0}
+.phasel li{margin-bottom:5px}
+.phasel li::marker{color:var(--text-3)}
+
+/* Build vs buy matrix */
+.bvb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:8px}
+.bvbc{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-md);padding:14px;
+}
+.bvbh{font-family:var(--font-display);font-size:13px;font-weight:500;color:var(--text-1);margin-bottom:10px}
+.bvbi{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-2);padding:6px 0;border-bottom:1px solid var(--bg-soft);line-height:1.4}
+.bvbi:last-child{border-bottom:none}
+.bvbi .tag{
+  font-size:10px;font-weight:500;padding:2px 8px;border-radius:var(--r-pill);
+  flex-shrink:0;letter-spacing:.04em;
+}
+.bvbi .tag.buy{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bg-2)}
+.bvbi .tag.build{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-bg-2)}
+.bvbi .tag.hybrid{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bg-2)}
+
+/* Metric tiles */
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:8px}
+.metric{
+  background:linear-gradient(180deg,var(--bg-card) 0%,var(--bg-softer) 100%);
+  border:1px solid var(--border-1);border-radius:var(--r-md);padding:14px 16px;
+}
+.metricn{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text-1);letter-spacing:-.02em;line-height:1.1}
+.metricl{font-size:11.5px;color:var(--text-2);margin-top:6px;line-height:1.4}
+
+/* End-to-End lifecycle matrix */
+.e2e-wrap{overflow-x:auto;padding-bottom:10px;margin:6px -2px}
+.e2e{
+  display:grid;grid-template-columns:124px repeat(7,minmax(170px,1fr));
+  gap:6px;min-width:1200px;
+}
+.e2e-hdr,.e2e-row{display:contents}
+.e2e-corner{
+  background:transparent;display:flex;align-items:flex-end;
+  font-size:10px;font-weight:500;color:var(--text-3);letter-spacing:.1em;
+  text-transform:uppercase;padding:0 0 8px 4px;
+}
+.e2e-phase{
+  background:linear-gradient(135deg,var(--bg-ink) 0%,var(--bg-ink-2) 100%);
+  color:var(--text-inv);padding:11px 10px;text-align:center;
+  border-radius:var(--r-md);font-family:var(--font-display);
+  font-size:12.5px;font-weight:500;line-height:1.2;
+  position:relative;overflow:hidden;
+}
+.e2e-phase::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 0%,rgba(229,9,20,.08) 100%);
+}
+.e2e-phase small{
+  display:block;color:rgba(255,255,255,.55);font-size:10px;font-weight:400;
+  letter-spacing:.04em;margin-top:4px;text-transform:uppercase;
+}
+.e2e-lane{
+  background:var(--bg-soft);color:var(--text-1);
+  padding:10px 12px;border-radius:var(--r-md);
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--font-display);font-weight:500;font-size:12.5px;
+  border-left:3px solid;
+}
+.e2e-lane.a{border-left-color:var(--green)}
+.e2e-lane.d{border-left-color:var(--blue)}
+.e2e-lane.m{border-left-color:var(--purple)}
+.e2e-lane.r{border-left-color:var(--amber)}
+.e2e-cell{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-md);padding:10px 12px;
+  font-size:11.5px;color:var(--text-2);line-height:1.5;
+  border-left:3px solid var(--border-1);
+  transition:border-color .15s ease,background .15s ease;
+}
+.e2e-row.a .e2e-cell{border-left-color:var(--green-bg-2)}
+.e2e-row.d .e2e-cell{border-left-color:var(--blue-bg-2)}
+.e2e-row.m .e2e-cell{border-left-color:var(--purple-bg-2)}
+.e2e-row.r .e2e-cell{border-left-color:var(--amber-bg-2)}
+.e2e-row.a .e2e-cell:hover{border-left-color:var(--green);background:var(--green-bg)}
+.e2e-row.d .e2e-cell:hover{border-left-color:var(--blue);background:var(--blue-bg)}
+.e2e-row.m .e2e-cell:hover{border-left-color:var(--purple);background:var(--purple-bg)}
+.e2e-row.r .e2e-cell:hover{border-left-color:var(--amber);background:var(--amber-bg)}
+.e2e-cell b{color:var(--text-1);font-weight:500}
+.e2e-cell code{
+  font-family:var(--font-mono);font-size:10.5px;
+  background:var(--bg-soft);padding:1px 5px;border-radius:4px;
+  color:var(--text-2);
+}
+
+/* OSS license badges */
+.lic{
+  font-size:9.5px;font-weight:500;padding:1px 6px;border-radius:var(--r-pill);
+  letter-spacing:.04em;margin-left:6px;vertical-align:1px;display:inline-block;
+}
+.lic.apache{background:#E5EFFB;color:#1B5BA0;border:1px solid #C9DBF5}
+.lic.mit{background:#E5F3EC;color:#0F8A5F;border:1px solid #C8E6D6}
+.lic.bsd{background:#F0EDFA;color:#5044C4;border:1px solid #DCD7F5}
+.lic.agpl{background:#FBEDD7;color:#A35E0E;border:1px solid #F2D5A8}
+.lic.community{background:#FBEAE2;color:#A33A1B;border:1px solid #F0CABA}
+.lic.std{background:#EEEFF1;color:#5C636E;border:1px solid #DEDEE3}
+
+/* OSS license matrix */
+.licmtx{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+.liccol{
+  background:var(--bg-card);border:1px solid var(--border-1);
+  border-radius:var(--r-md);padding:14px;
+}
+.liccolh{
+  font-family:var(--font-display);font-size:13px;font-weight:500;color:var(--text-1);
+  margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border-1);
+  display:flex;align-items:center;gap:8px;
+}
+.liccolh .lic{margin-left:auto}
+.licit{font-size:12px;color:var(--text-2);padding:4px 0;line-height:1.4}
+.licit b{color:var(--text-1);font-weight:500}
+
+/* Carbon-aware infra panel */
+.cai{
+  background:linear-gradient(180deg,var(--green-bg) 0%,#F2FBF6 100%);
+  border:1px solid var(--green-bg-2);
+  border-radius:var(--r-lg);padding:18px;margin-top:14px;
+}
+.caih{
+  font-family:var(--font-display);font-size:14px;font-weight:500;color:var(--green);
+  margin-bottom:10px;display:flex;align-items:center;gap:8px;
+}
+.caih::before{
+  content:"";width:24px;height:24px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green),var(--green-2));
+  display:inline-block;box-shadow:0 0 0 4px rgba(15,138,95,.12);
+}
+.caib{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+.caii{
+  background:rgba(255,255,255,.7);border:1px solid var(--green-bg-2);
+  border-radius:var(--r-md);padding:12px;
+}
+.caii b{font-family:var(--font-display);color:var(--text-1);font-weight:500;font-size:12.5px;display:block;margin-bottom:4px}
+.caii span{font-size:11.5px;color:var(--text-2);line-height:1.5}
+
+/* Responsive */
+@media (max-width:880px){
+  .sg,.oed,.ap,.tg,.mg,.mdg,.bvb,.pipe,.licmtx,.caib{grid-template-columns:1fr}
+  .rg,.hero-stats,.ds,.stack,.phases{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ig,.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero-title{font-size:26px}
+  .hero{padding:24px}
+  .pbrl{min-width:140px}
+  .tgrp{display:none}
+  .tdiv{display:none}
+}
+@media (max-width:560px){
+  .hero-stats,.ds,.stack,.phases,.metrics{grid-template-columns:1fr}
+  .ig,.rg{grid-template-columns:1fr}
+  .wrap{padding:16px 14px 60px}
+}
+</style>
+</head>
+<body>
+<h2 class="sr-only">Netflix Production Sustainability Framework   — End-to-End Interactive Plan</h2>
+
+<div class="wrap">
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-row">
+    <div class="hero-mark">N</div>
+    <div class="hero-eyebrow"><b>Netflix</b> · Sustainability Framework · 2024 → 2030 · <span style="color:#4FE0A4">100% open-source stack</span></div>
+  </div>
+  <h1 class="hero-title">Production Sustainability,<br>powered by open-source ML.</h1>
+  <p class="hero-sub">An end-to-end framework for measuring, predicting, and reducing carbon emissions across film and TV   — from greenlight through certification. Built entirely on open-source infrastructure (Iceberg · dbt · Feast · MLflow · Llama 4 · Qwen 3.5 · Qdrant · Docling · Kubeflow · Superset · Grafana) on top of BAFTA Albert, the GHG Protocol, ISSB IFRS S2, and Netflix's Optimise · Electrify · Decarbonise framework.</p>
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-num hs-accent-r">1.13M</div><div class="hs-lbl">tCO₂e total Netflix footprint, 2024 (Scope 1+2+3)</div></div>
+    <div class="hs"><div class="hs-num hs-accent-g">~28,500</div><div class="hs-lbl">tCO₂e avoided in 2024 vs. business-as-usual</div></div>
+    <div class="hs"><div class="hs-num hs-accent-b">15</div><div class="hs-lbl">Scope 3 categories   \10 reported, 5 modelled by ML</div></div>
+    <div class="hs"><div class="hs-num hs-accent-p">−46%</div><div class="hs-lbl">Scope 1+2 reduction target by 2030 (SBTi)</div></div>
+  </div>
+</header>
+
+<!-- ============ TAB NAV ============ -->
+<nav class="tnav" role="tablist">
+  <button class="tbtn on" onclick="showT('e2e',this)">End-to-End</button>
+  <span class="tdiv"></span>
+  <span class="tgrp">Strategy</span>
+  <button class="tbtn" onclick="showT('lifecycle',this)">Lifecycle</button>
+  <button class="tbtn" onclick="showT('oed',this)">OED</button>
+  <button class="tbtn" onclick="showT('scope',this)">Scopes</button>
+  <button class="tbtn" onclick="showT('playbook',this)">Playbook</button>
+  <button class="tbtn" onclick="showT('cert',this)">Certification</button>
+  <span class="tdiv"></span>
+  <span class="tgrp">System</span>
+  <button class="tbtn" onclick="showT('arch',this)">Architecture</button>
+  <button class="tbtn" onclick="showT('data',this)">Data Layer</button>
+  <button class="tbtn" onclick="showT('ml',this)">ML Engine</button>
+  <button class="tbtn" onclick="showT('stack',this)">OSS Stack</button>
+  <span class="tdiv"></span>
+  <span class="tgrp">Execution</span>
+  <button class="tbtn" onclick="showT('conf',this)">Confidence</button>
+  <button class="tbtn" onclick="showT('roadmap',this)">Roadmap</button>
+  <button class="tbtn" onclick="showT('refs',this)">References</button>
+</nav>
+
+<!-- ============ END-TO-END LIFECYCLE ============ -->
+<div id="pane-e2e" class="pane on">
+<div class="surface">
+<span class="kicker">The big picture</span>
+<h2 class="section-h">End-to-end lifecycle   — production × data × ML × reporting</h2>
+<p class="section-sub">One coherent flow from script to disclosure. Read across to see what happens at each production phase; read down to see how activities, data capture, ML processing, and reporting move in lockstep. Every cell is owned by a named role and instrumented in the OSS stack.</p>
+
+<div class="e2e-wrap">
+<div class="e2e">
+  <div class="e2e-hdr">
+    <div class="e2e-corner">Phase →<br>Layer ↓</div>
+    <div class="e2e-phase">Greenlight<small>Day 0</small></div>
+    <div class="e2e-phase">Pre-Production<small>Wk −8 to 0</small></div>
+    <div class="e2e-phase">Production<small>Shoot</small></div>
+    <div class="e2e-phase">Post-Production<small>Edit · VFX</small></div>
+    <div class="e2e-phase">Distribution<small>Launch</small></div>
+    <div class="e2e-phase">Reporting<small>Wrap +30d</small></div>
+    <div class="e2e-phase">Next Cycle<small>Season +1</small></div>
+  </div>
+
+  <div class="e2e-row a">
+    <div class="e2e-lane a">🎬 Activities</div>
+    <div class="e2e-cell">Script, budget, genre locked. <b>Producer</b> + <b>UPM</b> named. Carbon budget tabled.</div>
+    <div class="e2e-cell">Locations scouted; vendors selected; <b>CAP drafted</b>; crew hired; green PM onboarded.</div>
+    <div class="e2e-cell">Daily shoots; fuel burn; travel; waste; catering. <b>Daily call-sheet</b> sustainability tip.</div>
+    <div class="e2e-cell">Edit, VFX, sound, color grading. <b>Render farm</b> work concentrated.</div>
+    <div class="e2e-cell">Encode, localise, launch on CDN. <b>Open Connect</b> serves edge nodes.</div>
+    <div class="e2e-cell">Wrap; invoices closed; audit window opens. <b>Albert</b> submission filed.</div>
+    <div class="e2e-cell">Next greenlight. <b>Retro</b> with green PM. Vendor scorecards updated.</div>
+  </div>
+
+  <div class="e2e-row d">
+    <div class="e2e-lane d">📊 Data</div>
+    <div class="e2e-cell">Row created in <code>production_meta</code>: budget_band, genre, days, VFX intensity.</div>
+    <div class="e2e-cell">Vendor master ingested. Travel + fuel orders → <b>bronze</b>. Quality gates active.</div>
+    <div class="e2e-cell">IoT streams (gen, EVs); daily logs; receipts <b>OCR'd</b> by Docling/MinerU.</div>
+    <div class="e2e-cell">Render-farm logs; <b>Cloud Carbon Footprint</b> for AWS/GCP/Azure usage.</div>
+    <div class="e2e-cell">CDN egress; bitrate; per-region member-device estimates streamed in.</div>
+    <div class="e2e-cell">All silver/gold tables frozen. <b>Lineage snapshot</b> via OpenLineage.</div>
+    <div class="e2e-cell">Labelled ground truth pushed to training set. <b>Schema v+1</b> rolled.</div>
+  </div>
+
+  <div class="e2e-row m">
+    <div class="e2e-lane m">🤖 ML / AI</div>
+    <div class="e2e-cell">Greenlight predictor (<b>XGBoost</b>) returns expected tCO₂e ± CI from metadata.</div>
+    <div class="e2e-cell">Supplier-risk <b>GNN</b> flags high-emission vendors. <b>RAG</b> reads ESG docs.</div>
+    <div class="e2e-cell">Real-time tracker; <b>isolation forest</b> flags daily anomalies; nudge alerts.</div>
+    <div class="e2e-cell">Final reconciliation. <b>LightGBM</b> Tier 3 imputation + <b>LLM</b> extraction.</div>
+    <div class="e2e-cell">Per-title streaming emission estimator; codec-vs-bitrate optimiser.</div>
+    <div class="e2e-cell">Score + <b>SHAP</b> attribution + confidence trail packaged for audit.</div>
+    <div class="e2e-cell"><b>Active learning</b> loop retrains models with new labels. Drift cleared.</div>
+  </div>
+
+  <div class="e2e-row r">
+    <div class="e2e-lane r">📈 Report</div>
+    <div class="e2e-cell">Carbon budget proposed at greenlight. Stored in <code>production_targets</code>.</div>
+    <div class="e2e-cell">CAP v1 to <b>Albert</b>. Draft footprint shared with all dept heads.</div>
+    <div class="e2e-cell">Weekly variance vs. budget. <b>Course-correct</b> alerts to UPM.</div>
+    <div class="e2e-cell">Draft final footprint + CI; dept-level breakdown; QA checklist.</div>
+    <div class="e2e-cell">Distribution footprint appended; <b>per-view kgCO₂e</b> computed.</div>
+    <div class="e2e-cell"><b>Albert</b> certificate; <b>CDP</b> + <b>ISSB IFRS S2</b> rows populated; ESG report.</div>
+    <div class="e2e-cell">Lessons feed <b>OED playbook</b>; per-category benchmarks refreshed.</div>
+  </div>
+</div>
+</div>
+<p style="font-size:11.5px;color:var(--text-3);margin:10px 2px 0">Scroll horizontally on smaller screens. Hover any cell to highlight the swim-lane it belongs to.</p>
+</div>
+
+<div class="surface">
+  <span class="kicker">Outcomes</span>
+  <h2 class="section-h">What the system delivers at every stage</h2>
+  <div class="metrics">
+    <div class="metric"><div class="metricn">Day 0</div><div class="metricl">Carbon budget set at greenlight from script + metadata</div></div>
+    <div class="metric"><div class="metricn">Live</div><div class="metricl">Real-time variance during shoot, daily anomaly nudges</div></div>
+    <div class="metric"><div class="metricn">Wrap +7d</div><div class="metricl">Score + confidence + SHAP attribution ready</div></div>
+    <div class="metric"><div class="metricn">Wrap +30d</div><div class="metricl">Audit-grade certification + investor disclosure</div></div>
+  </div>
+  <div class="callout blue" style="margin-top:14px">
+    <b>Why this matrix matters:</b> Most production sustainability efforts collapse because the four layers run as silos   — production talks to vendors, data engineering plumbs feeds, the ESG team writes reports, and ML lives on a tangent. The matrix above is the contract that aligns all four around the same calendar of milestones, with the same data spine and the same accountability surface.
+  </div>
+</div>
+</div>
+
+<!-- ============ LIFECYCLE PLAN ============ -->
+<div id="pane-lifecycle" class="pane">
+<div class="surface">
+<span class="kicker">Roadmap</span>
+<h2 class="section-h">End-to-end production lifecycle</h2>
+<p class="section-sub">A sustainability roadmap mapped to the production lifecycle. Click a phase below to see deliverables, owners, and tasks. This mirrors how green production managers allocate time: <b style="color:var(--text-1)">~37% pre-production</b>, <b style="color:var(--text-1)">~52% production</b>, and <b style="color:var(--text-1)">~15% post-production</b>.</p>
+
+<div class="lc">
+  <div class="lp on" onclick="showL('dev',this)">
+    <div class="lph">Development</div>
+    <div class="lpp">Greenlight &amp; budgeting</div>
+    <span class="lpb">Strategy</span>
+  </div>
+  <div class="lp" onclick="showL('pre',this)">
+    <div class="lph">Pre-Production</div>
+    <div class="lpp">Planning &amp; vendor lock</div>
+    <span class="lpb">~37% effort</span>
+  </div>
+  <div class="lp" onclick="showL('prod',this)">
+    <div class="lph">Production</div>
+    <div class="lpp">Shoot &amp; on-set ops</div>
+    <span class="lpb">~52% effort</span>
+  </div>
+  <div class="lp" onclick="showL('post',this)">
+    <div class="lph">Post-Production</div>
+    <div class="lpp">Edit, VFX, sound</div>
+    <span class="lpb">~15% effort</span>
+  </div>
+  <div class="lp" onclick="showL('dist',this)">
+    <div class="lph">Distribution</div>
+    <div class="lpp">CDN &amp; streaming</div>
+    <span class="lpb">Optimize</span>
+  </div>
+  <div class="lp" onclick="showL('report',this)">
+    <div class="lph">Reporting</div>
+    <div class="lpp">Certify &amp; disclose</div>
+    <span class="lpb">Certification</span>
+  </div>
+</div>
+
+<div id="lc-dev" class="lcd">
+  <div class="lcdh">Development   — Embed sustainability at greenlight</div>
+  <div class="lcdi"><div><b>Set science-based carbon budget:</b> Use genre + budget + shoot-day benchmarks (e.g., 1-hr drama ≈ 77 tCO₂e/episode) to set a per-episode or per-film emissions cap aligned with SBTi trajectory.</div></div>
+  <div class="lcdi"><div><b>Hire green production manager / consultant:</b> Bring in a sustainability lead before locations are locked so travel and logistics can be designed low-carbon from the start.</div></div>
+  <div class="lcdi"><div><b>Draft footprint (preliminary):</b> Use BAFTA Albert or PEAR to model expected emissions by category: transport, energy, materials, accommodation, post/VFX.</div></div>
+  <div class="lcdi"><div><b>Green vendor shortlist:</b> Query the Green Production Guide sustainable vendor database and regional green film commissions for local clean mobile power, EV rental, and zero-waste catering options.</div></div>
+  <div class="lcdi"><div><b>Location climate scan:</b> Prioritize locations with grid-tie access (avoids diesel), renewable energy availability, and proximity to crew base to reduce hotel nights and transit.</div></div>
+</div>
+
+<div id="lc-pre" class="lcd" style="display:none">
+  <div class="lcdh">Pre-Production   — Design out emissions before day 1</div>
+  <div class="lcdi"><div><b>Carbon Action Plan (CAP):</b> Complete the Albert CAP or PEACH+ checklist. Define targets, department owners, and reporting cadence. Integrate into production calendar.</div></div>
+  <div class="lcdi"><div><b>Clean mobile power procurement:</b> Lock battery trailers, solar rigs, or hydrogen units instead of diesel generators. Confirm load profiles with the power team (target: 140–220 kW three-phase for 14 hrs).</div></div>
+  <div class="lcdi"><div><b>Transportation plan:</b> Prioritize EV/PHEV fleet; book cast/crew on direct flights; consolidate travel days; set ground-transport policy (shuttles &gt; individual cars).</div></div>
+  <div class="lcdi"><div><b>Set &amp; costume strategy:</b> Source reclaimed / second-hand materials; design for disassembly and donation; avoid landfill-bound single-use builds.</div></div>
+  <div class="lcdi"><div><b>Catering RFP with sustainability clauses:</b> Require local/seasonal menus, plant-forward options, bulk service (no individual packaging), and composting infrastructure.</div></div>
+  <div class="lcdi"><div><b>Waste infrastructure:</b> Order colour-coded bins, engage a local hauler for diversion tracking, and brief all HoDs on set-wide sorting rules.</div></div>
+  <div class="lcdi"><div><b>Green Rider draft:</b> For above-the-line talent, agree on sustainable trailer power, reusable bottles, local accommodation, and low-emission transport clauses.</div></div>
+</div>
+
+<div id="lc-prod" class="lcd" style="display:none">
+  <div class="lcdh">Production   — Execute, measure, and adapt on set</div>
+  <div class="lcdi"><div><b>Daily fuel &amp; power logging:</b> Record generator runtime vs. battery/solar runtime; log diesel, renewable diesel, and HVO consumption by unit. Aim for &gt;20% fuel reduction; top performers hit &gt;50%.</div></div>
+  <div class="lcdi"><div><b>Real-time carbon tracker:</b> Update the Albert calculator or Footprint dashboard weekly. Flag overspends against the carbon budget early so departments can course-correct.</div></div>
+  <div class="lcdi"><div><b>Crew engagement &amp; nudges:</b> Daily call-sheet sustainability tips; water refill stations (eliminate single-use plastic); digital distro (minimise printing).</div></div>
+  <div class="lcdi"><div><b>Waste diversion tracking:</b> Weigh landfill, recycling, compost, and donation streams. Target &gt;50% diversion. Donate viable set pieces, wardrobe, and props to local schools / theatre groups / next production.</div></div>
+  <div class="lcdi"><div><b>On-set EV charging:</b> Use temporary DC fast chargers or mobile charging units for electric box trucks and cast/crew shuttles. Track kWh drawn vs. gallons avoided.</div></div>
+  <div class="lcdi"><div><b>Material reuse loops:</b> Coordinate with the art department to reuse lumber, flats, and hardware across episodes or productions. Use the PLUM worksheet to track sustainable plywood.</div></div>
+</div>
+
+<div id="lc-post" class="lcd" style="display:none">
+  <div class="lcdh">Post-Production   — Render efficiently and account accurately</div>
+  <div class="lcdi"><div><b>Green facility preference:</b> Use post houses running on 100% renewable electricity. For VFX/render farms, prioritise cloud regions with high renewable penetration (AWS already 99% renewable for Netflix workloads).</div></div>
+  <div class="lcdi"><div><b>Render scheduling:</b> Batch overnight jobs to exploit off-peak grid carbon intensity. Optimise deliverables to avoid unnecessary re-renders.</div></div>
+  <div class="lcdi"><div><b>Final carbon footprint:</b> Reconcile all invoices, fuel logs, travel manifests, and waste receipts. Classify every line item into Scope 1, 2, or 3 with the correct emission factor.</div></div>
+  <div class="lcdi"><div><b>Extrapolation &amp; confidence scoring:</b> For missing data, apply the tiered extrapolation engine (statistical, benchmark, or ML) and compute the confidence-adjusted score.</div></div>
+  <div class="lcdi"><div><b>Production sustainability report:</b> Compile a board-ready PDF: total tCO₂e, per-episode intensity, scope breakdown, confidence level, reduction actions taken, and residual offset plan.</div></div>
+</div>
+
+<div id="lc-dist" class="lcd" style="display:none">
+  <div class="lcdh">Distribution   — Minimise streaming &amp; CDN footprint</div>
+  <div class="lcdi"><div><b>Open Connect efficiency:</b> Netflix localises content to ISP edge nodes (6,000+ locations). Encoding optimisations (per-title, per-device) reduce bitrate without quality loss, cutting data-centre and network energy.</div></div>
+  <div class="lcdi"><div><b>Codec &amp; compression roadmap:</b> Adopt next-gen codecs (AV1, etc.) as they mature to further shrink file sizes and bandwidth per view.</div></div>
+  <div class="lcdi"><div><b>Member device guidance:</b> Surface actionable tips in-app or on help pages: use Wi-Fi vs. cellular, lower brightness, and avoid autoplay when not viewing.</div></div>
+  <div class="lcdi"><div><b>Cloud carbon accounting:</b> Use AWS customer carbon footprint tooling to attribute data-centre and storage emissions to the title. Report under Scope 3 upstream.</div></div>
+</div>
+
+<div id="lc-report" class="lcd" style="display:none">
+  <div class="lcdh">Reporting   — Certify, benchmark, and improve</div>
+  <div class="lcdi"><div><b>Albert certification submission:</b> Upload final footprint + Carbon Action Plan for independent audit. Successful completion grants use of the albert logo on end boards.</div></div>
+  <div class="lcdi"><div><b>EMA Green Seal / PEACH+:</b> For US productions, complete the Production Environmental Actions Checklist and secure third-party verification where required.</div></div>
+  <div class="lcdi"><div><b>SBTi progress reporting:</b> Map production-level reductions to corporate near-term targets (Netflix: 46% Scope 1+2 reduction vs. 2019 baseline by 2030). Report via CDP or annual ESG.</div></div>
+  <div class="lcdi"><div><b>Peer benchmarking:</b> Compare per-episode or per-production-day intensity against SPA industry averages and prior Netflix seasons. Identify outliers and best practices.</div></div>
+  <div class="lcdi"><div><b>Improvement roadmap:</b> Feed lessons learned into the next greenlight. Update vendor scorecards, emission factors, and the ML extrapolation model with new production data.</div></div>
+</div>
+
+<div class="callout">
+  <b>End-to-end principle:</b> The cheapest and most effective carbon reduction happens at the design stage (pre-production). Every diesel generator avoided through grid-tie planning, every flight consolidated, and every set piece designed for reuse delivers compounding savings that cannot be matched by offsetting alone.
+</div>
+</div>
+</div>
+
+<!-- ============ OED FRAMEWORK ============ -->
+<div id="pane-oed" class="pane">
+<div class="surface">
+<span class="kicker">Decarbonisation strategy</span>
+<h2 class="section-h">Optimise · Electrify · Decarbonise</h2>
+<p class="section-sub">Netflix's operational decarbonisation framework: <b style="color:var(--text-1)">Optimise</b> energy use first, <b style="color:var(--text-1)">Electrify</b> what you can, then <b style="color:var(--text-1)">Decarbonise</b> the remainder. Applied across productions, offices, and streaming infrastructure.</p>
+
+<div class="oed">
+  <div class="oedc g">
+    <div class="oedh"><span class="num">1</span>Optimise</div>
+    <ul class="oedl">
+      <li>Energy efficiency audits for offices, studios, and stages</li>
+      <li>Right-size vehicles and mobile power to actual load (avoid oversized generators)</li>
+      <li>Prefer efficient equipment: LED lighting, efficient HVAC, variable-speed drives</li>
+      <li>Consolidate travel and logistics to reduce total trip volume</li>
+      <li>Digital distribution; minimise printed sides, call sheets, and production docs</li>
+      <li>Reusable set elements and wardrobe instead of single-use builds</li>
+    </ul>
+    <div class="oedt">Target: reduce baseline demand before switching fuels</div>
+  </div>
+  <div class="oedc b">
+    <div class="oedh"><span class="num">2</span>Electrify</div>
+    <ul class="oedl">
+      <li>Replace diesel generators with battery trailers, solar rigs, and hydrogen-battery hybrids</li>
+      <li>Swap ICE vehicles for EVs, PHEVs, and hybrids on set and in corporate fleet</li>
+      <li>Install DC fast chargers at studio hubs; deploy mobile chargers to remote locations</li>
+      <li>Electric heat pumps and geothermal for owned studios (e.g., Albuquerque campus)</li>
+      <li>Grid tie-ins at soundstages to eliminate basecamp generator runtime</li>
+      <li>Pilot medium-duty EV box trucks (5-ton, shorty 40, flatbed) in Vancouver, LA, NM, UK</li>
+    </ul>
+    <div class="oedt">Target: shift energy demand to electricity (easier to decarbonise)</div>
+  </div>
+  <div class="oedc p">
+    <div class="oedh"><span class="num">3</span>Decarbonise</div>
+    <ul class="oedl">
+      <li>100% renewable electricity via green tariffs, PPAs, and RECs for all facilities</li>
+      <li>On-site solar + battery storage (e.g., 5 MW solar / 3 MW battery at Albuquerque)</li>
+      <li>Renewable diesel and renewable natural gas where electrification isn't yet feasible</li>
+      <li>Sustainable aviation fuel (SAF) certificates via Sustainable Aviation Buyers Alliance</li>
+      <li>High-quality carbon insets and removals for truly unavoidable residual emissions</li>
+      <li>Natural climate solutions (reforestation, restoration) as last resort after reductions</li>
+    </ul>
+    <div class="oedt">Target: eliminate carbon intensity of remaining fuel and energy use</div>
+  </div>
+</div>
+</div>
+
+<div class="surface">
+  <span class="kicker">2024 results</span>
+  <h2 class="section-h">Netflix OED results   — directly managed productions</h2>
+  <p class="section-sub">Five core levers drove ~28,500 tCO₂e avoided in 2024 vs. business-as-usual.</p>
+  <div class="pbr"><span class="pbrl">Clean mobile power adoption</span><div class="pbrb"><div class="pbrf" style="width:100%;background:linear-gradient(90deg,var(--green),var(--green-2))"></div></div><span class="pbrn">100%</span></div>
+  <div class="pbr"><span class="pbrl">Low-carbon vehicle use</span><div class="pbrb"><div class="pbrf" style="width:98%;background:linear-gradient(90deg,var(--blue),var(--blue-2))"></div></div><span class="pbrn">98%</span></div>
+  <div class="pbr"><span class="pbrl">At least one all-EV on set</span><div class="pbrb"><div class="pbrf" style="width:88%;background:linear-gradient(90deg,var(--blue),var(--blue-2))"></div></div><span class="pbrn">88%</span></div>
+  <div class="pbr"><span class="pbrl">Productions cutting generator fuel &gt;20%</span><div class="pbrb"><div class="pbrf" style="width:47%;background:linear-gradient(90deg,var(--amber),var(--amber-2))"></div></div><span class="pbrn">~47%</span></div>
+  <div class="pbr"><span class="pbrl">Productions cutting generator fuel &gt;50%</span><div class="pbrb"><div class="pbrf" style="width:15%;background:linear-gradient(90deg,var(--amber),var(--amber-2))"></div></div><span class="pbrn">15%</span></div>
+  <div class="callout" style="margin-top:14px">Source: <b>Netflix 2024 ESG Report</b>. ~28,500 metric tons of CO₂ avoided vs. business-as-usual across these levers.</div>
+</div>
+</div>
+
+<!-- ============ ARCHITECTURE ============ -->
+<div id="pane-arch" class="pane">
+<div class="surface">
+<span class="kicker">System diagram</span>
+<h2 class="section-h">Sustainability scoring architecture</h2>
+<p class="section-sub">Data flows from collection through scope classification, tier assessment, optional extrapolation, quantification, and into the final score that feeds reporting.</p>
+
+<div class="arch-wrap">
+<svg viewBox="0 0 680 512" role="img" preserveAspectRatio="xMidYMid meet">
+<title>Sustainability scoring framework   — architecture flow</title>
+<desc>Vertical flow diagram: data collection through scope classification, data tier assessment, optional extrapolation, emission quantification, and final sustainability score output</desc>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<text class="ts" x="40" y="17">Data collection</text>
+
+<g class="node c-teal" onclick="sendPrompt('What are Scope 1 direct emissions in a Netflix production house?')">
+  <rect x="40" y="26" width="170" height="50" rx="10" stroke-width="1"/>
+  <text class="th" x="125" y="42" text-anchor="middle" dominant-baseline="central">Scope 1</text>
+  <text class="ts" x="125" y="60" text-anchor="middle" dominant-baseline="central">Direct emissions</text>
+</g>
+<g class="node c-blue" onclick="sendPrompt('What are Scope 2 purchased energy emissions in a Netflix production house?')">
+  <rect x="255" y="26" width="170" height="50" rx="10" stroke-width="1"/>
+  <text class="th" x="340" y="42" text-anchor="middle" dominant-baseline="central">Scope 2</text>
+  <text class="ts" x="340" y="60" text-anchor="middle" dominant-baseline="central">Purchased energy</text>
+</g>
+<g class="node c-purple" onclick="sendPrompt('What are Scope 3 value chain emissions in a Netflix production house?')">
+  <rect x="470" y="26" width="170" height="50" rx="10" stroke-width="1"/>
+  <text class="th" x="555" y="42" text-anchor="middle" dominant-baseline="central">Scope 3</text>
+  <text class="ts" x="555" y="60" text-anchor="middle" dominant-baseline="central">Value chain</text>
+</g>
+
+<line x1="125" y1="76" x2="125" y2="107" class="arr" marker-end="url(#arrow)"/>
+<line x1="340" y1="76" x2="340" y2="107" class="arr" marker-end="url(#arrow)"/>
+<line x1="555" y1="76" x2="555" y2="107" class="arr" marker-end="url(#arrow)"/>
+
+<text class="ts" x="40" y="103">Data availability tier</text>
+
+<g class="node c-green" onclick="sendPrompt('What counts as Tier 1 directly measured data in production carbon accounting?')">
+  <rect x="40" y="110" width="170" height="52" rx="10" stroke-width="1"/>
+  <text class="th" x="125" y="128" text-anchor="middle" dominant-baseline="central">Tier 1</text>
+  <text class="ts" x="125" y="146" text-anchor="middle" dominant-baseline="central">Directly measured</text>
+</g>
+<g class="node c-amber" onclick="sendPrompt('What counts as Tier 2 supplier-provided data in production carbon accounting?')">
+  <rect x="255" y="110" width="170" height="52" rx="10" stroke-width="1"/>
+  <text class="th" x="340" y="128" text-anchor="middle" dominant-baseline="central">Tier 2</text>
+  <text class="ts" x="340" y="146" text-anchor="middle" dominant-baseline="central">Supplier provided</text>
+</g>
+<g class="node c-coral" onclick="sendPrompt('What happens in Tier 3 when production sustainability data is unavailable?')">
+  <rect x="470" y="110" width="170" height="52" rx="10" stroke-width="1"/>
+  <text class="th" x="555" y="128" text-anchor="middle" dominant-baseline="central">Tier 3</text>
+  <text class="ts" x="555" y="146" text-anchor="middle" dominant-baseline="central">Data unavailable</text>
+</g>
+
+<line x1="125" y1="162" x2="125" y2="288" class="arr" marker-end="url(#arrow)"/>
+<line x1="340" y1="162" x2="340" y2="288" class="arr" marker-end="url(#arrow)"/>
+<line x1="555" y1="162" x2="555" y2="193" class="arr" marker-end="url(#arrow)"/>
+
+<text class="ts" x="472" y="188">For Tier 3 only</text>
+
+<g class="node c-coral" onclick="sendPrompt('Explain the three extrapolation methods for missing sustainability data in production: statistical, ML regression, and benchmark reference')">
+  <rect x="470" y="195" width="170" height="64" rx="10" stroke-width="1"/>
+  <text class="th" x="555" y="214" text-anchor="middle" dominant-baseline="central">Extrapolation</text>
+  <text class="ts" x="555" y="231" text-anchor="middle" dominant-baseline="central">Statistical / ML</text>
+  <text class="ts" x="555" y="247" text-anchor="middle" dominant-baseline="central">Benchmark reference</text>
+</g>
+
+<line x1="555" y1="259" x2="555" y2="288" class="arr" marker-end="url(#arrow)"/>
+
+<g class="node c-blue" onclick="sendPrompt('How does the emission quantification engine combine Scope 1, 2 and 3 data with confidence weighting into tCO2e?')">
+  <rect x="40" y="290" width="600" height="52" rx="10" stroke-width="1"/>
+  <text class="th" x="340" y="309" text-anchor="middle" dominant-baseline="central">Emission quantification engine</text>
+  <text class="ts" x="340" y="327" text-anchor="middle" dominant-baseline="central">Scope-weighted tCO₂e · confidence-adjusted</text>
+</g>
+
+<line x1="340" y1="342" x2="340" y2="362" class="arr" marker-end="url(#arrow)"/>
+
+<g class="node c-purple" onclick="sendPrompt('How is the final sustainability score between 0 and 100 calculated, and what does the confidence interval represent?')">
+  <rect x="190" y="364" width="300" height="60" rx="10" stroke-width="1"/>
+  <text class="th" x="340" y="383" text-anchor="middle" dominant-baseline="central">Sustainability score</text>
+  <text class="ts" x="340" y="401" text-anchor="middle" dominant-baseline="central">0–100 · with confidence interval</text>
+</g>
+
+<path d="M340 424 L340 436 L125 436 L125 448" fill="none" class="arr" marker-end="url(#arrow)"/>
+<line x1="340" y1="424" x2="340" y2="448" class="arr" marker-end="url(#arrow)"/>
+<path d="M340 424 L340 436 L555 436 L555 448" fill="none" class="arr" marker-end="url(#arrow)"/>
+
+<g class="node c-gray" onclick="sendPrompt('What should a Netflix production sustainability report include for board disclosure?')">
+  <rect x="40" y="450" width="170" height="42" rx="10" stroke-width="1"/>
+  <text class="th" x="125" y="465" text-anchor="middle" dominant-baseline="central">Production report</text>
+  <text class="ts" x="125" y="482" text-anchor="middle" dominant-baseline="central">Board-ready</text>
+</g>
+<g class="node c-gray" onclick="sendPrompt('How should Netflix benchmark its sustainability score against other productions and streaming peers?')">
+  <rect x="255" y="450" width="170" height="42" rx="10" stroke-width="1"/>
+  <text class="th" x="340" y="465" text-anchor="middle" dominant-baseline="central">Peer benchmarks</text>
+  <text class="ts" x="340" y="482" text-anchor="middle" dominant-baseline="central">Industry comparison</text>
+</g>
+<g class="node c-gray" onclick="sendPrompt('What should a production sustainability action plan and improvement roadmap look like?')">
+  <rect x="470" y="450" width="170" height="42" rx="10" stroke-width="1"/>
+  <text class="th" x="555" y="465" text-anchor="middle" dominant-baseline="central">Action plan</text>
+  <text class="ts" x="555" y="482" text-anchor="middle" dominant-baseline="central">Improvement roadmap</text>
+</g>
+</svg>
+<p style="font-size:12px;color:var(--text-3);margin:10px 0 0">Click any node to explore that component in depth.</p>
+</div>
+
+<div class="callout blue">
+  <b>How this connects to the lifecycle plan:</b> The architecture above powers the <i>Measurement → Score → Report</i> loop. During Pre-Production, you define data collection protocols (which scopes and tiers). During Production, you feed Tier 1 and Tier 2 data in real time. During Post-Production, you run the quantification engine, fill Tier 3 gaps via extrapolation, and generate the final score that feeds Certification and Reporting.
+</div>
+</div>
+</div>
+
+<!-- ============ EMISSION SCOPES ============ -->
+<div id="pane-scope" class="pane">
+<div class="surface">
+<span class="kicker">GHG Protocol</span>
+<h2 class="section-h">Emission scopes   — where the carbon comes from</h2>
+<p class="section-sub">Every line item rolls up into one of three scopes. Scope 3 is largest and hardest to measure   — but holds the biggest reduction levers.</p>
+
+<div class="sg">
+  <div class="sc" style="border-top:3px solid var(--green)">
+    <div class="sl" style="color:var(--green)">Scope 1 · Direct</div>
+    <div class="st">On-set &amp; owned operations</div>
+    <div class="ei" style="border-color:var(--green)">Generator fuel (diesel / propane / renewable diesel)</div>
+    <div class="ei" style="border-color:var(--green)">Company vehicle fleet &amp; rented production vehicles</div>
+    <div class="ei" style="border-color:var(--green)">Natural gas (location heating / studio boilers)</div>
+    <div class="ei" style="border-color:var(--green)">Pyrotechnics &amp; practical FX</div>
+    <div class="ei" style="border-color:var(--green)">Refrigerant leaks (HVAC)</div>
+    <div class="ei" style="border-color:var(--green)">Renewable natural gas for facility heating</div>
+    <div class="oedt">Typical share: 10–20% · Easiest to measure · Key lever: clean mobile power + EVs</div>
+  </div>
+  <div class="sc" style="border-top:3px solid var(--blue)">
+    <div class="sl" style="color:var(--blue)">Scope 2 · Energy</div>
+    <div class="st">Purchased electricity &amp; heat</div>
+    <div class="ei" style="border-color:var(--blue)">Studio &amp; soundstage power (location-based &amp; market-based)</div>
+    <div class="ei" style="border-color:var(--blue)">Post-production facility grid</div>
+    <div class="ei" style="border-color:var(--blue)">VFX &amp; render farms</div>
+    <div class="ei" style="border-color:var(--blue)">Cloud compute (AWS 99% renewable in 2024)</div>
+    <div class="ei" style="border-color:var(--blue)">Corporate office electricity (100% renewable matched)</div>
+    <div class="ei" style="border-color:var(--blue)">Data centre draws &amp; cooling</div>
+    <div class="oedt">Typical share: 20–30% · Location grid factor varies · Key lever: renewable PPAs + on-site solar</div>
+  </div>
+  <div class="sc" style="border-top:3px solid var(--purple)">
+    <div class="sl" style="color:var(--purple)">Scope 3 · Value chain</div>
+    <div class="st">Upstream &amp; downstream</div>
+    <div class="ei" style="border-color:var(--purple)">Cast &amp; crew air travel (often largest single category)</div>
+    <div class="ei" style="border-color:var(--purple)">Purchased goods &amp; services (set construction, materials)</div>
+    <div class="ei" style="border-color:var(--purple)">Catering &amp; food waste (~9% of production footprint)</div>
+    <div class="ei" style="border-color:var(--purple)">Wardrobe, props, SFX materials &amp; logistics</div>
+    <div class="ei" style="border-color:var(--purple)">Hotel stays &amp; ground transport (shuttles, taxis, rentals)</div>
+    <div class="ei" style="border-color:var(--purple)">Waste generation, recycling, and water use</div>
+    <div class="ei" style="border-color:var(--purple)">Streaming / CDN distribution (member devices dominate)</div>
+    <div class="oedt">Typical share: 50–70% · Hardest to measure · Key lever: travel policy + green procurement</div>
+  </div>
+</div>
+</div>
+
+<div class="surface">
+  <span class="kicker">Industry benchmarks</span>
+  <h2 class="section-h">Average emissions per episode (SPA / PEAR data)</h2>
+  <div class="pbr"><span class="pbrl">1-hour scripted drama</span><div class="pbrb"><div class="pbrf" style="width:100%;background:linear-gradient(90deg,var(--purple),var(--purple-2))"></div></div><span class="pbrn">77 tCO₂e</span></div>
+  <div class="pbr"><span class="pbrl">½-hour single-camera</span><div class="pbrb"><div class="pbrf" style="width:34%;background:linear-gradient(90deg,var(--blue),var(--blue-2))"></div></div><span class="pbrn">26 tCO₂e</span></div>
+  <div class="pbr"><span class="pbrl">½-hour multi-camera</span><div class="pbrb"><div class="pbrf" style="width:23%;background:linear-gradient(90deg,var(--blue),var(--blue-2))"></div></div><span class="pbrn">18 tCO₂e</span></div>
+  <div class="pbr"><span class="pbrl">Unscripted / reality</span><div class="pbrb"><div class="pbrf" style="width:17%;background:linear-gradient(90deg,var(--green),var(--green-2))"></div></div><span class="pbrn">13 tCO₂e</span></div>
+  <div class="callout" style="margin-top:14px">Source: <b>Sustainable Production Alliance (SPA)</b> Carbon Emissions Report. Data global, covering LA, NY, Atlanta, Vancouver, Toronto, London. Fuel dominates drama/single-cam; utilities dominate multi-cam; air travel dominates unscripted.</div>
+</div>
+
+<div class="surface">
+  <span class="kicker">Category breakdown</span>
+  <h2 class="section-h">Typical production carbon by category (Ecoprod / industry avg.)</h2>
+  <div class="pbr"><span class="pbrl">Transportation</span><div class="pbrb"><div class="pbrf" style="width:32%;background:linear-gradient(90deg,var(--coral),var(--coral-2))"></div></div><span class="pbrn">32%</span></div>
+  <div class="pbr"><span class="pbrl">Set design, costume, makeup</span><div class="pbrb"><div class="pbrf" style="width:20%;background:linear-gradient(90deg,var(--amber),var(--amber-2))"></div></div><span class="pbrn">20%</span></div>
+  <div class="pbr"><span class="pbrl">Fixed assets &amp; generators</span><div class="pbrb"><div class="pbrf" style="width:14%;background:linear-gradient(90deg,var(--blue),var(--blue-2))"></div></div><span class="pbrn">14%</span></div>
+  <div class="pbr"><span class="pbrl">Post-production</span><div class="pbrb"><div class="pbrf" style="width:12%;background:linear-gradient(90deg,var(--purple),var(--purple-2))"></div></div><span class="pbrn">12%</span></div>
+  <div class="pbr"><span class="pbrl">Catering &amp; food</span><div class="pbrb"><div class="pbrf" style="width:9%;background:linear-gradient(90deg,var(--green),var(--green-2))"></div></div><span class="pbrn">9%</span></div>
+  <div class="callout purple" style="margin-top:14px"><b>Production vs. manufacturing:</b> Unlike a factory with continuous baseline emissions, a production is episodic. A single 20-day remote location shoot can generate more Scope 3 tCO₂e than six months of studio work. The framework captures production metadata   — shoot days, locations, cast/crew count, budget scale   — to calibrate benchmark comparisons correctly rather than using flat annual averages.</div>
+</div>
+</div>
+
+<!-- ============ DATA & CONFIDENCE ============ -->
+<div id="pane-conf" class="pane">
+<div class="surface">
+<span class="kicker">Data quality</span>
+<h2 class="section-h">Tiered confidence model</h2>
+<p class="section-sub">Every emission source is assigned a data quality tier. Where data is missing (Tier 3), the extrapolation engine fills the gap and applies a confidence penalty to the final score. Critical because ~50–70% of emissions sit in Scope 3, where supplier data is often fragmented.</p>
+
+<div class="tg">
+  <div class="tc">
+    <div class="tn">Tier 1 · Directly measured</div>
+    <span class="tb" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-bg-2)">90–100% confidence</span>
+    <div class="td">Meter readings, fuel invoices, energy bills, on-site IoT sensors, weighbridge tickets. No estimation needed. Full weighting in score calculation.</div>
+  </div>
+  <div class="tc">
+    <div class="tn">Tier 2 · Supplier provided</div>
+    <span class="tb" style="background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bg-2)">60–80% confidence</span>
+    <div class="td">Vendor EPDs, airline emission factors, hotel sustainability reports, hauler diversion certificates. Confidence depends on third-party verification and methodology transparency.</div>
+  </div>
+  <div class="tc">
+    <div class="tn">Tier 3 · Extrapolated</div>
+    <span class="tb" style="background:var(--coral-bg);color:var(--coral);border:1px solid var(--coral-bg-2)">30–70% confidence</span>
+    <div class="td">No direct data available. The extrapolation engine applies one of three methods and assigns a confidence factor that narrows the final score range.</div>
+  </div>
+</div>
+
+<div style="font-family:var(--font-display);font-size:14px;font-weight:500;margin:22px 0 10px;color:var(--text-1)">Extrapolation methods (Tier 3)</div>
+<div class="mg">
+  <div class="mc">
+    <div class="mn">Statistical extrapolation</div>
+    <span class="tb" style="background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bg-2)">~50–65%</span>
+    <div class="md">Mean/median from comparable productions matched by genre, budget tier, shoot days, location climate, and crew count. Best for catering, materials, and crew-count-based estimates.</div>
+  </div>
+  <div class="mc">
+    <div class="mn">Benchmark reference</div>
+    <span class="tb" style="background:var(--coral-bg);color:var(--coral);border:1px solid var(--coral-bg-2)">~40–55%</span>
+    <div class="md">Per-episode or per-production-day emission factors from BAFTA Albert, the Green Production Guide (PEAR), or GHG Protocol industry averages for unknown supplier categories.</div>
+  </div>
+  <div class="mc">
+    <div class="mn">ML / regression model</div>
+    <span class="tb" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-bg-2)">~60–70%</span>
+    <div class="md">Trained on historical Netflix production data. Features: budget, genre, shoot days, cast size, location, VFX load. Gradient boosting handles non-linear emission patterns well.</div>
+  </div>
+</div>
+</div>
+
+<div class="surface">
+  <span class="kicker">Methodology</span>
+  <h2 class="section-h">Score formula</h2>
+  <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-1);line-height:2.4;background:var(--bg-soft);padding:16px 20px;border-radius:var(--r-sm);border:1px solid var(--border-1)">
+    S<sub>raw</sub> &nbsp;= &Sigma; (w<sub>scope</sub> &times; emission_intensity)<br>
+    C &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= &Sigma; (w<sub>scope</sub> &times; tier_confidence)<br>
+    S<sub>final</sub> = S<sub>raw</sub> &times; C &nbsp;&plusmn; &Delta;CI
+  </div>
+  <div style="font-size:12.5px;color:var(--text-2);margin-top:10px">Default scope weights: <b style="color:var(--green)">Scope 1 = 15%</b> · <b style="color:var(--blue)">Scope 2 = 25%</b> · <b style="color:var(--purple)">Scope 3 = 60%</b></div>
+</div>
+
+<div class="surface">
+  <span class="kicker">Try it</span>
+  <h2 class="section-h">Confidence calculator</h2>
+  <p class="section-sub">Pick the data tier you have available for each scope. The score updates live.</p>
+  <div class="cdemo">
+    <div class="cdemo-h">Configure data tier per scope</div>
+    <div class="srow">
+      <span class="slbl">Scope 1 (15%)</span>
+      <div class="sbtns">
+        <button class="sb on" onclick="setT(1,1,this)">Tier 1</button>
+        <button class="sb" onclick="setT(1,2,this)">Tier 2</button>
+        <button class="sb" onclick="setT(1,3,this)">Tier 3</button>
+      </div>
+    </div>
+    <div class="srow">
+      <span class="slbl">Scope 2 (25%)</span>
+      <div class="sbtns">
+        <button class="sb on" onclick="setT(2,1,this)">Tier 1</button>
+        <button class="sb" onclick="setT(2,2,this)">Tier 2</button>
+        <button class="sb" onclick="setT(2,3,this)">Tier 3</button>
+      </div>
+    </div>
+    <div class="srow">
+      <span class="slbl">Scope 3 (60%)</span>
+      <div class="sbtns">
+        <button class="sb" onclick="setT(3,1,this)">Tier 1</button>
+        <button class="sb" onclick="setT(3,2,this)">Tier 2</button>
+        <button class="sb on" onclick="setT(3,3,this)">Tier 3</button>
+      </div>
+    </div>
+    <div class="scout">
+      <div class="snum" id="cnum">68%</div>
+      <div class="sdet">
+        <div style="font-family:var(--font-display);font-size:14px;font-weight:500;color:var(--text-1)" id="clbl">Overall confidence: 68%</div>
+        <div class="bw"><div class="bf" id="cbf" style="width:68%;background:linear-gradient(90deg,var(--amber),var(--amber-2))"></div></div>
+        <div style="font-size:12.5px;color:var(--text-2)" id="cdsc">Score range is approximately ±16 points at this confidence level</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============ ACTION PLAYBOOK ============ -->
+<div id="pane-playbook" class="pane">
+<div class="surface">
+<span class="kicker">Department playbook</span>
+<h2 class="section-h">Action playbook by department</h2>
+<p class="section-sub">Department-level tactics organised by impact and effort. <span class="apb">Quick win</span> = low effort, immediate payback. <span class="apb y">Medium</span> = requires procurement or planning. <span class="apb r">Deep cut</span> = systemic change with outsized returns.</p>
+
+<div class="ap">
+  <div class="apc">
+    <div class="aph">Transport &amp; Fleet</div>
+    <div class="api">Replace diesel generators with battery trailers / solar hybrids <span class="apb r">Deep cut</span></div>
+    <div class="api">Mandate EV/PHEV for production fleet and cast trailers <span class="apb y">Medium</span></div>
+    <div class="api">Consolidate crew transport into shuttles vs. individual cars <span class="apb">Quick win</span></div>
+    <div class="api">Require direct flights and batch travel dates <span class="apb">Quick win</span></div>
+    <div class="api">Pilot medium-duty EV box trucks (5-ton, shorty 40) <span class="apb y">Medium</span></div>
+    <div class="api">Purchase SAF certificates for unavoidable air travel <span class="apb y">Medium</span></div>
+  </div>
+  <div class="apc">
+    <div class="aph">Energy &amp; Power</div>
+    <div class="api">Grid tie-ins at basecamp and soundstages <span class="apb r">Deep cut</span></div>
+    <div class="api">100% renewable electricity via green tariffs / PPAs <span class="apb y">Medium</span></div>
+    <div class="api">On-site solar + battery (studio campuses) <span class="apb r">Deep cut</span></div>
+    <div class="api">LED lighting retrofits and efficient HVAC <span class="apb">Quick win</span></div>
+    <div class="api">Temporary DC fast chargers on location <span class="apb y">Medium</span></div>
+    <div class="api">Use renewable diesel / HVO in legacy generators <span class="apb y">Medium</span></div>
+  </div>
+  <div class="apc">
+    <div class="aph">Set, Props &amp; Materials</div>
+    <div class="api">Design for disassembly and reuse across episodes <span class="apb r">Deep cut</span></div>
+    <div class="api">Source reclaimed lumber and track via PLUM worksheet <span class="apb y">Medium</span></div>
+    <div class="api">Donate set pieces to schools, theatres, next production <span class="apb">Quick win</span></div>
+    <div class="api">Avoid landfill-bound single-use builds <span class="apb">Quick win</span></div>
+    <div class="api">Use low-VOC paints and sustainable plywood <span class="apb y">Medium</span></div>
+    <div class="api">Source costumes second-hand or from rental houses <span class="apb">Quick win</span></div>
+  </div>
+  <div class="apc">
+    <div class="aph">Catering &amp; Food</div>
+    <div class="api">Plant-forward menu (default veg, meat as option) <span class="apb">Quick win</span></div>
+    <div class="api">Local / seasonal sourcing clauses in catering RFP <span class="apb y">Medium</span></div>
+    <div class="api">Bulk service   — eliminate individual packaging <span class="apb">Quick win</span></div>
+    <div class="api">Reusable serviceware and water refill stations <span class="apb">Quick win</span></div>
+    <div class="api">On-set composting and food donation programme <span class="apb y">Medium</span></div>
+  </div>
+  <div class="apc">
+    <div class="aph">Waste &amp; Water</div>
+    <div class="api">Colour-coded bins and clear on-set signage <span class="apb">Quick win</span></div>
+    <div class="api">Weigh and track landfill, recycling, compost, donation <span class="apb">Quick win</span></div>
+    <div class="api">Eliminate single-use plastic water bottles <span class="apb">Quick win</span></div>
+    <div class="api">Target &gt;50% waste diversion from landfill <span class="apb y">Medium</span></div>
+    <div class="api">Greywater reuse and low-flow fixtures where feasible <span class="apb y">Medium</span></div>
+  </div>
+  <div class="apc">
+    <div class="aph">Post, VFX &amp; Streaming</div>
+    <div class="api">Select post houses on 100% renewable power <span class="apb y">Medium</span></div>
+    <div class="api">Batch render jobs during low-grid-carbon hours <span class="apb">Quick win</span></div>
+    <div class="api">Adopt next-gen codecs (AV1) to shrink bitrates <span class="apb r">Deep cut</span></div>
+    <div class="api">Use cloud regions with high renewable penetration <span class="apb y">Medium</span></div>
+    <div class="api">Optimise deliverables to avoid unnecessary re-renders <span class="apb">Quick win</span></div>
+  </div>
+</div>
+
+<div class="callout">
+  <b>Impact stacking:</b> Studies show that focusing on the four highest-emitting categories   — transport, energy, set design, and food   — can reduce production greenhouse-gas emissions by <b>up to 41%</b> when following a structured green production label. Combine quick wins for immediate credibility with deep cuts for science-based target compliance.
+</div>
+</div>
+</div>
+
+<!-- ============ CERTIFICATION ============ -->
+<div id="pane-cert" class="pane">
+<div class="surface">
+<span class="kicker">Independent verification</span>
+<h2 class="section-h">Certification &amp; disclosure</h2>
+<p class="section-sub">Certification turns measurement into market credibility. It also creates accountability loops that feed back into the next production. The two primary certification paths for Netflix productions are <b style="color:var(--text-1)">BAFTA Albert</b> (global, production-native) and <b style="color:var(--text-1)">EMA Green Seal / PEACH+</b> (US-focused).</p>
+
+<div style="font-family:var(--font-display);font-size:14px;font-weight:500;margin:8px 0 10px;color:var(--text-1)">Albert certification workflow</div>
+<div class="cf">
+  <div class="cfc">
+    <div class="cfn">1</div>
+    <div class="cfh">Draft footprint</div>
+    <div class="cfp">Pre-production model using genre, budget, and shoot-day assumptions</div>
+  </div>
+  <div class="cfa">→</div>
+  <div class="cfc">
+    <div class="cfn">2</div>
+    <div class="cfh">Carbon Action Plan</div>
+    <div class="cfp">Production team commits to specific reduction actions by department</div>
+  </div>
+  <div class="cfa">→</div>
+  <div class="cfc">
+    <div class="cfn">3</div>
+    <div class="cfh">Independent audit</div>
+    <div class="cfp">Albert reviewer verifies data and action completion (~10 days)</div>
+  </div>
+  <div class="cfa">→</div>
+  <div class="cfc">
+    <div class="cfn">4</div>
+    <div class="cfh">Certification &amp; logo</div>
+    <div class="cfp">Use the albert logo on end boards and in marketing</div>
+  </div>
+</div>
+
+<div class="rg" style="margin-top:14px">
+  <div class="rc">
+    <div class="rn">BAFTA Albert Certification</div>
+    <div class="rd">The leading global standard for film and TV. Mandatory for productions commissioned by BBC, ITV, Channel 4, Sky, UKTV, TG4 and Netflix UK. Involves a draft footprint, Carbon Action Plan, and independent audit.</div>
+    <span class="rt">Production-native</span><span class="rt">Global</span><span class="rt">End-board logo</span>
+  </div>
+  <div class="rc">
+    <div class="rn">EMA Green Seal</div>
+    <div class="rd">US-focused certification by the Environmental Media Association. Covers 20 sections (247 checklist rows). Self-assessed and approved by EMA. Strong overlap with PEACH+.</div>
+    <span class="rt">US-focused</span><span class="rt">Studio-backed</span>
+  </div>
+  <div class="rc">
+    <div class="rn">Green Rider</div>
+    <div class="rd">A contract clause between production and above-the-line talent committing to sustainable measures in trailers, costume, makeup, travel, and accommodation. Pioneered by Albert and increasingly adopted by Netflix productions.</div>
+    <span class="rt">Talent-facing</span><span class="rt">Behavioural lever</span>
+  </div>
+  <div class="rc">
+    <div class="rn">SBTi &amp; CDP Disclosure</div>
+    <div class="rd">Netflix's near-term target: ~50% Scope 1+2 reduction by 2030 vs. 2019 baseline. Production data must roll up into corporate reporting via CDP and the annual ESG report for investor-grade disclosure.</div>
+    <span class="rt">Investor-grade</span><span class="rt">Regulatory</span>
+  </div>
+</div>
+</div>
+
+<div class="surface">
+  <span class="kicker">Pre-flight</span>
+  <h2 class="section-h">Certification readiness checklist</h2>
+  <div class="lcdi"><div>Carbon budget set at greenlight and communicated to all HoDs</div></div>
+  <div class="lcdi"><div>Green production manager appointed and resourced</div></div>
+  <div class="lcdi"><div>Draft footprint completed before first shoot day</div></div>
+  <div class="lcdi"><div>Carbon Action Plan signed off by producer / UPM</div></div>
+  <div class="lcdi"><div>All fuel, travel, energy, and waste invoices retained with emission-factor documentation</div></div>
+  <div class="lcdi"><div>Tier 1 data coverage &gt;60% of total estimated tCO₂e</div></div>
+  <div class="lcdi"><div>Post-production facility confirms renewable energy claim (market-based or location-based)</div></div>
+  <div class="lcdi"><div>Independent audit window scheduled within 30 days of wrap</div></div>
+  <div class="callout amber" style="margin-top:14px"><b>Why certification matters:</b> Certified productions not only reduce absolute emissions   — they also signal demand for clean technology to vendors, create reusable playbooks for future seasons, and provide defensible data for corporate SBTi and CDP disclosures. Netflix's "Sustainability Stories" collection now features 200+ titles with on-screen climate narratives; certification adds off-screen credibility.</div>
+</div>
+</div>
+
+<!-- ============ REFERENCES ============ -->
+<div id="pane-refs" class="pane">
+<div class="surface">
+<span class="kicker">Tools &amp; standards</span>
+<h2 class="section-h">Industry tools, standards, and alliances</h2>
+<p class="section-sub">Tools, standards, alliances, and companies this framework is built on or can integrate with.</p>
+
+<div class="rg">
+  <div class="rc">
+    <div class="rn">BAFTA Albert</div>
+    <div class="rd">Gold standard for film/TV carbon measurement. Free calculator, Carbon Action Plan, certification, and training. IPCC-aligned emission factors. Used by Netflix UK and global productions.</div>
+    <span class="rt">Production-native</span><span class="rt">Free</span><span class="rt">Certification</span>
+  </div>
+  <div class="rc">
+    <div class="rn">Green Production Guide / PEAR &amp; PEACH+</div>
+    <div class="rd">US toolkit by the Sustainable Production Alliance (SPA). PEAR carbon calculator, PEACH+ checklist (475 rows), and sustainable vendor database. Used by major Hollywood studios and streamers.</div>
+    <span class="rt">Production-native</span><span class="rt">US-focused</span><span class="rt">Free</span>
+  </div>
+  <div class="rc">
+    <div class="rn">GHG Protocol</div>
+    <div class="rd">The foundational Scope 1/2/3 accounting standard. All production frameworks derive their emission factor methodology from here. Required for investor-grade disclosure.</div>
+    <span class="rt">Cross-industry</span><span class="rt">Foundation</span>
+  </div>
+  <div class="rc">
+    <div class="rn">Science Based Targets (SBTi)</div>
+    <div class="rd">Sets corporate reduction targets aligned with 1.5°C pathways. The scoring framework's trajectory module maps directly to SBTi milestones for regulatory and investor readiness.</div>
+    <span class="rt">Cross-industry</span><span class="rt">Target-setting</span>
+  </div>
+  <div class="rc">
+    <div class="rn">PICC (BFI / UK Broadcasters)</div>
+    <div class="rd">Production Industry Carbon Calculator covering below-the-line crew and location-specific factors. Used by BBC, Channel 4, ITV, and Sky for Ofcom compliance.</div>
+    <span class="rt">Broadcast</span><span class="rt">UK/regulatory</span>
+  </div>
+  <div class="rc">
+    <div class="rn">Clean Mobile Power Initiative (CMPI)</div>
+    <div class="rd">Co-founded by Netflix and Disney in 2023 with RMI and Third Derivative. Unifies studio demand to scale battery, solar, and hydrogen mobile power. Reduces diesel generator emissions up to 84%.</div>
+    <span class="rt">Industry alliance</span><span class="rt">Power</span>
+  </div>
+  <div class="rc">
+    <div class="rn">Sustainable Aviation Buyers Alliance (SABA)</div>
+    <div class="rd">Enables purchase of sustainable aviation fuel (SAF) certificates for corporate and production air travel. Netflix joined in 2024 to address hard-to-abate travel emissions.</div>
+    <span class="rt">Travel</span><span class="rt">Scope 3</span>
+  </div>
+  <div class="rc">
+    <div class="rn">Reel Green / Creative BC</div>
+    <div class="rd">British Columbia's sustainable production programme. Provides training, the Reel Green carbon calculator (powered by Albert), and vendor certification for Vancouver-based productions.</div>
+    <span class="rt">Production-native</span><span class="rt">Canada</span>
+  </div>
+</div>
+</div>
+
+<div class="surface">
+<span class="kicker">Companies</span>
+<h2 class="section-h">Companies &amp; consultancies</h2>
+<div class="rg">
+  <div class="rc">
+    <div class="rn">Footprint (formerly Green Spark)</div>
+    <div class="rd">SaaS platform purpose-built for film and TV sustainability management. Real-time production carbon tracking, crew-facing tools, and reporting dashboards.</div>
+    <span class="rt">SaaS</span><span class="rt">Production-native</span>
+  </div>
+  <div class="rc">
+    <div class="rn">South Pole</div>
+    <div class="rd">Global sustainability consultancy: carbon accounting, Scope 3 value-chain analysis, SBTi advisory, offsetting. Active in media and entertainment sector.</div>
+    <span class="rt">Consultancy</span><span class="rt">Enterprise</span>
+  </div>
+  <div class="rc">
+    <div class="rn">Quantis</div>
+    <div class="rd">Life cycle assessment and carbon accounting specialists with deep Scope 3 supply chain expertise   — well-suited for building the extrapolation model library.</div>
+    <span class="rt">LCA specialist</span><span class="rt">Scope 3</span>
+  </div>
+  <div class="rc">
+    <div class="rn">EcoAct (Schneider Electric)</div>
+    <div class="rd">Carbon measurement and reduction consultancy with experience building ML-based estimation models for complex, fragmented value chains.</div>
+    <span class="rt">Consultancy</span><span class="rt">ML-capable</span>
+  </div>
+</div>
+</div>
+
+<div class="surface">
+<span class="kicker">Cross-industry</span>
+<h2 class="section-h">Applicable to other industries</h2>
+<div class="ig">
+  <div class="ic">Live events &amp; concerts</div>
+  <div class="ic">Game development studios</div>
+  <div class="ic">Publishing &amp; media agencies</div>
+  <div class="ic">Construction projects</div>
+  <div class="ic">Pharma R&amp;D programs</div>
+  <div class="ic">Advertising &amp; creative agencies</div>
+</div>
+<div class="callout purple" style="margin-top:14px">All of the above are <b>project-based, Scope 3-heavy industries</b> where emissions are episodic rather than continuous   — the same data tier + extrapolation + confidence model applies directly with only the emission category taxonomy changing.</div>
+</div>
+</div>
+
+<!-- ============ DATA LAYER ============ -->
+<div id="pane-data" class="pane">
+<div class="surface">
+<span class="kicker">Data foundation</span>
+<h2 class="section-h">Data layer   — sources, ingestion, feature store</h2>
+<p class="section-sub">Production carbon data is fragmented across 30+ source systems with mixed formats, refresh cadences, and quality. The data layer normalises everything into a unified <b style="color:var(--text-1)">production-emissions feature store</b> that powers both ML scoring and BI dashboards.</p>
+
+<div style="font-family:var(--font-display);font-size:14px;font-weight:500;margin:8px 0 12px;color:var(--text-1)">Source-system matrix</div>
+<div class="ds">
+  <div class="dsc"><div class="dsi g">PM</div><div class="dsb"><div class="dsn">Production management</div><div class="dsd">Movie Magic Scheduling, StudioBinder, Scenechronize. Source of truth for shoot days, locations, cast/crew counts, scenes per day   — the metadata that drives every model feature.</div><div class="dsm">CSV / API · daily refresh</div></div></div>
+  <div class="dsc"><div class="dsi b">$$</div><div class="dsb"><div class="dsn">Finance &amp; ERP</div><div class="dsd">Workday, NetSuite, SAP, Coupa. Vendor invoices and GL codes power spend-based emission estimation when activity data is missing (Tier 2 / 3 fallback).</div><div class="dsm">SFTP / API · nightly batch</div></div></div>
+  <div class="dsc"><div class="dsi a">⚡</div><div class="dsb"><div class="dsn">Fuel &amp; energy IoT</div><div class="dsd">Generator telemetry, smart meters, battery-trailer load profiles, EV charger sessions. Highest-quality Tier 1 data   — direct kWh and litres readings streamed in real time.</div><div class="dsm">MQTT / Kafka · streaming</div></div></div>
+  <div class="dsc"><div class="dsi p">✈</div><div class="dsb"><div class="dsn">Travel platforms</div><div class="dsd">Concur, BCD Travel, Amex GBT. Flight segments (origin/destination/cabin), hotel nights, ground transport. Direct distance × cabin-weighted emission factors.</div><div class="dsm">REST API · daily</div></div></div>
+  <div class="dsc"><div class="dsi t">📄</div><div class="dsb"><div class="dsn">Vendor portals &amp; EPDs</div><div class="dsd">Supplier sustainability reports, environmental product declarations, hauler diversion certificates. Mostly unstructured PDFs   — handled by the LLM + RAG extraction agent.</div><div class="dsm">PDF / scrape · weekly</div></div></div>
+  <div class="dsc"><div class="dsi c">🍽</div><div class="dsb"><div class="dsn">Catering invoices</div><div class="dsd">Line-item food categories from caterer POS or scanned invoices. Mapped to USDA / Poore-Nemecek emission factors (kgCO₂e per kg food, by category).</div><div class="dsm">OCR + LLM · per shoot day</div></div></div>
+  <div class="dsc"><div class="dsi g">♻</div><div class="dsb"><div class="dsn">Waste haulers</div><div class="dsd">Weighbridge tickets and diversion certificates from local haulers (Waste Management, Republic Services, regional partners). Splits landfill / recycling / compost / donation by weight.</div><div class="dsm">Email / EDI · weekly</div></div></div>
+  <div class="dsc"><div class="dsi b">☁</div><div class="dsb"><div class="dsn">Cloud &amp; VFX</div><div class="dsd">AWS Customer Carbon Footprint Tool, Azure Emissions Impact Dashboard, GCP Carbon Footprint. Per-workload kgCO₂e for render farms, encoding pipelines, and core services.</div><div class="dsm">REST API · monthly</div></div></div>
+  <div class="dsc"><div class="dsi a">⚙</div><div class="dsb"><div class="dsn">Grid carbon intensity</div><div class="dsd">Electricity Maps (average / flow-traced) and WattTime (marginal MOER). Time-and-location-resolved gCO₂/kWh   — turns generic kWh into accurate Scope 2 emissions.</div><div class="dsm">REST API · 5-min granularity</div></div></div>
+  <div class="dsc"><div class="dsi p">🎬</div><div class="dsb"><div class="dsn">Albert &amp; PEAR</div><div class="dsd">Existing manual entries from BAFTA Albert (UK) and PEAR (US). Used both as ground truth for model training and as a back-channel for certification submission after wrap.</div><div class="dsm">Calc API + CSV · weekly</div></div></div>
+</div>
+
+<div class="callout blue" style="margin-top:14px">
+  <b>Why a unified feature store matters:</b> Production teams routinely re-do the same data plumbing per show. A shared feature store collapses 30+ sources into stable, versioned features   — so the ML model trained on Season 1 still works on Season 2, and a new show inherits the entire ingestion stack on day one.
+</div>
+</div>
+
+<div class="surface">
+<span class="kicker">Medallion architecture</span>
+<h2 class="section-h">Bronze → Silver → Gold ingestion</h2>
+<p class="section-sub">Raw data lands as-is in Bronze, gets normalised in Silver, and is aggregated to per-production analytics in Gold. Each layer has its own quality gates and retention policy.</p>
+
+<div class="pipe">
+  <div class="pipes bronze">
+    <div class="pipest">Bronze</div>
+    <div class="pipesn">Raw landing zone</div>
+    <div class="pipesd">Source-format files (PDF, JSON, CSV, MQTT events) land in S3 / ADLS / GCS partitioned by source + date. Immutable, replayable, no schema enforcement.</div>
+    <div class="pipesm">s3://carbon-bronze/...</div>
+  </div>
+  <div class="pipes silver">
+    <div class="pipest">Silver</div>
+    <div class="pipesn">Cleaned &amp; conformed</div>
+    <div class="pipesd">Parsed, deduplicated, PII-redacted. Conformed to canonical schemas (production, scope, activity_type, value, unit, ts). Validated with Great Expectations + Soda.</div>
+    <div class="pipesm">delta.silver.activity_event</div>
+  </div>
+  <div class="pipes gold">
+    <div class="pipest">Gold</div>
+    <div class="pipesn">ML &amp; BI ready</div>
+    <div class="pipesd">Per-production aggregates joined with emission factors and grid intensity. Materialised features ready for model training and live dashboards.</div>
+    <div class="pipesm">feast.production_emissions_v1</div>
+  </div>
+</div>
+
+<div style="font-family:var(--font-display);font-size:14px;font-weight:500;margin:18px 0 10px;color:var(--text-1)">Feature store   — entity &amp; feature families</div>
+<div class="ds">
+  <div class="dsc"><div class="dsi g">P</div><div class="dsb"><div class="dsn">production_meta_v1</div><div class="dsd">budget_band, genre, shoot_days, cast_count, crew_count, vfx_intensity, primary_location, season_number, runtime_min</div><div class="dsm">Entity: production_id · TTL: ∞</div></div></div>
+  <div class="dsc"><div class="dsi a">F</div><div class="dsb"><div class="dsn">fuel_energy_v1</div><div class="dsd">gen_diesel_l, gen_hvo_l, battery_kwh, solar_kwh, grid_kwh, grid_intensity_g_co2_kwh, charger_kwh, ev_miles</div><div class="dsm">Entity: production_id · TTL: 7d online</div></div></div>
+  <div class="dsc"><div class="dsi p">T</div><div class="dsb"><div class="dsn">travel_v1</div><div class="dsd">flight_km_short, flight_km_long, flight_km_first, hotel_nights, ground_km_ev, ground_km_ice, rail_km</div><div class="dsm">Entity: production_id · TTL: 30d online</div></div></div>
+  <div class="dsc"><div class="dsi c">M</div><div class="dsb"><div class="dsn">materials_v1</div><div class="dsd">lumber_bf, reclaimed_share, paint_litres, steel_kg, fabric_m2, plywood_m2, foam_kg, prop_spend_usd</div><div class="dsm">Entity: production_id · TTL: ∞</div></div></div>
+  <div class="dsc"><div class="dsi t">W</div><div class="dsb"><div class="dsn">waste_water_v1</div><div class="dsd">landfill_kg, recycle_kg, compost_kg, donation_kg, water_l, greywater_share</div><div class="dsm">Entity: production_id · TTL: ∞</div></div></div>
+  <div class="dsc"><div class="dsi b">C</div><div class="dsb"><div class="dsn">cloud_post_v1</div><div class="dsd">render_kgco2e, encode_kgco2e, storage_tb_month, region_intensity, vfx_facility_renewable_share</div><div class="dsm">Entity: production_id · TTL: ∞</div></div></div>
+</div>
+
+<div class="callout">
+  <b>Vector layer for unstructured docs:</b> A separate Pinecone / Weaviate / pgvector index holds chunked, embedded EPDs, vendor sustainability reports, and supplier websites. The RAG agent queries it to retrieve the most relevant pages before extracting structured emission factors with an LLM.
+</div>
+</div>
+</div>
+
+<!-- ============ ML ENGINE ============ -->
+<div id="pane-ml" class="pane">
+<div class="surface">
+<span class="kicker">ML core</span>
+<h2 class="section-h">ML engine   — three model families that predict, infer, and learn</h2>
+<p class="section-sub">A single model can't cover a production's emission landscape. We compose three families: gradient-boosted trees for structured imputation, an LLM agent for unstructured extraction, and a graph neural network for supply-chain propagation. Each has its own training cadence, confidence model, and human-in-the-loop fallback.</p>
+
+<div class="mdg">
+  <div class="mdc b">
+    <div class="mdct">Family 1 · Tabular</div>
+    <div class="mdcn">Gradient boosting (XGBoost / LightGBM)</div>
+    <div class="mdcd">Per-category regressors that predict missing Tier 3 emissions from production metadata + partial activity data. The workhorse   — handles ~70% of all imputation.</div>
+    <ul class="mdcl">
+      <li>One model per emission category (catering, transport, materials, waste)</li>
+      <li>40–80 features per model, Optuna-tuned hyperparameters</li>
+      <li>SHAP attribution per prediction → full explainability</li>
+      <li>Bootstrap ensemble for prediction intervals</li>
+      <li>Reference: HBS Scope 3 prediction R²&nbsp;~&nbsp;0.77</li>
+    </ul>
+    <div class="mdcm">Trained nightly · LightGBM · Optuna · MLflow registry</div>
+  </div>
+
+  <div class="mdc p">
+    <div class="mdct">Family 2 · Unstructured</div>
+    <div class="mdcn">RAG + LLM extraction agent</div>
+    <div class="mdcd">Reads vendor PDFs, sustainability reports, and emission-factor databases. Returns structured JSON with citations + confidence. Closes the gap on Scope 3 supplier data.</div>
+    <ul class="mdcl">
+      <li>OCR (Textract / Mistral OCR) → chunk → embed (text-embedding-3)</li>
+      <li>Retrieval over EPDs, ESG reports, EPA / DEFRA / IPCC factor DBs</li>
+      <li>Claude Opus 4.7 for high-stakes; Haiku 4.5 for high-volume</li>
+      <li>Output schema-validated (Pydantic) and grounded with citations</li>
+      <li>Low-confidence extractions routed to human review queue</li>
+    </ul>
+    <div class="mdcm">Streaming · Anthropic + Pinecone · LangGraph orchestration</div>
+  </div>
+
+  <div class="mdc t">
+    <div class="mdct">Family 3 · Graph</div>
+    <div class="mdcn">Graph Neural Network (supply chain)</div>
+    <div class="mdcd">Models suppliers as nodes, procurement edges as relationships. Imputes missing Scope 3 supplier emissions via message passing   — handles the cold-start problem for new vendors.</div>
+    <ul class="mdcl">
+      <li>GraphSAGE / GAT trained on cross-production vendor graph</li>
+      <li>Node features: industry NAICS, size band, country, prior disclosures</li>
+      <li>Edge features: spend, category, frequency</li>
+      <li>Bootstrapped from HBS GHG factor dataset + Netflix's vendor master</li>
+      <li>Refreshed quarterly as vendor relationships evolve</li>
+    </ul>
+    <div class="mdcm">PyTorch Geometric · DGL · weekly retrain</div>
+  </div>
+</div>
+
+<div class="callout purple">
+  <b>Ensemble &amp; routing:</b> A meta-controller routes each line item to the right model based on data availability   — direct measurement first, then LLM extraction if vendor docs exist, then gradient boosting on metadata, then GNN supply-chain inference as last resort. Routing decisions are logged so the data team can see exactly which model produced every number.
+</div>
+</div>
+
+<div class="surface">
+<span class="kicker">ML pipeline</span>
+<h2 class="section-h">End-to-end ML lifecycle</h2>
+<p class="section-sub">From raw event to scored production, every step is versioned, reproducible, and monitored.</p>
+
+<div class="arch-wrap">
+<svg viewBox="0 0 720 360" role="img" preserveAspectRatio="xMidYMid meet">
+<title>ML pipeline   — ingest, feature, train, serve, monitor</title>
+<defs>
+  <marker id="arrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<text class="ts" x="20" y="22">1 · Ingest</text>
+<g class="node c-teal">
+  <rect x="20" y="32" width="130" height="56" rx="10" stroke-width="1"/>
+  <text class="th" x="85" y="52" text-anchor="middle">Connectors</text>
+  <text class="ts" x="85" y="70" text-anchor="middle">Airbyte · Kafka</text>
+</g>
+
+<line x1="150" y1="60" x2="178" y2="60" class="arr" marker-end="url(#arrow2)"/>
+
+<text class="ts" x="180" y="22">2 · Store</text>
+<g class="node c-blue">
+  <rect x="180" y="32" width="130" height="56" rx="10" stroke-width="1"/>
+  <text class="th" x="245" y="52" text-anchor="middle">Lakehouse</text>
+  <text class="ts" x="245" y="70" text-anchor="middle">Delta / Iceberg</text>
+</g>
+
+<line x1="310" y1="60" x2="338" y2="60" class="arr" marker-end="url(#arrow2)"/>
+
+<text class="ts" x="340" y="22">3 · Transform</text>
+<g class="node c-amber">
+  <rect x="340" y="32" width="130" height="56" rx="10" stroke-width="1"/>
+  <text class="th" x="405" y="52" text-anchor="middle">dbt + Spark</text>
+  <text class="ts" x="405" y="70" text-anchor="middle">Bronze→Silver→Gold</text>
+</g>
+
+<line x1="470" y1="60" x2="498" y2="60" class="arr" marker-end="url(#arrow2)"/>
+
+<text class="ts" x="500" y="22">4 · Features</text>
+<g class="node c-green">
+  <rect x="500" y="32" width="130" height="56" rx="10" stroke-width="1"/>
+  <text class="th" x="565" y="52" text-anchor="middle">Feature Store</text>
+  <text class="ts" x="565" y="70" text-anchor="middle">Feast / Tecton</text>
+</g>
+
+<line x1="565" y1="88" x2="565" y2="118" class="arr" marker-end="url(#arrow2)"/>
+<line x1="565" y1="88" x2="245" y2="118" class="arr" marker-end="url(#arrow2)"/>
+
+<text class="ts" x="180" y="138">5a · Train (offline)</text>
+<g class="node c-purple">
+  <rect x="180" y="148" width="160" height="56" rx="10" stroke-width="1"/>
+  <text class="th" x="260" y="168" text-anchor="middle">Training jobs</text>
+  <text class="ts" x="260" y="186" text-anchor="middle">XGB · LGBM · GNN · LLM</text>
+</g>
+
+<text class="ts" x="500" y="138">5b · Serve (online)</text>
+<g class="node c-coral">
+  <rect x="500" y="148" width="160" height="56" rx="10" stroke-width="1"/>
+  <text class="th" x="580" y="168" text-anchor="middle">Inference API</text>
+  <text class="ts" x="580" y="186" text-anchor="middle">BentoML · KServe</text>
+</g>
+
+<line x1="340" y1="176" x2="498" y2="176" class="arr" marker-end="url(#arrow2)"/>
+<text class="ts" x="362" y="170">register</text>
+
+<line x1="260" y1="204" x2="260" y2="234" class="arr" marker-end="url(#arrow2)"/>
+<line x1="580" y1="204" x2="580" y2="234" class="arr" marker-end="url(#arrow2)"/>
+
+<text class="ts" x="180" y="254">6 · Registry</text>
+<g class="node c-blue">
+  <rect x="180" y="264" width="160" height="56" rx="10" stroke-width="1"/>
+  <text class="th" x="260" y="284" text-anchor="middle">MLflow / W&amp;B</text>
+  <text class="ts" x="260" y="302" text-anchor="middle">model versions · lineage</text>
+</g>
+
+<text class="ts" x="500" y="254">7 · Monitor</text>
+<g class="node c-amber">
+  <rect x="500" y="264" width="160" height="56" rx="10" stroke-width="1"/>
+  <text class="th" x="580" y="284" text-anchor="middle">Evidently · Arize</text>
+  <text class="ts" x="580" y="302" text-anchor="middle">drift · perf · cost</text>
+</g>
+
+<line x1="340" y1="292" x2="498" y2="292" class="arr" marker-end="url(#arrow2)"/>
+
+<path d="M580 320 L580 340 L260 340 L260 204" fill="none" class="arr" marker-end="url(#arrow2)"/>
+<text class="ts" x="350" y="354">drift triggers retraining</text>
+</svg>
+<p style="font-size:12px;color:var(--text-3);margin:10px 0 0">Closed loop: drift detected in serving feeds back into the training pipeline; new models are gated by MLflow approval and shadow-deployed before promotion.</p>
+</div>
+</div>
+
+<div class="surface">
+<span class="kicker">Quality &amp; trust</span>
+<h2 class="section-h">Confidence, explainability, and human-in-the-loop</h2>
+<div class="metrics">
+  <div class="metric"><div class="metricn">±CI</div><div class="metricl">Bootstrap intervals on every prediction</div></div>
+  <div class="metric"><div class="metricn">SHAP</div><div class="metricl">Per-feature attribution for audit defence</div></div>
+  <div class="metric"><div class="metricn">&lt;70%</div><div class="metricl">Confidence threshold routes to human review</div></div>
+  <div class="metric"><div class="metricn">∇D</div><div class="metricl">Daily drift checks vs. training distribution</div></div>
+</div>
+<div class="callout amber" style="margin-top:14px">
+  <b>Greenwashing defence:</b> Every reported tCO₂e is traceable back to its source   — direct measurement, vendor doc + page citation, model prediction + SHAP, or benchmark factor. This is what makes the score audit-defensible for Albert, EMA, CDP, and ISSB IFRS S2 reporting.
+</div>
+</div>
+</div>
+
+<!-- ============ TECH STACK ============ -->
+<div id="pane-stack" class="pane">
+<div class="surface">
+<span class="kicker">Concrete tooling</span>
+<h2 class="section-h">Reference tech stack</h2>
+<p class="section-sub">Open-source-first where possible, managed services where they remove undifferentiated lifting. Every choice has a clear rationale and a credible alternative.</p>
+
+<div class="stack">
+  <div class="stackg">
+    <div class="stackgh">Data layer</div>
+    <div class="stacki"><b>Lakehouse</b> Databricks (Delta) or Snowflake <span class="pref">primary</span></div>
+    <div class="stacki"><b>Ingestion</b> Airbyte + custom Python connectors</div>
+    <div class="stacki"><b>Transforms</b> dbt Core for SQL, Spark for heavy lifts</div>
+    <div class="stacki"><b>Orchestration</b> Dagster (preferred) or Airflow</div>
+    <div class="stacki"><b>Streaming</b> Kafka / Kinesis for IoT events</div>
+    <div class="stacki"><b>Quality</b> Great Expectations + Soda + dbt tests</div>
+  </div>
+
+  <div class="stackg b">
+    <div class="stackgh">ML platform</div>
+    <div class="stacki"><b>Feature store</b> Feast (open) or Tecton (managed) <span class="pref">open</span></div>
+    <div class="stacki"><b>Tracking</b> MLflow (registry + experiments)</div>
+    <div class="stacki"><b>Training</b> Databricks ML / SageMaker / Vertex AI</div>
+    <div class="stacki"><b>Tuning</b> Optuna + Ray Tune</div>
+    <div class="stacki"><b>Serving</b> BentoML or KServe on EKS/GKE</div>
+    <div class="stacki"><b>Monitoring</b> Evidently AI or Arize</div>
+  </div>
+
+  <div class="stackg p">
+    <div class="stackgh">LLM &amp; RAG</div>
+    <div class="stacki"><b>LLM (heavy)</b> Claude Opus 4.7   — extraction, complex reasoning <span class="pref">primary</span></div>
+    <div class="stacki"><b>LLM (volume)</b> Claude Haiku 4.5   — classification, routing</div>
+    <div class="stacki"><b>Embeddings</b> OpenAI text-embedding-3-large or Cohere v3</div>
+    <div class="stacki"><b>Vector DB</b> Pinecone (managed) or pgvector (self-host)</div>
+    <div class="stacki"><b>OCR</b> AWS Textract or Mistral OCR for PDFs</div>
+    <div class="stacki"><b>Agent</b> Anthropic SDK + LangGraph orchestration</div>
+  </div>
+
+  <div class="stackg t">
+    <div class="stackgh">Frontend &amp; ops</div>
+    <div class="stacki"><b>BI &amp; explore</b> Hex, Looker, or Tableau</div>
+    <div class="stacki"><b>Production dashboard</b> Next.js + Recharts / Visx</div>
+    <div class="stacki"><b>Crew mobile app</b> React Native (iOS + Android)</div>
+    <div class="stacki"><b>Auth</b> Okta / Auth0 SSO</div>
+    <div class="stacki"><b>Observability</b> Datadog + Grafana</div>
+    <div class="stacki"><b>Cost control</b> Vantage or CloudHealth</div>
+  </div>
+
+  <div class="stackg a">
+    <div class="stackgh">External APIs</div>
+    <div class="stacki"><b>Grid intensity</b> Electricity Maps + WattTime</div>
+    <div class="stacki"><b>Cloud carbon</b> AWS CCFT, Azure EID, GCP CFE</div>
+    <div class="stacki"><b>Travel</b> Concur / BCD / Amex GBT APIs</div>
+    <div class="stacki"><b>Emission factors</b> EPA, DEFRA, IPCC, ecoinvent</div>
+    <div class="stacki"><b>Certification</b> BAFTA Albert API, PEAR / PEACH+</div>
+    <div class="stacki"><b>Disclosure</b> CDP, SBTi tracking, ISSB connectors</div>
+  </div>
+
+  <div class="stackg c">
+    <div class="stackgh">Standards &amp; governance</div>
+    <div class="stacki"><b>Accounting</b> GHG Protocol Scope 1/2/3</div>
+    <div class="stacki"><b>Disclosure</b> ISSB IFRS S2 (climate)</div>
+    <div class="stacki"><b>EU regulation</b> ESRS E1 / CSRD (where in scope)</div>
+    <div class="stacki"><b>Targets</b> SBTi near-term &amp; net-zero</div>
+    <div class="stacki"><b>Data</b> ISO 14064 audit-grade trails</div>
+    <div class="stacki"><b>Privacy</b> GDPR, CCPA   — crew PII tokenisation</div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ============ ROADMAP ============ -->
+<div id="pane-roadmap" class="pane">
+<div class="surface">
+<span class="kicker">Phased build plan</span>
+<h2 class="section-h">24-month implementation roadmap</h2>
+<p class="section-sub">A staged rollout that delivers value in 90 days and reaches industry-leading capability in two years. Each phase has crisp exit criteria and a single primary owner.</p>
+
+<div class="phases">
+  <div class="phase p1">
+    <div class="phaseh">
+      <div class="phasenum">0</div>
+      <div><div class="phaset">Foundation</div><div class="phasep">Weeks 0–4 · Setup</div></div>
+    </div>
+    <ul class="phasel">
+      <li>Stand up data warehouse (Snowflake or Databricks) and S3 raw zone</li>
+      <li>Backfill 1 prior season of Albert / PEAR data as ground truth</li>
+      <li>Recruit core team: 1 data eng · 1 ML eng · 1 sustainability SME · PM</li>
+      <li>Stakeholder alignment: ESG, production finance, IT/security, legal</li>
+      <li><b>Exit:</b> 1 historical season ingested + baseline manual scoring reproduced</li>
+    </ul>
+  </div>
+
+  <div class="phase p2">
+    <div class="phaseh">
+      <div class="phasenum">1</div>
+      <div><div class="phaset">MVP scoring</div><div class="phasep">Months 1–3 · Pilot</div></div>
+    </div>
+    <ul class="phasel">
+      <li>Connectors live: Movie Magic, Concur, top 3 utility / fuel vendors</li>
+      <li>First gradient-boosting models on catering, transport, materials</li>
+      <li>Score dashboard v1: per-production tCO₂e + tier coverage + CI</li>
+      <li>Pilot with 2 active productions; weekly score cadence</li>
+      <li><b>Exit:</b> Tier 1 coverage &gt; 40% on pilot productions; score within ±20% of audited Albert number</li>
+    </ul>
+  </div>
+
+  <div class="phase p3">
+    <div class="phaseh">
+      <div class="phasenum">2</div>
+      <div><div class="phaset">Scale &amp; enrich</div><div class="phasep">Months 3–6 · Expand</div></div>
+    </div>
+    <ul class="phasel">
+      <li>LLM + RAG extraction agent live for vendor PDFs &amp; ESG reports</li>
+      <li>Coverage of all 15 Scope 3 categories with appropriate tiers</li>
+      <li>MLflow registry, Evidently drift monitoring, Optuna sweeps</li>
+      <li>10 productions onboarded; Albert API integration for cert submission</li>
+      <li><b>Exit:</b> ML extraction live with &lt;5% hallucination rate; auto-cert for 5 productions</li>
+    </ul>
+  </div>
+
+  <div class="phase p4">
+    <div class="phaseh">
+      <div class="phasenum">3</div>
+      <div><div class="phaset">Productionisation</div><div class="phasep">Months 6–12 · Live</div></div>
+    </div>
+    <ul class="phasel">
+      <li>Real-time tracker for live productions (streaming pipeline)</li>
+      <li>Crew mobile app for waste, fuel, ride logs</li>
+      <li>Pre-greenlight footprint estimator from script + budget metadata</li>
+      <li>50+ productions onboarded; first independently audited score</li>
+      <li><b>Exit:</b> 90% of new shows scored within 7 days of wrap; SOC 2 Type II</li>
+    </ul>
+  </div>
+
+  <div class="phase p5">
+    <div class="phaseh">
+      <div class="phasenum">4</div>
+      <div><div class="phaset">Network effects</div><div class="phasep">Months 12–24 · Scale</div></div>
+    </div>
+    <ul class="phasel">
+      <li>Industry data-sharing consortium (Disney, Warner, Sony, Amazon)</li>
+      <li>GNN supply-chain model trained on cross-studio vendor graph</li>
+      <li>Public emission-factor library &amp; open-source measurement primitives</li>
+      <li>Real-time benchmarking against industry peers</li>
+      <li>Expansion to live events, music tours, gaming</li>
+      <li><b>Exit:</b> Industry-grade benchmark dataset published; 200+ productions scored</li>
+    </ul>
+  </div>
+
+  <div class="phase">
+    <div class="phaseh">
+      <div class="phasenum">∞</div>
+      <div><div class="phaset">Continuous</div><div class="phasep">Always-on · Improve</div></div>
+    </div>
+    <ul class="phasel">
+      <li>Quarterly model retraining on new ground-truth labels</li>
+      <li>Active learning: low-confidence predictions → human review → labels</li>
+      <li>Annual standards refresh (ISSB, ESRS, GHG Protocol updates)</li>
+      <li>Per-production retros feeding the OED playbook</li>
+      <li><b>North star:</b> auditor-grade scoring with &lt;5% margin at 80% Tier 1+2 coverage</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<div class="surface">
+<span class="kicker">Strategy</span>
+<h2 class="section-h">Build vs. buy decision matrix</h2>
+<p class="section-sub">Build only what's a competitive edge. Buy commodity capabilities. Hybrid where the integration matters more than the IP.</p>
+
+<div class="bvb">
+  <div class="bvbc">
+    <div class="bvbh">Build</div>
+    <div class="bvbi"><span class="tag build">Build</span>ML extrapolation engine   — proprietary edge</div>
+    <div class="bvbi"><span class="tag build">Build</span>Production-specific data ingestion connectors</div>
+    <div class="bvbi"><span class="tag build">Build</span>RAG / LLM extraction agent with custom schemas</div>
+    <div class="bvbi"><span class="tag build">Build</span>Score-explainability layer (SHAP UI, audit trail)</div>
+    <div class="bvbi"><span class="tag build">Build</span>Crew-facing mobile app   — UX is differentiator</div>
+  </div>
+  <div class="bvbc">
+    <div class="bvbh">Buy</div>
+    <div class="bvbi"><span class="tag buy">Buy</span>Carbon accounting platform (Watershed / Persefoni) for corporate roll-up</div>
+    <div class="bvbi"><span class="tag buy">Buy</span>BAFTA Albert subscription for certification</div>
+    <div class="bvbi"><span class="tag buy">Buy</span>Grid intensity APIs (Electricity Maps + WattTime)</div>
+    <div class="bvbi"><span class="tag buy">Buy</span>Travel emission feeds (Concur / BCD)</div>
+    <div class="bvbi"><span class="tag buy">Buy</span>Foundation LLMs (Anthropic, OpenAI)   — never train from scratch</div>
+  </div>
+  <div class="bvbc">
+    <div class="bvbh">Hybrid</div>
+    <div class="bvbi"><span class="tag hybrid">Hybrid</span>Footprint SaaS for production tracking + custom extensions</div>
+    <div class="bvbi"><span class="tag hybrid">Hybrid</span>Open-source feature store (Feast) + custom ops</div>
+    <div class="bvbi"><span class="tag hybrid">Hybrid</span>Vendor sustainability data   — buy floor, ML to enrich</div>
+    <div class="bvbi"><span class="tag hybrid">Hybrid</span>Disclosure rails (CDP, ISSB)   — buy connectors, build mapping</div>
+  </div>
+</div>
+</div>
+
+<div class="surface">
+<span class="kicker">Resourcing</span>
+<h2 class="section-h">Team, cost, and KPIs</h2>
+<p class="section-sub">Right-sized for a 24-month build to industry-leading capability.</p>
+
+<div class="metrics">
+  <div class="metric"><div class="metricn">6–8</div><div class="metricl">FTE in Year 1<br>(data, ML, backend, frontend, PM, design, sustainability SME)</div></div>
+  <div class="metric"><div class="metricn">$1.5–2.5M</div><div class="metricl">Annual run-rate<br>(people + cloud + SaaS + LLM tokens)</div></div>
+  <div class="metric"><div class="metricn">90 d</div><div class="metricl">First scored production<br>delivered to ESG team</div></div>
+  <div class="metric"><div class="metricn">200+</div><div class="metricl">Productions scored<br>by end of Year 2</div></div>
+</div>
+
+<div style="font-family:var(--font-display);font-size:14px;font-weight:500;margin:18px 0 10px;color:var(--text-1)">North-star KPIs</div>
+<div class="pbr"><span class="pbrl">Tier 1 + 2 data coverage</span><div class="pbrb"><div class="pbrf" style="width:80%;background:linear-gradient(90deg,var(--green),var(--green-2))"></div></div><span class="pbrn">≥ 80%</span></div>
+<div class="pbr"><span class="pbrl">Score margin (vs. audit)</span><div class="pbrb"><div class="pbrf" style="width:90%;background:linear-gradient(90deg,var(--blue),var(--blue-2))"></div></div><span class="pbrn">&lt; ±5%</span></div>
+<div class="pbr"><span class="pbrl">Time-to-score after wrap</span><div class="pbrb"><div class="pbrf" style="width:85%;background:linear-gradient(90deg,var(--purple),var(--purple-2))"></div></div><span class="pbrn">&lt; 7 days</span></div>
+<div class="pbr"><span class="pbrl">tCO₂e reduction per production</span><div class="pbrb"><div class="pbrf" style="width:30%;background:linear-gradient(90deg,var(--amber),var(--amber-2))"></div></div><span class="pbrn">≥ 20% YoY</span></div>
+<div class="pbr"><span class="pbrl">Productions auto-certified</span><div class="pbrb"><div class="pbrf" style="width:75%;background:linear-gradient(90deg,var(--teal),var(--teal-2))"></div></div><span class="pbrn">≥ 75%</span></div>
+
+<div class="callout purple" style="margin-top:14px">
+  <b>Risks &amp; mitigations:</b> Data quality (Great Expectations + data contracts), model drift (Evidently scheduled retraining), greenwashing (3rd-party audit + SHAP traceability), LLM hallucination (grounded RAG + confidence thresholds + human review), vendor lock-in (open standards: Delta, MLflow, Feast), PII (tokenisation + RBAC + GDPR DPA), LLM compute cost (tiered routing   — Haiku for volume, Opus for stakes).
+</div>
+</div>
+</div>
+
+<footer class="foot">
+  <b>Netflix Production Sustainability Framework</b> · Built on BAFTA Albert · GHG Protocol · ISSB IFRS S2 · SBTi · SPA · Netflix 2024 ESG Report
+</footer>
+
+</div><!-- /.wrap -->
+
+<script>
+const wt={1:.95,2:.70,3:.50},sw={1:.15,2:.25,3:.60},st={1:1,2:1,3:3};
+function showT(id,btn){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pane-'+id).classList.add('on');
+  btn.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function setT(s,t,btn){
+  btn.closest('.sbtns').querySelectorAll('.sb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  st[s]=t;upd();
+}
+function upd(){
+  let c=0;for(let s=1;s<=3;s++)c+=sw[s]*wt[st[s]];
+  const p=Math.round(c*100);
+  document.getElementById('cnum').textContent=p+'%';
+  document.getElementById('clbl').textContent='Overall confidence: '+p+'%';
+  document.getElementById('cbf').style.width=p+'%';
+  let grad;
+  if(p>=80)grad='linear-gradient(90deg,var(--green),var(--green-2))';
+  else if(p>=60)grad='linear-gradient(90deg,var(--amber),var(--amber-2))';
+  else grad='linear-gradient(90deg,var(--coral),var(--coral-2))';
+  document.getElementById('cbf').style.background=grad;
+  const col=p>=80?'var(--green)':p>=60?'var(--amber)':'var(--coral)';
+  document.getElementById('cnum').style.color=col;
+  const margin=Math.round((1-c)*50);
+  document.getElementById('cdsc').textContent='Score range is approximately ±'+margin+' points at this confidence level';
+}
+function showL(id,el){
+  document.querySelectorAll('.lp').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  document.querySelectorAll('.lcd').forEach(d=>d.style.display='none');
+  document.getElementById('lc-'+id).style.display='block';
+}
+function sendPrompt(q){console.log('Prompt:',q);}
+upd();
+</script>
+</body>
+</html>

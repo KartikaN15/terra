@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+:root {
+  --terra-emerald: #10b981;
+  --terra-forest: #065f46;
+  --terra-amber: #f59e0b;
+  --terra-cream: #fdf9ee;
+}
+
+body {
+  margin: 0;
+  font-family: 'Google Sans', 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #d1fae5 0%, transparent 60%),
+    radial-gradient(1000px 500px at 110% 10%, #fef3c7 0%, transparent 55%),
+    linear-gradient(180deg, #f6fbf7 0%, #f1f7f3 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+#root { min-height: 100vh; }
+
+/* ── Terra card / surface tokens ── */
+.terra-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px -12px rgba(16, 24, 40, 0.08), 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+.terra-hero {
+  background:
+    radial-gradient(600px 300px at 80% 20%, rgba(255,255,255,0.25), transparent 60%),
+    linear-gradient(135deg, #065f46 0%, #10b981 55%, #34d399 100%);
+  color: white;
+  border-radius: 1.25rem;
+}
+
+.terra-kpi-accent {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: white;
+}
+
+.illus-shadow {
+  filter: drop-shadow(0 16px 28px rgba(16, 185, 129, 0.18));
+}
+
+.illus-shadow-soft {
+  filter: drop-shadow(0 8px 16px rgba(15, 23, 42, 0.08));
+}
+
+.terra-tile-emerald {
+  background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.terra-tile-cream {
+  background: linear-gradient(135deg, #fefdf8 0%, #fef3c7 80%);
+  border: 1px solid rgba(245, 158, 11, 0.15);
+}
+
+/* ── Recharts overrides ── */
+.recharts-wrapper *:focus,
+.recharts-surface *:focus,
+.recharts-sector:focus,
+.recharts-rectangle:focus {
+  outline: none !important;
+}
+.recharts-tooltip-wrapper { outline: none !important; }
+.recharts-default-tooltip { border: none !important; box-shadow: none !important; }
+
+/* ── Custom leaf scrollbar ── */
+
+/*
+  Design intent: the track is a thin sage-green vine.
+  The thumb is a leaf   — asymmetric border-radius gives it the oval
+  teardrop silhouette of a simple leaf shape, with an emerald gradient
+  and a subtle mid-vein implied by the lighter center strip.
+  On hover the leaf deepens in colour (ripe → fresh).
+*/
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0fdf4;          /* very pale mint   — the "vine" stem */
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-track:vertical {
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      #bbf7d0 8%,
+      #86efac 50%,
+      #bbf7d0 92%,
+      transparent 100%
+    );
+  width: 2px;
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb {
+  /* Asymmetric radii: top-left large, top-right small → leaf tip at top */
+  border-radius: 72% 28% 60% 40% / 60% 40% 72% 28%;
+  background: linear-gradient(160deg, #34d399 0%, #10b981 45%, #059669 100%);
+  border: 2px solid transparent;
+  background-clip: padding-box;   /* gap between thumb and track = "air" */
+  transition: background 0.2s, transform 0.15s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(160deg, #10b981 0%, #059669 50%, #047857 100%);
+  background-clip: padding-box;
+  /* Rotate slightly on hover   — the leaf "flutters" */
+  transform: rotate(6deg) scaleY(1.04);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(160deg, #059669 0%, #047857 100%);
+  background-clip: padding-box;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #10b981 #f0fdf4;
+}
+
+/* Sidebar inner scroll gets the same treatment but slightly narrower */
+.sidebar-scroll::-webkit-scrollbar { width: 5px; }
+/* ── Animations ── */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-in {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.fade-in { animation-name: fade-in; }
+.slide-up { animation-name: slide-up; }
+.animate-float { animation: float 4s ease-in-out infinite; }
+
+/* ── Utilities ── */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}

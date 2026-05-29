@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Terra · Sustainability Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0f0d;
+    font-family: 'Inter', 'Google Sans', system-ui, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    color: #fff;
+    user-select: none;
+  }
+
+  /* ── Stage ── */
+  #stage {
+    position: fixed;
+    inset: 0 0 64px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 50% 40%, #0d1f17 0%, #060b08 100%);
+  }
+
+  /* Ambient glow behind slide */
+  #stage::before {
+    content: '';
+    position: absolute;
+    width: 900px; height: 540px;
+    background: radial-gradient(ellipse, rgba(16,185,129,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ── Slide wrapper ── */
+  .slide-wrapper {
+    position: absolute;
+    width: 1280px;
+    height: 720px;
+    transform-origin: top center;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    will-change: transform, opacity;
+  }
+
+  .slide-wrapper.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(var(--slide-scale, 1)) translateX(60px);
+  }
+
+  .slide-wrapper.prev-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(var(--slide-scale, 1)) translateX(-60px);
+  }
+
+  .slide-wrapper.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(var(--slide-scale, 1)) translateX(0);
+  }
+
+  .slide-wrapper iframe {
+    width: 1280px;
+    height: 720px;
+    border: none;
+    display: block;
+    border-radius: 12px;
+    box-shadow: 0 32px 80px -16px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05);
+  }
+
+  /* ── Nav arrows ── */
+  .nav-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px; height: 52px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, transform 0.15s;
+    z-index: 100;
+    margin-bottom: 64px;
+    backdrop-filter: blur(8px);
+  }
+  .nav-btn:hover {
+    background: rgba(16,185,129,0.25);
+    border-color: rgba(16,185,129,0.5);
+    transform: translateY(-50%) scale(1.08);
+  }
+  .nav-btn:active { transform: translateY(-50%) scale(0.95); }
+  .nav-btn svg { width: 22px; height: 22px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  #btn-prev { left: 16px; }
+  #btn-next { right: 16px; }
+  .nav-btn:disabled { opacity: 0.25; cursor: default; }
+  .nav-btn:disabled:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); transform: translateY(-50%); }
+
+  /* ── Bottom bar ── */
+  #controls {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 64px;
+    background: rgba(10,15,12,0.92);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 200;
+    gap: 16px;
+  }
+
+  /* Left: logos */
+  .ctrl-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+    width: 220px;
+  }
+  .ctrl-left img {
+    height: 22px;
+    width: auto;
+    opacity: 0.75;
+    filter: brightness(0) invert(1);
+    object-fit: contain;
+  }
+  .ctrl-left .logo-sep {
+    width: 1px; height: 18px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  /* Center: nav + title */
+  .ctrl-center {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .ctrl-btn {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .ctrl-btn:hover { background: rgba(16,185,129,0.2); border-color: rgba(16,185,129,0.4); }
+  .ctrl-btn svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  #slide-counter {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #10b981;
+    flex-shrink: 0;
+    min-width: 54px;
+    text-align: center;
+  }
+
+  #slide-title {
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.45);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 380px;
+    font-weight: 400;
+  }
+
+  /* Right: dots + fullscreen */
+  .ctrl-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    width: 220px;
+    justify-content: flex-end;
+  }
+
+  #dots {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, width 0.2s;
+    flex-shrink: 0;
+  }
+  .dot.active {
+    background: #10b981;
+    width: 18px;
+    border-radius: 4px;
+  }
+  .dot:hover { background: rgba(16,185,129,0.6); }
+
+  #btn-fullscreen {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  #btn-fullscreen:hover { background: rgba(16,185,129,0.2); border-color: rgba(16,185,129,0.4); }
+  #btn-fullscreen svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Terra badge */
+  #terra-badge {
+    position: fixed;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(10,15,12,0.75);
+    border: 1px solid rgba(16,185,129,0.25);
+    border-radius: 20px;
+    padding: 5px 14px 5px 10px;
+    z-index: 150;
+    backdrop-filter: blur(10px);
+    pointer-events: none;
+  }
+  #terra-badge svg { width: 16px; height: 16px; }
+  #terra-badge span {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #10b981;
+    text-transform: uppercase;
+  }
+
+  /* Loading indicator on iframes */
+  .slide-wrapper.loading::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #0a0f0d;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Progress bar */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #10b981, #34d399);
+    transition: width 0.3s ease;
+    z-index: 300;
+    border-radius: 0 1px 1px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Terra badge -->
+<div id="terra-badge">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+  </svg>
+  <span>Terra</span>
+</div>
+
+<!-- Stage -->
+<div id="stage">
+  <!-- Slide wrappers will be injected here by JS -->
+</div>
+
+<!-- Nav arrows -->
+<button class="nav-btn" id="btn-prev" aria-label="Previous slide">
+  <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+</button>
+<button class="nav-btn" id="btn-next" aria-label="Next slide">
+  <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+</button>
+
+<!-- Bottom controls bar -->
+<div id="controls">
+  <!-- Left: logos -->
+  <div class="ctrl-left">
+    <img src="j2w_nobg.png" alt="J2W" onerror="this.style.display='none'"/>
+    <div class="logo-sep"></div>
+    <img src="netflix_nobg.png" alt="Netflix" onerror="this.style.display='none'"/>
+  </div>
+
+  <!-- Center -->
+  <div class="ctrl-center">
+    <button class="ctrl-btn" id="ctrl-prev" aria-label="Previous">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <span id="slide-counter">01 / 11</span>
+    <button class="ctrl-btn" id="ctrl-next" aria-label="Next">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <span id="slide-title"></span>
+  </div>
+
+  <!-- Right: dots + fullscreen -->
+  <div class="ctrl-right">
+    <div id="dots"></div>
+    <button id="btn-fullscreen" aria-label="Toggle fullscreen">
+      <svg id="fs-icon-expand" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      <svg id="fs-icon-shrink" viewBox="0 0 24 24" style="display:none"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+const slides = [
+  { file: "slide_01_variant.html", title: "A Step Towards Reducing Your Carbon Footprint" },
+  { file: "slide_02_variant.html", title: "The Invisible Weight We All Carry" },
+  { file: "slide_03_variant.html", title: "Meet Terra — Your Carbon Diary, Strategist & Companion" },
+  { file: "slide_04_variant.html", title: "Your Day, Your Decisions, Your Data" },
+  { file: "slide_05_variant.html", title: "From Activity to Insight in Four Steps" },
+  { file: "slide_06_variant.html", title: "A Universal Language for Carbon" },
+  { file: "slide_07_variant.html", title: "Trained on Reality. Learning with Every Project." },
+  { file: "slide_08_variant.html", title: "Optimise, Electrify, Decarbonise" },
+  { file: "slide_09_variant.html", title: "One Decision. One Day. One Planet." },
+  { file: "slide_10_variant.html", title: "Building the Universal Carbon Kernel" },
+  { file: "slide_11_variant.html", title: "The Atomic Future Starts with a Single Entry" },
+];
+
+const TOTAL = slides.length;
+let current = 0;
+let isTransitioning = false;
+
+// ── Build slide wrappers ──────────────────────────────────────────────────────
+const stage = document.getElementById('stage');
+const wrappers = [];
+const iframes = [];
+
+slides.forEach((s, i) => {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'slide-wrapper' + (i === 0 ? ' active' : ' hidden');
+  wrapper.id = `slide-wrapper-${i}`;
+
+  const iframe = document.createElement('iframe');
+  iframe.title = s.title;
+  iframe.setAttribute('loading', i < 3 ? 'eager' : 'lazy');
+  // Load first 3 immediately
+  if (i < 3) {
+    iframe.src = s.file;
+  }
+
+  wrapper.appendChild(iframe);
+  stage.appendChild(wrapper);
+  wrappers.push(wrapper);
+  iframes.push(iframe);
+});
+
+// ── Build dots ────────────────────────────────────────────────────────────────
+const dotsContainer = document.getElementById('dots');
+const dots = [];
+slides.forEach((s, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'dot' + (i === 0 ? ' active' : '');
+  dot.title = s.title;
+  dot.addEventListener('click', () => goTo(i));
+  dotsContainer.appendChild(dot);
+  dots.push(dot);
+});
+
+// ── Scale function ────────────────────────────────────────────────────────────
+function scaleSlide() {
+  const scaleX = window.innerWidth / 1280;
+  const scaleY = (window.innerHeight - 64) / 720;
+  const scale = Math.min(scaleX, scaleY);
+
+  // Set CSS variable so transition classes can use it
+  document.documentElement.style.setProperty('--slide-scale', scale);
+
+  wrappers.forEach(wrapper => {
+    wrapper.style.transformOrigin = 'top center';
+    // Recalculate position: vertically centre in available space
+    const availH = window.innerHeight - 64;
+    const scaledH = 720 * scale;
+    const topOffset = Math.max(0, (availH - scaledH) / 2);
+    wrapper.style.top = topOffset + 'px';
+    wrapper.style.left = '50%';
+    wrapper.style.marginLeft = '-640px'; // half of 1280
+
+    // Apply scale while preserving active/hidden class transforms
+    const isActive = wrapper.classList.contains('active');
+    const isPrev = wrapper.classList.contains('prev-hidden');
+    if (isActive) {
+      wrapper.style.transform = `scale(${scale}) translateX(0)`;
+    } else if (isPrev) {
+      wrapper.style.transform = `scale(${scale}) translateX(-60px)`;
+    } else {
+      wrapper.style.transform = `scale(${scale}) translateX(60px)`;
+    }
+  });
+}
+
+// ── Update UI ─────────────────────────────────────────────────────────────────
+function updateUI() {
+  // Counter
+  document.getElementById('slide-counter').textContent =
+    String(current + 1).padStart(2, '0') + ' / ' + String(TOTAL).padStart(2, '0');
+
+  // Title
+  document.getElementById('slide-title').textContent = slides[current].title;
+
+  // Dots
+  dots.forEach((d, i) => d.classList.toggle('active', i === current));
+
+  // Prev/next buttons
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').disabled = current === TOTAL - 1;
+
+  // Progress bar
+  document.getElementById('progress-bar').style.width =
+    ((current + 1) / TOTAL * 100) + '%';
+}
+
+// ── Pre-load adjacent slides ──────────────────────────────────────────────────
+function preload(idx) {
+  [idx - 1, idx, idx + 1, idx + 2].forEach(i => {
+    if (i >= 0 && i < TOTAL && !iframes[i].src) {
+      iframes[i].src = slides[i].file;
+    }
+  });
+}
+
+// ── Navigate ──────────────────────────────────────────────────────────────────
+function goTo(next) {
+  if (next === current || isTransitioning) return;
+  if (next < 0 || next >= TOTAL) return;
+  isTransitioning = true;
+
+  const prev = current;
+  const direction = next > prev ? 1 : -1;
+
+  // Ensure target iframe is loaded
+  if (!iframes[next].src) {
+    iframes[next].src = slides[next].file;
+  }
+
+  const scale = parseFloat(getComputedStyle(document.documentElement)
+    .getPropertyValue('--slide-scale')) || 1;
+
+  // Animate out
+  wrappers[prev].style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+  wrappers[prev].style.opacity = '0';
+  wrappers[prev].style.transform = `scale(${scale}) translateX(${direction === 1 ? '-60px' : '60px'})`;
+
+  // Prepare next (off-screen on the right or left)
+  wrappers[next].style.transition = 'none';
+  wrappers[next].style.opacity = '0';
+  wrappers[next].style.transform = `scale(${scale}) translateX(${direction === 1 ? '60px' : '-60px'})`;
+  wrappers[next].classList.remove('hidden', 'prev-hidden', 'active');
+
+  // Force reflow
+  void wrappers[next].offsetWidth;
+
+  // Animate in
+  wrappers[next].style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+  wrappers[next].style.opacity = '1';
+  wrappers[next].style.transform = `scale(${scale}) translateX(0)`;
+  wrappers[next].classList.add('active');
+
+  current = next;
+  updateUI();
+  preload(current);
+
+  setTimeout(() => {
+    wrappers[prev].classList.remove('active');
+    wrappers[prev].classList.add('hidden');
+    wrappers[prev].style.opacity = '';
+    wrappers[prev].style.transform = '';
+    wrappers[prev].style.transition = '';
+    isTransitioning = false;
+    scaleSlide();
+  }, 380);
+}
+
+function prev() { goTo(current - 1); }
+function next() { goTo(current + 1); }
+
+// ── Event bindings ────────────────────────────────────────────────────────────
+document.getElementById('btn-prev').addEventListener('click', prev);
+document.getElementById('btn-next').addEventListener('click', next);
+document.getElementById('ctrl-prev').addEventListener('click', prev);
+document.getElementById('ctrl-next').addEventListener('click', next);
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prev(); }
+  if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+  if (e.key === 'Escape' && document.fullscreenElement) document.exitFullscreen();
+});
+
+// ── Fullscreen ────────────────────────────────────────────────────────────────
+const btnFs = document.getElementById('btn-fullscreen');
+const fsExpand = document.getElementById('fs-icon-expand');
+const fsShrink = document.getElementById('fs-icon-shrink');
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+}
+
+btnFs.addEventListener('click', toggleFullscreen);
+
+document.addEventListener('fullscreenchange', () => {
+  const isFs = !!document.fullscreenElement;
+  fsExpand.style.display = isFs ? 'none' : '';
+  fsShrink.style.display = isFs ? '' : 'none';
+  scaleSlide();
+});
+
+// ── Touch / swipe ─────────────────────────────────────────────────────────────
+let touchStartX = 0;
+let touchStartY = 0;
+stage.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+stage.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+    dx < 0 ? next() : prev();
+  }
+}, { passive: true });
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+window.addEventListener('resize', scaleSlide);
+scaleSlide();
+updateUI();
+preload(0);
+</script>
+</body>
+</html>

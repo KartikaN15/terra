@@ -1,0 +1,6 @@
+doc_id,production_id,doc_type,filename,ocr_status,extracted_confidence,extracted_by_model,review_status
+4c16fb08-5373-4d45-8eb6-ba0fd7b54f39,7ee71967-56e1-4859-a600-cf633e02f5aa,FUEL_RECEIPT,diesel_delivery_march2024.pdf,EXTRACTED,0.91,claude-haiku-4.5,APPROVED
+8d0a3bc2-68da-4787-b012-8b822da1a4a4,cc6aed6a-d350-4828-8f1c-d4f7b40d1d85,ELECTRICITY_BILL,pinewood_electricity_q2.pdf,EXTRACTED,0.88,gpt-4o-mini,APPROVED
+2950cb69-e6aa-4e3e-8879-c09368ca1b6c,8e317f0c-d24c-4bc9-bc3c-15cf1d3174ef,TRAVEL_MANIFEST,crew_flights_cornwall.xlsx,REVIEW_REQUIRED,0.62,claude-haiku-4.5,PENDING
+6f6e02dc-9cca-467d-a980-a65b40df5713,9e693157-7ae8-4147-8cc2-f322914a9bad,CATERING_INVOICE,catering_week12_invoice.pdf,EXTRACTED,0.79,gpt-4o-mini,APPROVED
+470f82c5-2a01-4d3e-a807-58b9722a1343,e82e9809-ce7e-44bd-a093-e4737aea4f2e,WASTE_TICKET,waste_diversion_cert_may.pdf,PENDING,,,PENDING

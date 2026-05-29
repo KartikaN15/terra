@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terra · Slide 8</title>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Google Sans', sans-serif;
+            background: linear-gradient(160deg, #ecfdf5 0%, #fefce8 40%, #f0fdf4 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background: linear-gradient(160deg, #ecfdf5 0%, #fefce8 35%, #f0fdf4 70%, #dcfce7 100%);
+            border-radius: 24px;
+            box-shadow: 0 24px 80px -20px rgba(6, 95, 70, 0.15), 0 8px 24px -12px rgba(16, 24, 40, 0.08);
+            position: relative;
+            overflow: hidden;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+        }
+        .ambient-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite;
+        }
+        .shape-1 { width: 400px; height: 400px; background: radial-gradient(circle, #10b981 0%, transparent 70%); top: -120px; right: -100px; animation-delay: 0s; }
+        .shape-2 { width: 300px; height: 300px; background: radial-gradient(circle, #f59e0b 0%, transparent 70%); bottom: -80px; left: -60px; animation-delay: -3s; }
+        @keyframes float { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-20px) scale(1.05); } }
+
+        .header { position: relative; z-index: 10; margin-bottom: 24px; text-align: center; }
+        .eyebrow {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #10b981;
+            margin-bottom: 8px;
+        }
+        .title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: #065f46;
+            line-height: 1.15;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+        }
+        .philosophy {
+            font-size: 16px;
+            color: #4b5563;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.5;
+            font-style: italic;
+        }
+        .philosophy strong { color: #065f46; font-style: normal; }
+
+        .pillars-container {
+            flex: 1;
+            display: flex;
+            gap: 20px;
+            position: relative;
+            z-index: 10;
+            margin-top: 20px;
+        }
+        .pillar {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 24px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid transparent;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .pillar:hover { transform: translateY(-6px); box-shadow: 0 16px 40px -12px rgba(16, 185, 129, 0.2); }
+        .pillar.optimise { border-color: #10b981; }
+        .pillar.electrify { border-color: #60a5fa; }
+        .pillar.decarbonise { border-color: #f59e0b; }
+
+        .pillar-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .pillar-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 12px;
+        }
+        .optimise .pillar-icon { background: linear-gradient(135deg, #d1fae5, #a7f3d0); }
+        .electrify .pillar-icon { background: linear-gradient(135deg, #dbeafe, #93c5fd); }
+        .decarbonise .pillar-icon { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+        .pillar-letter {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            line-height: 1;
+        }
+        .optimise .pillar-letter { color: #10b981; }
+        .electrify .pillar-letter { color: #3b82f6; }
+        .decarbonise .pillar-letter { color: #d97706; }
+        .pillar-name {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: #065f46;
+            margin-top: 4px;
+        }
+        .pillar-strategy {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .recommendation {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 10px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .rec-action {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+        .rec-desc {
+            font-size: 11px;
+            color: #6b7280;
+            line-height: 1.5;
+            flex: 1;
+        }
+        .rec-footer {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .rec-tag {
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        .tag-saving { background: #d1fae5; color: #065f46; }
+        .tag-cost { background: #dbeafe; color: #1e40af; }
+        .tag-profit { background: #fef3c7; color: #92400e; }
+        .tag-effort-low { background: #ecfdf5; color: #065f46; }
+        .tag-impact-high { background: #fee2e2; color: #991b1b; }
+
+        .slide-bg-image {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            
+            background-size: cover;
+            background-position: center;
+            opacity: 0.06;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .page-number {
+            position: absolute;
+            bottom: 24px;
+            right: 32px;
+            font-family: 'Google Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            z-index: 10;
+        }
+
+        @media (max-width: 1320px) { .slide-container { transform: scale(0.75); } }
+        @media (max-width: 1000px) { .slide-container { transform: scale(0.55); } }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <img src="slide_08_oed_pillars_nobg.png" style="position:absolute; right:-30px; bottom:-10px; height:80%; object-fit:contain; opacity:0.20; z-index:0; pointer-events:none;">
+        
+        <div class="ambient-shape shape-1"></div>
+        <div class="ambient-shape shape-2"></div>
+
+        <div class="header">
+            <div class="eyebrow">Smart Suggestions</div>
+            <h1 class="title">Don't Just Measure · Optimise, Electrify, Decarbonise</h1>
+            <p class="philosophy">Terra never says <em>"use less energy."</em> Terra says: <strong>"Switch 30% diesel to HVO. Cut 89 tCO₂e for £2,500."</strong></p>
+        </div>
+
+        <div class="pillars-container">
+            <div class="pillar optimise">
+                <div class="pillar-header">
+                    <div class="pillar-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3m0 0h2l3 4v3h-2m-5-7v7m-7 0a2 2 0 1 0 4 0 2 2 0 0 0-4 0m10 0a2 2 0 1 0 4 0 2 2 0 0 0-4 0"/></svg></div>
+                    <div class="pillar-letter">O</div>
+                    <div class="pillar-name">Optimise</div>
+                    <div class="pillar-strategy">Do less, do smarter</div>
+                </div>
+                <div class="recommendation">
+                    <div class="rec-action">Switch 30% diesel → HVO fuel</div>
+                    <div class="rec-desc">HVO cuts generator emissions ~90% with no equipment changes.</div>
+                    <div class="rec-footer">
+                        <span class="rec-tag tag-saving">-89 tCO₂e</span>
+                        <span class="rec-tag tag-cost">£2,500</span>
+                    </div>
+                </div>
+                <div class="recommendation">
+                    <div class="rec-action">Consolidate location travel</div>
+                    <div class="rec-desc">Batch travel days, reduce inter-city crew shuttles by 25%.</div>
+                    <div class="rec-footer">
+                        <span class="rec-tag tag-saving">-28 tCO₂e</span>
+                        <span class="rec-tag tag-cost">£0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pillar electrify">
+                <div class="pillar-header">
+                    <div class="pillar-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+                    <div class="pillar-letter">E</div>
+                    <div class="pillar-name">Electrify</div>
+                    <div class="pillar-strategy">Switch to low-carbon energy</div>
+                </div>
+                <div class="recommendation">
+                    <div class="rec-action">Purchase 100% renewable grid</div>
+                    <div class="rec-desc">Switch studio and basecamp electricity to renewable tariff.</div>
+                    <div class="rec-footer">
+                        <span class="rec-tag tag-saving">-45 tCO₂e</span>
+                        <span class="rec-tag tag-cost">£1,200</span>
+                    </div>
+                </div>
+                <div class="recommendation">
+                    <div class="rec-action">Move render farm to green cloud</div>
+                    <div class="rec-desc">AWS eu-north-1 runs on 90%+ renewable energy.</div>
+                    <div class="rec-footer">
+                        <span class="rec-tag tag-saving">-15 tCO₂e</span>
+                        <span class="rec-tag tag-cost">£500</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pillar decarbonise">
+                <div class="pillar-header">
+                    <div class="pillar-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 1 1.1 7.7c-1.7-.1-3.1-.8-4.3-1.9 1.1-2.9 2-5.4 3.2-5.8z"/></svg></div>
+                    <div class="pillar-letter">D</div>
+                    <div class="pillar-name">Decarbonise</div>
+                    <div class="pillar-strategy">Eliminate the source</div>
+                </div>
+                <div class="recommendation">
+                    <div class="rec-action">Plant-based default 2 days/week</div>
+                    <div class="rec-desc">Beef has ~10× the footprint of plant proteins.</div>
+                    <div class="rec-footer">
+                        <span class="rec-tag tag-saving">-42 tCO₂e</span>
+                        <span class="rec-tag tag-profit">Saves £400</span>
+                    </div>
+                </div>
+                <div class="recommendation">
+                    <div class="rec-action">Rent vs. buy set construction</div>
+                    <div class="rec-desc">Modular reusable sets cut embodied carbon across productions.</div>
+                    <div class="rec-footer">
+                        <span class="rec-tag tag-saving">-35 tCO₂e</span>
+                        <span class="rec-tag tag-profit">Saves £1,500</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Logo strip -->
+        <div style="position:absolute; top:20px; right:32px; display:flex; align-items:center; gap:14px; z-index:20;">
+            <img src="j2w_nobg.png"      style="height:28px; object-fit:contain; opacity:0.85;">
+            <div style="width:1px; height:22px; background:rgba(6,95,70,0.25);"></div>
+            <img src="netflix_nobg.png"  style="height:20px; object-fit:contain; opacity:0.85;">
+        </div>
+        <div class="page-number">08 / 11</div>
+    </div>
+</body>
+</html>

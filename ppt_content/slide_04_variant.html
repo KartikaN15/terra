@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terra · Slide 4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Google Sans', sans-serif;
+            background: linear-gradient(160deg, #ecfdf5 0%, #fefce8 40%, #f0fdf4 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background: linear-gradient(160deg, #ecfdf5 0%, #fefce8 35%, #f0fdf4 70%, #dcfce7 100%);
+            border-radius: 24px;
+            box-shadow: 0 24px 80px -20px rgba(6, 95, 70, 0.15), 0 8px 24px -12px rgba(16, 24, 40, 0.08);
+            position: relative;
+            overflow: hidden;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+        }
+        .ambient-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite;
+        }
+        .shape-1 { width: 350px; height: 350px; background: radial-gradient(circle, #10b981 0%, transparent 70%); top: -100px; left: -80px; animation-delay: 0s; }
+        .shape-2 { width: 300px; height: 300px; background: radial-gradient(circle, #f59e0b 0%, transparent 70%); bottom: -60px; right: -40px; animation-delay: -3s; }
+        @keyframes float { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-20px) scale(1.05); } }
+
+        .header { position: relative; z-index: 10; margin-bottom: 28px; }
+        .eyebrow {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #10b981;
+            margin-bottom: 8px;
+        }
+        .title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 40px;
+            font-weight: 700;
+            color: #065f46;
+            line-height: 1.15;
+            letter-spacing: -1px;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #6b7280;
+            margin-top: 8px;
+            max-width: 600px;
+        }
+
+        .content-area {
+            flex: 1;
+            display: flex;
+            gap: 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .timeline-col {
+            width: 380px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-left: 28px;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 10px;
+            top: 12px;
+            bottom: 12px;
+            width: 3px;
+            background: linear-gradient(to bottom, #10b981, #34d399, #a7f3d0);
+            border-radius: 2px;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+            z-index: 2;
+        }
+        .timeline-item {
+            position: relative;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(16, 185, 129, 0.12);
+            border-radius: 12px;
+            padding: 7px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.3s ease;
+        }
+        .timeline-item:hover { transform: translateX(6px); }
+        .timeline-time {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            color: #10b981;
+            min-width: 40px;
+        }
+        .timeline-icon { font-size: 18px; line-height: 1; color: #065f46; }
+        .timeline-body { flex: 1; min-width: 0; }
+        .timeline-action {
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+            line-height: 1.25;
+        }
+        .timeline-meta {
+            font-size: 10px;
+            color: #6b7280;
+            margin-top: 1px;
+        }
+        .timeline-co2 {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #065f46;
+            text-align: right;
+            min-width: 60px;
+        }
+
+        .daily-total {
+            margin-top: 4px;
+            background: linear-gradient(135deg, #065f46, #047857);
+            border-radius: 14px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            position: relative;
+            left: -28px;
+            width: calc(100% + 28px);
+        }
+        .daily-total-label { font-size: 12px; opacity: 0.95; }
+        .daily-total-value {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .insights-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .insight-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(16, 185, 129, 0.12);
+            border-radius: 16px;
+            padding: 14px 18px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .insight-number {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #10b981, #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2px;
+            line-height: 1.1;
+        }
+        .insight-title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #065f46;
+            margin-bottom: 4px;
+        }
+        .insight-desc {
+            font-size: 12px;
+            color: #4b5563;
+            line-height: 1.45;
+        }
+
+        .domain-strip {
+            display: flex;
+            gap: 10px;
+            margin-top: 4px;
+        }
+        .domain-chip {
+            background: linear-gradient(135deg, #d1fae5, #ecfdf5);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 20px;
+            padding: 8px 14px;
+            font-size: 12px;
+            color: #065f46;
+            font-weight: 500;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 24px;
+            right: 32px;
+            font-family: 'Google Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            z-index: 10;
+        }
+
+        @media (max-width: 1320px) { .slide-container { transform: scale(0.75); } }
+        @media (max-width: 1000px) { .slide-container { transform: scale(0.55); } }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="ambient-shape shape-1"></div>
+        <div class="ambient-shape shape-2"></div>
+
+        <div class="header">
+            <div class="eyebrow">Atomic Diary</div>
+            <h1 class="title">Your Day, Your Decisions, Your Data · Atom by Atom</h1>
+            <p class="subtitle">Terra treats every carbon-relevant action as a diary entry. Not summaries. Not estimates. Atoms.</p>
+        </div>
+
+        <div class="content-area">
+            <div class="timeline-col" style="position:relative;">
+                <img src="slide_04_timeline_nobg.png" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); height:92%; object-fit:contain; opacity:0.22; z-index:0;">
+                <div class="timeline-line" style="z-index:1;"></div>
+
+                <div class="timeline-item" style="position:relative; z-index:1;">
+                    <div class="timeline-dot" style="top:50%; transform:translateY(-50%); left:-14px;"></div>
+                    <span class="timeline-time">06:00</span>
+                    <span class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M3 22V8a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v14"/><path d="M2 22h14"/><path d="M6 10h3"/><path d="M6 14h3"/><path d="M16 5h1a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2v-5"/><path d="M16 22V8"/></svg></span>
+                    <div class="timeline-body">
+                        <div class="timeline-action">Diesel generator refuelled</div>
+                        <div class="timeline-meta">Scope 1 · Energy · 45L</div>
+                    </div>
+                    <span class="timeline-co2">120.6</span>
+                </div>
+                <div class="timeline-item" style="position:relative; z-index:1;">
+                    <div class="timeline-dot" style="top:50%; transform:translateY(-50%); left:-14px;"></div>
+                    <span class="timeline-time">08:30</span>
+                    <span class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></svg></span>
+                    <div class="timeline-body">
+                        <div class="timeline-action">Crew shuttle from hotel</div>
+                        <div class="timeline-meta">Scope 3 · Transport · 12 km × 15</div>
+                    </div>
+                    <span class="timeline-co2">30.8</span>
+                </div>
+                <div class="timeline-item" style="position:relative; z-index:1;">
+                    <div class="timeline-dot" style="top:50%; transform:translateY(-50%); left:-14px;"></div>
+                    <span class="timeline-time">10:00</span>
+                    <span class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                    <div class="timeline-body">
+                        <div class="timeline-action">Studio grid electricity</div>
+                        <div class="timeline-meta">Scope 2 · Energy · 85 kWh</div>
+                    </div>
+                    <span class="timeline-co2">17.6</span>
+                </div>
+                <div class="timeline-item" style="border-color:rgba(245,158,11,0.3);">
+                    <div class="timeline-dot" style="top:14px; background:linear-gradient(135deg,#f59e0b,#d97706);"></div>
+                    <span class="timeline-time">13:00</span>
+                    <span class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg></span>
+                    <div class="timeline-body">
+                        <div class="timeline-action">Lunch served (beef for 40)</div>
+                        <div class="timeline-meta">Scope 3 · Catering</div>
+                    </div>
+                    <span class="timeline-co2" style="color:#d97706;">2,400</span>
+                </div>
+                <div class="timeline-item" style="position:relative; z-index:1;">
+                    <div class="timeline-dot" style="top:50%; transform:translateY(-50%); left:-14px;"></div>
+                    <span class="timeline-time">17:00</span>
+                    <span class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></span>
+                    <div class="timeline-body">
+                        <div class="timeline-action">Waste collected (mixed)</div>
+                        <div class="timeline-meta">Scope 3 · Waste · 12 kg</div>
+                    </div>
+                    <span class="timeline-co2">6.0</span>
+                </div>
+                <div class="timeline-item" style="position:relative; z-index:1;">
+                    <div class="timeline-dot" style="top:50%; transform:translateY(-50%); left:-14px;"></div>
+                    <span class="timeline-time">18:00</span>
+                    <span class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></span>
+                    <div class="timeline-body">
+                        <div class="timeline-action">Producer flies to London</div>
+                        <div class="timeline-meta">Scope 3 · Transport · 340 km × 1.7 RF</div>
+                    </div>
+                    <span class="timeline-co2">90.1</span>
+                </div>
+
+                <div class="daily-total" style="position:relative; z-index:1;">
+                    <span class="daily-total-label">Daily Total</span>
+                    <span class="daily-total-value">≈ 2,665 kgCO₂e</span>
+                </div>
+            </div>
+
+            <div class="insights-col">
+                <div class="insight-card">
+                    <div class="insight-number">01</div>
+                    <div class="insight-title">Real-Time Awareness</div>
+                    <div class="insight-desc">See your footprint as it happens, not in a quarterly report. Every entry has a source, a person, a timestamp.</div>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-number">02</div>
+                    <div class="insight-title">Pattern Recognition</div>
+                    <div class="insight-desc">"Catering is 45% of our daily emissions. Did we notice that last week?" Data reveals what intuition misses.</div>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-number">03</div>
+                    <div class="insight-title">Emotional Connection</div>
+                    <div class="insight-desc">You don't abstractly "care about climate." You see <em>your</em> flight, <em>your</em> generator, <em>your</em> lunch.</div>
+                </div>
+                <div class="domain-strip">
+                    <span class="domain-chip"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M17 3v18"/><path d="M3 7h4"/><path d="M3 11h4"/><path d="M3 15h4"/><path d="M17 7h4"/><path d="M17 11h4"/><path d="M17 15h4"/></svg> Film/TV</span>
+                    <span class="domain-chip"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M4 15v-3a6 6 0 0 1 6-6h0"/><path d="M14 6h0a6 6 0 0 1 6 6v3"/></svg> Construction</span>
+                    <span class="domain-chip"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg> Logistics</span>
+                    <span class="domain-chip"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg> Corporate</span>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Logo strip -->
+        <div style="position:absolute; top:20px; right:32px; display:flex; align-items:center; gap:14px; z-index:20;">
+            <img src="j2w_nobg.png"      style="height:28px; object-fit:contain; opacity:0.85;">
+            <div style="width:1px; height:22px; background:rgba(6,95,70,0.25);"></div>
+            <img src="netflix_nobg.png"  style="height:20px; object-fit:contain; opacity:0.85;">
+        </div>
+        <div class="page-number">04 / 11</div>
+    </div>
+</body>
+</html>

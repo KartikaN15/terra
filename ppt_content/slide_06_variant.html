@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terra · Slide 6</title>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Google Sans', sans-serif;
+            background: linear-gradient(160deg, #ecfdf5 0%, #fefce8 40%, #f0fdf4 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background: linear-gradient(160deg, #ecfdf5 0%, #fefce8 35%, #f0fdf4 70%, #dcfce7 100%);
+            border-radius: 24px;
+            box-shadow: 0 24px 80px -20px rgba(6, 95, 70, 0.15), 0 8px 24px -12px rgba(16, 24, 40, 0.08);
+            position: relative;
+            overflow: hidden;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+        }
+        .ambient-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite;
+        }
+        .shape-1 { width: 400px; height: 400px; background: radial-gradient(circle, #10b981 0%, transparent 70%); top: -100px; right: -80px; animation-delay: 0s; }
+        .shape-2 { width: 300px; height: 300px; background: radial-gradient(circle, #f59e0b 0%, transparent 70%); bottom: -60px; left: -40px; animation-delay: -3s; }
+        @keyframes float { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-20px) scale(1.05); } }
+
+        .header { position: relative; z-index: 10; margin-bottom: 28px; }
+        .eyebrow {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #10b981;
+            margin-bottom: 8px;
+        }
+        .title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 40px;
+            font-weight: 700;
+            color: #065f46;
+            line-height: 1.15;
+            letter-spacing: -1px;
+        }
+
+        .content-area {
+            flex: 1;
+            display: flex;
+            gap: 36px;
+            position: relative;
+            z-index: 10;
+        }
+        .architecture-col { flex: 1.1; display: flex; flex-direction: column; gap: 16px; }
+        .domain-col { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+        .entity-flow {
+            display: flex;
+            align-items: stretch;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        .entity-card {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-radius: 14px;
+            padding: 12px 8px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: transform 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .entity-card:hover { transform: translateY(-3px); }
+        .entity-card.project { border-color: #10b981; }
+        .entity-card.event { border-color: #60a5fa; }
+        .entity-card.factor { border-color: #f59e0b; }
+        .entity-card.calc { border-color: #6b7280; }
+        .entity-icon { margin-bottom: 6px; line-height: 1; }
+        .entity-name {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #065f46;
+            margin-bottom: 3px;
+            white-space: nowrap;
+        }
+        .entity-desc {
+            font-size: 10px;
+            color: #6b7280;
+            line-height: 1.35;
+        }
+        .entity-arrow {
+            font-size: 22px;
+            font-weight: 700;
+            color: #10b981;
+            animation: arrowPulse 2s ease-in-out infinite;
+            flex-shrink: 0;
+            align-self: center;
+        }
+        @keyframes arrowPulse { 0%, 100% { opacity: 0.6; transform: translateX(0); } 50% { opacity: 1; transform: translateX(4px); } }
+
+        .entity-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .detail-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(16, 185, 129, 0.1);
+            border-radius: 14px;
+            padding: 14px;
+        }
+        .detail-card h4 {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: #065f46;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .detail-card ul {
+            list-style: none;
+            font-size: 11px;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+        .detail-card ul li { padding-left: 12px; position: relative; }
+        .detail-card ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+
+        .domain-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(16, 185, 129, 0.12);
+            border-radius: 20px;
+            padding: 24px;
+        }
+        .domain-title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #065f46;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+        .domain-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        .domain-table th {
+            text-align: left;
+            padding: 8px 6px;
+            color: #065f46;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(16, 185, 129, 0.2);
+            font-family: 'Google Sans', sans-serif;
+        }
+        .domain-table td {
+            padding: 7px 6px;
+            color: #4b5563;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .domain-table tr:last-child td { border-bottom: none; }
+        .domain-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .tag-film { background: #d1fae5; color: #065f46; }
+        .tag-construction { background: #dbeafe; color: #1e40af; }
+        .tag-logistics { background: #fef3c7; color: #92400e; }
+
+        .kernel-quote {
+            margin-top: 12px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(245, 158, 11, 0.06));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-size: 13px;
+            color: #065f46;
+            font-style: italic;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 24px;
+            right: 32px;
+            font-family: 'Google Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            z-index: 10;
+        }
+
+        @media (max-width: 1320px) { .slide-container { transform: scale(0.75); } }
+        @media (max-width: 1000px) { .slide-container { transform: scale(0.55); } }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="ambient-shape shape-1"></div>
+        <div class="ambient-shape shape-2"></div>
+
+        <div class="header">
+            <div class="eyebrow">Architecture</div>
+            <h1 class="title">A Universal Language for Carbon<br>Built to Scale Across Any Domain</h1>
+        </div>
+
+        <div class="content-area">
+            <div class="architecture-col">
+                <div class="entity-flow">
+                    <div class="entity-card project">
+                        <div class="entity-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg></div>
+                        <div class="entity-name">Project</div>
+                        <div class="entity-desc">Domain context</div>
+                    </div>
+                    <span class="entity-arrow">&rarr;</span>
+                    <div class="entity-card event">
+                        <div class="entity-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg></div>
+                        <div class="entity-name">Activity Event</div>
+                        <div class="entity-desc">Atomic action</div>
+                    </div>
+                    <span class="entity-arrow">&times;</span>
+                    <div class="entity-card factor">
+                        <div class="entity-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+                        <div class="entity-name">Emission Factor</div>
+                        <div class="entity-desc">DEFRA / EPA / BAFTA</div>
+                    </div>
+                    <span class="entity-arrow">=</span>
+                    <div class="entity-card calc">
+                        <div class="entity-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg></div>
+                        <div class="entity-name">Calculation</div>
+                        <div class="entity-desc">kgCO&#8322;e + audit trail</div>
+                    </div>
+                </div>
+
+                <div class="entity-details">
+                    <div class="detail-card">
+                        <h4><span style="color:#10b981;">●</span> Project</h4>
+                        <ul>
+                            <li>Type, scale, duration</li>
+                            <li>Headcount, complexity</li>
+                            <li>Carbon budget</li>
+                            <li>Lifecycle states</li>
+                        </ul>
+                    </div>
+                    <div class="detail-card">
+                        <h4><span style="color:#60a5fa;">●</span> Activity Event</h4>
+                        <ul>
+                            <li>Phase + Scope + Category</li>
+                            <li>Value + Unit → kgCO₂e</li>
+                            <li>Confidence tier + score</li>
+                            <li>Source reference</li>
+                        </ul>
+                    </div>
+                    <div class="detail-card">
+                        <h4><span style="color:#f59e0b;">●</span> Emission Factor</h4>
+                        <ul>
+                            <li>Standard (DEFRA/EPA)</li>
+                            <li>Region + version</li>
+                            <li>Valid from/to dates</li>
+                            <li>Scientific modifiers</li>
+                        </ul>
+                    </div>
+                    <div class="detail-card">
+                        <h4><span style="color:#6b7280;">●</span> Calculation</h4>
+                        <ul>
+                            <li>Base kgCO₂e</li>
+                            <li>WTT addition</li>
+                            <li>Factor ID + version</li>
+                            <li>Timestamp + method</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="domain-col">
+                <div class="domain-card">
+                    <div class="domain-title">The Same Engine, Any Industry</div>
+                    <table class="domain-table">
+                        <tr><th>Film/TV</th><th>Construction</th><th>Logistics</th></tr>
+                        <tr><td><span class="domain-tag tag-film">Production</span></td><td><span class="domain-tag tag-construction">Building Site</span></td><td><span class="domain-tag tag-logistics">Route</span></td></tr>
+                        <tr><td>Genre</td><td>Building Type</td><td>Route Type</td></tr>
+                        <tr><td>Budget Band</td><td>Floor Area</td><td>Stop Count</td></tr>
+                        <tr><td>Shoot Days</td><td>Months</td><td>Route Days</td></tr>
+                        <tr><td>Cast/Crew</td><td>Workers</td><td>Drivers</td></tr>
+                        <tr><td>VFX Intensity</td><td>LEED Level</td><td>Refrigerated?</td></tr>
+                        <tr><td>tCO₂e/hour</td><td>tCO₂e/m²</td><td>tCO₂e/mile</td></tr>
+                    </table>
+                </div>
+                <div class="kernel-quote">
+                    "The ML logic is the universal kernel.<br>The domain config is the interchangeable shell."
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Logo strip -->
+        <div style="position:absolute; top:20px; right:32px; display:flex; align-items:center; gap:14px; z-index:20;">
+            <img src="j2w_nobg.png"      style="height:28px; object-fit:contain; opacity:0.85;">
+            <div style="width:1px; height:22px; background:rgba(6,95,70,0.25);"></div>
+            <img src="netflix_nobg.png"  style="height:20px; object-fit:contain; opacity:0.85;">
+        </div>
+        <div class="page-number">06 / 11</div>
+    </div>
+</body>
+</html>

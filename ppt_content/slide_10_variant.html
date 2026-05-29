@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terra · Slide 10</title>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Google Sans', sans-serif;
+            background: linear-gradient(160deg, #ecfdf5 0%, #fefce8 40%, #f0fdf4 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-image: url("slide_10_roadmap.png");
+            background-size: cover;
+            background-position: center;
+            border-radius: 24px;
+            box-shadow: 0 24px 80px -20px rgba(6, 95, 70, 0.15), 0 8px 24px -12px rgba(16, 24, 40, 0.08);
+            position: relative;
+            overflow: hidden;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+        }
+        .ambient-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite;
+        }
+        .shape-1 { width: 400px; height: 400px; background: radial-gradient(circle, #10b981 0%, transparent 70%); top: -120px; left: -80px; animation-delay: 0s; }
+        .shape-2 { width: 300px; height: 300px; background: radial-gradient(circle, #f59e0b 0%, transparent 70%); bottom: -60px; right: -40px; animation-delay: -3s; }
+        @keyframes float { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-20px) scale(1.05); } }
+
+        .header { position: relative; z-index: 10; margin-bottom: 16px; }
+        .eyebrow {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #10b981;
+            margin-bottom: 8px;
+        }
+        .title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 40px;
+            font-weight: 700;
+            color: #065f46;
+            line-height: 1.15;
+            letter-spacing: -1px;
+        }
+
+        .content-area { position: relative; z-index: 1;
+            flex: 1;
+            display: flex;
+            gap: 32px;
+            position: relative;
+            z-index: 10;
+        }
+        .roadmap-col { flex: 1.4; display: flex; flex-direction: column; gap: 5px; }
+        .metrics-col { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+
+        .phase-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(16, 185, 129, 0.12);
+            border-radius: 12px;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        .phase-card:hover { transform: translateX(6px); }
+        .phase-badge {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .phase-badge.p0 { background: linear-gradient(135deg, #d1fae5, #a7f3d0); }
+        .phase-badge.p1 { background: linear-gradient(135deg, #dbeafe, #93c5fd); }
+        .phase-badge.p2 { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+        .phase-badge.p3 { background: linear-gradient(135deg, #f3e8ff, #d8b4fe); }
+        .phase-badge.p4 { background: linear-gradient(135deg, #fce7f3, #f9a8d4); }
+
+        .phase-body { flex: 1; min-width: 0; }
+        .phase-name {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #065f46;
+            margin-bottom: 1px;
+        }
+        .phase-desc {
+            font-size: 10.5px;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+        .phase-timeline {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            color: #10b981;
+            min-width: 70px;
+            text-align: right;
+        }
+
+        .platform-viz {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(245, 158, 11, 0.06));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            padding: 8px 12px 10px;
+            margin-top: 2px;
+        }
+        .platform-title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: #065f46;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .platform-layers {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .platform-layer {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .layer-box {
+            flex: 1;
+            background: rgba(255,255,255,0.85);
+            border-radius: 6px;
+            padding: 3px 8px;
+            text-align: center;
+            font-size: 10px;
+            font-weight: 600;
+            color: #065f46;
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+        .layer-conn {
+            font-size: 14px;
+            font-weight: 700;
+            color: #10b981;
+            line-height: 1;
+            display: inline-block;
+        }
+
+        .metrics-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(16, 185, 129, 0.12);
+            border-radius: 18px;
+            padding: 20px;
+            flex: 1;
+        }
+        .metrics-title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: #065f46;
+            margin-bottom: 14px;
+        }
+        .metric-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .metric-row:last-child { border-bottom: none; }
+        .metric-name {
+            font-size: 12px;
+            color: #4b5563;
+            line-height: 1.4;
+            max-width: 60%;
+        }
+        .metric-targets {
+            display: flex;
+            gap: 10px;
+        }
+        .metric-target {
+            text-align: center;
+        }
+        .target-val {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #065f46;
+        }
+        .target-label {
+            font-size: 9px;
+            color: #6b7280;
+            text-transform: uppercase;
+        }
+
+        .slide-bg-image {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            
+            background-size: cover;
+            background-position: center;
+            opacity: 0.08;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .page-number {
+            position: absolute;
+            bottom: 24px;
+            right: 32px;
+            font-family: 'Google Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            z-index: 10;
+        }
+
+        @media (max-width: 1320px) { .slide-container { transform: scale(0.75); } }
+        @media (max-width: 1000px) { .slide-container { transform: scale(0.55); } }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div style="position:absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(160deg, rgba(236,253,245,0.88) 0%, rgba(254,252,232,0.86) 35%, rgba(240,253,244,0.88) 70%, rgba(220,252,231,0.90) 100%); z-index:0;"></div>
+        
+        <div class="ambient-shape shape-1"></div>
+        <div class="ambient-shape shape-2"></div>
+
+        <div class="header">
+            <div class="eyebrow">The Long Run</div>
+            <h1 class="title">Building the Universal Carbon Kernel<br>One Domain at a Time</h1>
+        </div>
+
+        <div class="content-area">
+            <div class="roadmap-col">
+                <div class="phase-card">
+                    <div class="phase-badge p0"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M4 15v-3a6 6 0 0 1 6-6h0"/><path d="M14 6h0a6 6 0 0 1 6 6v3"/></svg></div>
+                    <div class="phase-body">
+                        <div class="phase-name">Phase 0 · Foundation (Now)</div>
+                        <div class="phase-desc">Universal schema, domain-agnostic YAML config, core engine, DEFRA/EPA factors, Tier 1/2/3 confidence, XGBoost predictor</div>
+                    </div>
+                    <div class="phase-timeline">Now</div>
+                </div>
+                <div class="phase-card">
+                    <div class="phase-badge p1"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M17 3v18"/><path d="M3 7h4"/><path d="M3 11h4"/><path d="M3 15h4"/><path d="M17 7h4"/><path d="M17 11h4"/><path d="M17 15h4"/></svg></div>
+                    <div class="phase-body">
+                        <div class="phase-name">Phase 1 · Film & TV Vertical</div>
+                        <div class="phase-desc">Full lifecycle tracking, BAFTA/PEAR export, Document AI (OCR + LLM), OED Playbook, real-time dashboards</div>
+                    </div>
+                    <div class="phase-timeline">M 1-6</div>
+                </div>
+                <div class="phase-card">
+                    <div class="phase-badge p2"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M4 15v-3a6 6 0 0 1 6-6h0"/><path d="M14 6h0a6 6 0 0 1 6 6v3"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg></div>
+                    <div class="phase-body">
+                        <div class="phase-name">Phase 2 · Multi-Domain Expansion</div>
+                        <div class="phase-desc">Construction (concrete, steel, LEED), Logistics (routes, fleets, refrigerated), Corporate (office, travel, cloud)</div>
+                    </div>
+                    <div class="phase-timeline">M 6-12</div>
+                </div>
+                <div class="phase-card">
+                    <div class="phase-badge p3"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg></div>
+                    <div class="phase-body">
+                        <div class="phase-name">Phase 3 <span style="display:block;font-style:normal;font-size:13px;color:#6b7280;margin-top:8px;">Intelligence Layer</span></div>
+                        <div class="phase-desc">Graph Neural Networks for supply chain, IoT streaming, multi-tenant SaaS, custom LLM fine-tuning</div>
+                    </div>
+                    <div class="phase-timeline">M 12-18</div>
+                </div>
+                <div class="phase-card">
+                    <div class="phase-badge p4"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                    <div class="phase-body">
+                        <div class="phase-name">Phase 4 <span style="display:block;font-style:normal;font-size:13px;color:#6b7280;margin-top:8px;">Network Effects</span></div>
+                        <div class="phase-desc">Peer benchmarking, vendor scorecards, carbon marketplace, regulatory auto-compliance (CDP, ISSB, SEC)</div>
+                    </div>
+                    <div class="phase-timeline">M 18-24</div>
+                </div>
+
+                <div class="platform-viz">
+                    <div class="platform-title">Terra Platform Architecture</div>
+                    <div class="platform-layers">
+                        <div class="platform-layer">
+                            <div class="layer-box"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M17 3v18"/><path d="M3 7h4"/><path d="M3 11h4"/><path d="M3 15h4"/><path d="M17 7h4"/><path d="M17 11h4"/><path d="M17 15h4"/></svg> Film & TV</div>
+                            <div class="layer-box"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M4 15v-3a6 6 0 0 1 6-6h0"/><path d="M14 6h0a6 6 0 0 1 6 6v3"/></svg> Construction</div>
+                            <div class="layer-box"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg> Logistics</div>
+                            <div class="layer-box"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg> Corporate</div>
+                        </div>
+                        <div class="platform-layer" style="justify-content:center;">
+                            <span class="layer-conn">↓</span>
+                        </div>
+                        <div class="platform-layer">
+                            <div class="layer-box" style="background:linear-gradient(135deg,#065f46,#047857);color:white;border:none;">Unified Carbon Intelligence Kernel</div>
+                        </div>
+                        <div class="platform-layer" style="justify-content:center;">
+                            <span class="layer-conn">↓</span>
+                        </div>
+                        <div class="platform-layer">
+                            <div class="layer-box"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Benchmark</div>
+                            <div class="layer-box"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg> Predict</div>
+                            <div class="layer-box"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Act</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="metrics-col">
+                <div class="metrics-card">
+                    <div class="metrics-title">North Star Metrics</div>
+                    <div class="metric-row">
+                        <span class="metric-name">Time to carbon budget</span>
+                        <div class="metric-targets">
+                            <div class="metric-target"><div class="target-val">&lt;5m</div><div class="target-label">6 mo</div></div>
+                            <div class="metric-target"><div class="target-val">&lt;30s</div><div class="target-label">24 mo</div></div>
+                        </div>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-name">Daily log entry time</span>
+                        <div class="metric-targets">
+                            <div class="metric-target"><div class="target-val">&lt;10m</div><div class="target-label">6 mo</div></div>
+                            <div class="metric-target"><div class="target-val">&lt;2m</div><div class="target-label">24 mo</div></div>
+                        </div>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-name">Invoice extraction accuracy</span>
+                        <div class="metric-targets">
+                            <div class="metric-target"><div class="target-val">85%</div><div class="target-label">6 mo</div></div>
+                            <div class="metric-target"><div class="target-val">95%</div><div class="target-label">24 mo</div></div>
+                        </div>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-name">Active domains</span>
+                        <div class="metric-targets">
+                            <div class="metric-target"><div class="target-val">1</div><div class="target-label">6 mo</div></div>
+                            <div class="metric-target"><div class="target-val">5+</div><div class="target-label">24 mo</div></div>
+                        </div>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-name">Productions tracked</span>
+                        <div class="metric-targets">
+                            <div class="metric-target"><div class="target-val">50+</div><div class="target-label">6 mo</div></div>
+                            <div class="metric-target"><div class="target-val">10K+</div><div class="target-label">24 mo</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Logo strip -->
+        <div style="position:absolute; top:20px; right:32px; display:flex; align-items:center; gap:14px; z-index:20;">
+            <img src="j2w_nobg.png"      style="height:28px; object-fit:contain; opacity:0.85;">
+            <div style="width:1px; height:22px; background:rgba(6,95,70,0.25);"></div>
+            <img src="netflix_nobg.png"  style="height:20px; object-fit:contain; opacity:0.85;">
+        </div>
+        <div class="page-number">10 / 11</div>
+    </div>
+</body>
+</html>

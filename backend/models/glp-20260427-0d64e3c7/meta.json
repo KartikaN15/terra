@@ -1,0 +1,24 @@
+{
+  "model_name": "greenlight_predictor",
+  "version": "glp-20260427-0d64e3c7",
+  "domain": "film_tv",
+  "feature_names": [
+    "cat_project_type",
+    "cat_scale_band",
+    "cat_complexity",
+    "cat_region",
+    "num_duration",
+    "num_headcount",
+    "num_output_units",
+    "num_output_size"
+  ],
+  "metrics": {
+    "r2_log": 0.9557440215252963,
+    "r2": 0.7747479742131721,
+    "mae_tco2e": 887.0872275762481,
+    "rmse_tco2e": 2320.000508744945,
+    "n_train": 80,
+    "n_val": 20
+  },
+  "trained_at": "2026-04-27T07:16:21.269832"
+}

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python fix_images.py)",
+      "Bash(python -c \"from rembg import remove; print\\('rembg ok'\\)\")",
+      "Bash(python apply_rembg.py)",
+      "Bash(python patch_html.py)",
+      "Bash(python add_logos.py)",
+      "Bash(python fix_logos.py)",
+      "Bash(python -c ' *)",
+      "Bash(python apply_font_spacing.py)",
+      "Bash(python *)",
+      "Bash(grep -vE \"ambient-shape|^$\")"
+    ]
+  }
+}

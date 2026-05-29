@@ -1,0 +1,58 @@
+{
+  "model_name": "category_imputer",
+  "version": "ci-20260427-9b092100",
+  "domain": "film_tv",
+  "categories": [
+    "ACCOMMODATION",
+    "CATERING",
+    "ENERGY",
+    "MATERIALS",
+    "POST_VFX",
+    "TRANSPORT",
+    "WASTE",
+    "WATER"
+  ],
+  "metrics": {
+    "ACCOMMODATION": {
+      "r2": 0.5010587702111025,
+      "mae_kgco2e": 86954.20495475939,
+      "n_train": 80
+    },
+    "CATERING": {
+      "r2": 0.5173562607225988,
+      "mae_kgco2e": 29400.373590959527,
+      "n_train": 80
+    },
+    "ENERGY": {
+      "r2": 0.4882309251557403,
+      "mae_kgco2e": 877538.367527131,
+      "n_train": 80
+    },
+    "MATERIALS": {
+      "r2": 0.5849628600732291,
+      "mae_kgco2e": 34583.618021969865,
+      "n_train": 80
+    },
+    "POST_VFX": {
+      "r2": 0.21294390091848514,
+      "mae_kgco2e": 49748.93229299198,
+      "n_train": 80
+    },
+    "TRANSPORT": {
+      "r2": 0.524537589226553,
+      "mae_kgco2e": 334824.9965118646,
+      "n_train": 80
+    },
+    "WASTE": {
+      "r2": 0.5338535119464054,
+      "mae_kgco2e": 43288.29900872006,
+      "n_train": 80
+    },
+    "WATER": {
+      "r2": 0.5337956267921589,
+      "mae_kgco2e": 7214.9223901426985,
+      "n_train": 80
+    }
+  },
+  "trained_at": "2026-04-27T09:06:52.728790"
+}
