@@ -23,7 +23,6 @@ import {
   Trash,
   X,
   Check,
-  Lightbulb,
   Leaf,
   FilmStrip,
   DownloadSimple,
@@ -37,7 +36,6 @@ import goalTracking from "../assets/diary-planner/goal-tracking.png";
 import notesSketch from "../assets/diary-planner/notes-sketch.png";
 import habitTracker from "../assets/diary-planner/habit-tracker.png";
 import reflectionJournal from "../assets/diary-planner/reflection-journal.png";
-import dashboardHeroPlanet from "../assets/diary-planner/dashboard-hero-planet.png";
 import productionsFilmSet from "../assets/diary-planner/productions-film-set.png";
 import ProductionNode from "../components/flow/ProductionNode";
 import DayNode from "../components/flow/DayNode";

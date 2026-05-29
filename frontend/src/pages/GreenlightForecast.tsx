@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { api, type GreenlightForecast } from "../api";
-import { TrendUp, Sparkle, Info } from "@phosphor-icons/react";
+import { TrendUp, Sparkle } from "@phosphor-icons/react";
 import { useToast } from "../contexts/ToastContext";
 import crystalBall from "../assets/illustrations/crystal-ball.png";
 

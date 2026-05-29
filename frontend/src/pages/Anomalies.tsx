@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { api } from "../api";
 import { Lightning, WarningCircle, ArrowClockwise } from "@phosphor-icons/react";

@@ -1,6 +1,6 @@
 import { Handle, Position } from "@xyflow/react";
 
-export default function EpisodeNode({ id, data }: any) {
+export default function EpisodeNode({ id: _id, data }: { id: string; data: { title?: string; episodeNumber?: number; totalEmissions?: number } }) {
   return (
     <div className="bg-blue-500 text-white rounded-xl px-4 py-2 shadow-md min-w-[140px]">
       <div className="text-xs font-bold">{data.title || `Episode ${data.episodeNumber}`}</div>

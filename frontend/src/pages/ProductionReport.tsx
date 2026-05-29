@@ -11,6 +11,7 @@ import {
   ListChecks,
   CheckCircle,
   CalendarBlank,
+  Lightning,
 } from "@phosphor-icons/react";
 import mascot from "../assets/illustrations/mascot-terra.png";
 
