@@ -9,7 +9,7 @@ const categoryColors: Record<string, string> = {
   "VFX/Post": "bg-indigo-400",
 };
 
-export default function ActivityNode({ id: _id, data }: { id: string; data: { category?: string; label?: string; value?: string; unit?: string } }) {
+export default function ActivityNode({ id: _id, data }: { id: string; data: { category?: string; label?: string; value?: string; unit?: string; kgco2e?: number | string } }) {
   const color = categoryColors[data.category || "Energy"] || "bg-slate-400";
   return (
     <div className="bg-white border border-slate-200 rounded-xl px-3 py-2 shadow-sm min-w-[120px]">
