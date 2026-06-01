@@ -25,6 +25,7 @@ PENALTIES = {
     "old_factor": Decimal("0.05"),                # factor older than 2 years
     "expired_factor": Decimal("0.06"),            # factor's valid_to has passed
     "future_factor": Decimal("0.02"),             # factor's valid_from is in the future
+    "cross_region_fallback": Decimal("0.15"),     # borrowed a factor from an unrelated region (no regional basis)
     "global_fallback": Decimal("0.08"),           # fell back from country/region to a global factor
     "continent_fallback": Decimal("0.05"),        # fell back to continent (EUROPE, AMERICAS …)
     "region_group_fallback": Decimal("0.03"),     # fell back to a group (EU, NA …)
@@ -71,6 +72,7 @@ def compute_score(
     # it knows the request region, not just the factor metadata.
     region_match = (calc_result or {}).get("region_match")
     region_penalty_map = {
+        "cross_region_fallback": PENALTIES["cross_region_fallback"],
         "global_fallback": PENALTIES["global_fallback"],
         "continent_fallback": PENALTIES["continent_fallback"],
         "region_group_fallback": PENALTIES["region_group_fallback"],

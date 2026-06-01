@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { api } from "../api";
 import { Lightning, WarningCircle, ArrowClockwise } from "@phosphor-icons/react";
 import { useToast } from "../contexts/ToastContext";
+import type { Production } from "../types";
 import anomalyDetective from "../assets/illustrations/anomaly-detective.png";
 
 interface AnomalyItem {
@@ -22,15 +23,33 @@ interface DetectResponse {
 }
 
 export default function Anomalies() {
-  const [searchParams] = useSearchParams();
-  const productionId = searchParams.get("production") || "";
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [productions, setProductions] = useState<Production[]>([]);
+  const [prodLoading, setProdLoading] = useState(true);
+  const [selectedId, setSelectedId] = useState<string>(searchParams.get("production") || "");
   const [anomalies, setAnomalies] = useState<AnomalyItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const toast = useToast();
 
+  useEffect(() => {
+    api
+      .getProductions()
+      .then(setProductions)
+      .catch(() => {})
+      .finally(() => setProdLoading(false));
+  }, []);
+
+  const handleSelect = (id: string) => {
+    setSelectedId(id);
+    setAnomalies([]);
+    setError("");
+    // Keep the URL in sync so the view is shareable / refresh-safe.
+    setSearchParams(id ? { production: id } : {}, { replace: true });
+  };
+
   const detect = async () => {
-    if (!productionId) {
+    if (!selectedId) {
       setError("Select a production to analyse");
       return;
     }
@@ -38,7 +57,7 @@ export default function Anomalies() {
     setError("");
     try {
       // Fetch events and build time series
-      const events = await api.getEvents(productionId, 0, 500);
+      const events = await api.getEvents(selectedId, 0, 500);
       const daily: Record<string, number> = {};
       events.forEach((e) => {
         const day = e.recorded_at.split("T")[0];
@@ -57,7 +76,7 @@ export default function Anomalies() {
       }
 
       const data: DetectResponse = await api.detectAnomalies({
-        project_id: productionId,
+        project_id: selectedId,
         time_series: timeSeries,
         window_days: 7,
         sensitivity: 0.05,
@@ -92,11 +111,30 @@ export default function Anomalies() {
       </div>
 
       <div className="terra-card p-5">
-        <div className="flex items-center gap-3 mb-4">
+        <label className="block text-xs font-semibold text-slate-600 mb-2 uppercase tracking-wider">
+          Production
+        </label>
+        <div className="flex flex-wrap items-center gap-3 mb-4">
+          {prodLoading ? (
+            <ArrowClockwise className="animate-spin w-4 h-4 text-emerald-500" />
+          ) : (
+            <select
+              value={selectedId}
+              onChange={(e) => handleSelect(e.target.value)}
+              className="flex-1 min-w-[220px] max-w-md bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 focus:bg-white focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 outline-none transition"
+            >
+              <option value="">— Select a production —</option>
+              {productions.map((p) => (
+                <option key={p.production_id} value={p.production_id}>
+                  {p.title}
+                </option>
+              ))}
+            </select>
+          )}
           <button
             onClick={detect}
-            disabled={loading}
-            className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-700 disabled:opacity-50"
+            disabled={loading || !selectedId}
+            className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
               <ArrowClockwise className="animate-spin w-4 h-4" />
@@ -156,11 +194,9 @@ export default function Anomalies() {
         )}
       </div>
 
-      {!productionId && (
-        <div className="text-sm text-slate-400 text-center py-4">
-          Anomaly detection requires at least 14 days of logged activity data.
-        </div>
-      )}
+      <div className="text-sm text-slate-400 text-center py-4">
+        Anomaly detection requires at least 14 days of logged activity data.
+      </div>
     </div>
   );
 }

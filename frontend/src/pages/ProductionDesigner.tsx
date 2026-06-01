@@ -133,6 +133,49 @@ function PlannerCanvas() {
     return { total, byCat, count: acts.length };
   }, [nodes]);
 
+  // Roll child activity emissions up into their day (and episode) nodes.
+  // Day nodes are created with totalEmissions: 0 and never recompute on their
+  // own, so without this they stay stuck at "0 kg" even with activities
+  // attached. Day total = sum of child activity kgco2e; episode total = sum of
+  // child day totals. Derived from the graph so it stays correct after every
+  // add / edit / delete.
+  useEffect(() => {
+    const kgById: Record<string, number> = {};
+    nodes.forEach((n) => {
+      if (n.type === "activityNode") kgById[n.id] = Number(n.data.kgco2e) || 0;
+    });
+
+    const dayTotals: Record<string, number> = {};
+    nodes.forEach((n) => {
+      if (n.type !== "dayNode") return;
+      dayTotals[n.id] = edges
+        .filter((e) => e.source === n.id)
+        .reduce((sum, e) => sum + (kgById[e.target] || 0), 0);
+    });
+
+    const epTotals: Record<string, number> = {};
+    nodes.forEach((n) => {
+      if (n.type !== "episodeNode") return;
+      epTotals[n.id] = edges
+        .filter((e) => e.source === n.id)
+        .reduce((sum, e) => sum + (dayTotals[e.target] || 0), 0);
+    });
+
+    let changed = false;
+    const updated = nodes.map((n) => {
+      let next: number | undefined;
+      if (n.type === "dayNode") next = dayTotals[n.id];
+      else if (n.type === "episodeNode") next = epTotals[n.id];
+      else return n;
+      if ((Number(n.data.totalEmissions) || 0) !== next) {
+        changed = true;
+        return { ...n, data: { ...n.data, totalEmissions: next } };
+      }
+      return n;
+    });
+    if (changed) setNodes(updated);
+  }, [nodes, edges, setNodes]);
+
   useEffect(() => {
     const prodId = initialForm?.production_id;
     if (!prodId) return;

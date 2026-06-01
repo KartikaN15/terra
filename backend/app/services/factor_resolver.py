@@ -55,6 +55,10 @@ COUNTRY_ALIASES: dict[str, str] = {
     "JAPAN": "JP",
     "AUSTRALIA": "AU",
     "CANADA": "CA",
+    # 3-letter ISO-3166 alpha-3 codes (callers / spreadsheets often use these).
+    "IND": "IN", "CHN": "CN", "JPN": "JP", "AUS": "AU", "CAN": "CA",
+    "DEU": "DE", "FRA": "FR", "ESP": "ES", "ITA": "IT", "NLD": "NL",
+    "BRA": "BR", "MEX": "MX", "POL": "PL", "IRL": "IE",
 }
 
 # Hierarchical fallback chain per canonical country.  When an exact-country
@@ -299,4 +303,42 @@ def resolve(
                 if rank == (0, 0, 0):
                     return best
 
-    return best
+    if best is not None:
+        return best
+
+    # Last-resort cross-region fallback. The requested region (and every step
+    # in its hierarchy, including GLOBAL) had no factor for this subcategory —
+    # but the factor library DOES carry it for some other region. Rather than
+    # fail the whole calculation (which drops the activity off the day entirely),
+    # we borrow the closest-vintage factor from ANY region so the event still
+    # gets an auditable kgco2e. It's graded `cross_region_fallback` and carries
+    # the heaviest confidence penalty so the borrowed regional basis is visible
+    # downstream, never silent.
+    for sub_token, sub_quality in sub_candidates:
+        rows = (
+            base_q.filter(models.EmissionFactor.subcategory == sub_token)
+            .order_by(
+                models.EmissionFactor.valid_from.desc(),
+                models.EmissionFactor.version.desc(),
+            )
+            .all()
+        )
+        if not rows:
+            continue
+
+        rows_graded = [(r, temporal_quality(r, as_of)) for r in rows]
+        ordering = {"current": 0, "future": 1, "expired": 2}
+        rows_graded.sort(key=lambda x: ordering.get(x[1], 3))
+        row, t_quality = rows_graded[0]
+
+        return ResolvedFactor(
+            factor=row,
+            quality=MatchQuality(
+                region="cross_region_fallback",
+                subcategory=sub_quality,
+                temporal=t_quality,
+                region_step=len(chain),  # beyond the end of the chain
+            ),
+        )
+
+    return None
