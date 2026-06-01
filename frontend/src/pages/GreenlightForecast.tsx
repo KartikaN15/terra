@@ -4,6 +4,10 @@ import { TrendUp, Sparkle } from "@phosphor-icons/react";
 import { useToast } from "../contexts/ToastContext";
 import crystalBall from "../assets/illustrations/crystal-ball.png";
 
+function fmtTco2e(value: number) {
+  return Number.isFinite(value) ? value.toFixed(1) : "—";
+}
+
 export default function GreenlightForecast() {
   const [form, setForm] = useState({
     project_type: "FEATURE",
@@ -26,7 +30,7 @@ export default function GreenlightForecast() {
       setResult(res);
       toast.success(
         "Forecast ready",
-        `Predicted ${res.predicted_total_tco2e.toFixed(1)} tCO₂e`
+        `Predicted ${fmtTco2e(res.predicted_total_tco2e)} tCO₂e`
       );
     } catch (err: any) {
       toast.error("Forecast failed", err.message || "Could not generate the forecast.");
@@ -114,7 +118,7 @@ export default function GreenlightForecast() {
                 <div className="bg-slate-50 rounded-xl p-4 text-center">
                   <div className="text-xs text-slate-400">Predicted total</div>
                   <div className="text-xl font-bold text-slate-800">
-                    {result.predicted_total_tco2e.toFixed(1)} tCO₂e
+                    {fmtTco2e(result.predicted_total_tco2e)} tCO₂e
                   </div>
                 </div>
                 <div className="bg-slate-50 rounded-xl p-4 text-center">
@@ -125,13 +129,15 @@ export default function GreenlightForecast() {
                 </div>
                 <div className="bg-slate-50 rounded-xl p-4 text-center">
                   <div className="text-xs text-slate-400">Top driver</div>
-                  <div className="text-sm font-bold text-slate-800 truncate">{result.top_driver}</div>
+                  <div className="text-sm font-bold text-slate-800 truncate">
+                    {result.top_driver || "—"}
+                  </div>
                 </div>
               </div>
               <div className="bg-emerald-50 rounded-xl p-4">
                 <div className="text-xs text-emerald-700 font-medium mb-1">Prediction interval</div>
                 <div className="text-sm text-emerald-800">
-                  {result.interval_lower_tco2e.toFixed(1)} — {result.interval_upper_tco2e.toFixed(1)} tCO₂e
+                  {fmtTco2e(result.interval_lower_tco2e)} — {fmtTco2e(result.interval_upper_tco2e)} tCO₂e
                 </div>
               </div>
               <div className="text-[10px] text-slate-400">Model: {result.model_version}</div>

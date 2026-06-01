@@ -12,6 +12,19 @@ import type {
 
 const API_BASE = "/api/v1";
 
+/** FastAPI serializes Decimal fields as JSON strings; coerce for UI math. */
+function normalizeGreenlightForecast(raw: Record<string, unknown>): GreenlightForecast {
+  return {
+    project_id: String(raw.project_id ?? ""),
+    predicted_total_tco2e: Number(raw.predicted_total_tco2e),
+    interval_lower_tco2e: Number(raw.interval_lower_tco2e),
+    interval_upper_tco2e: Number(raw.interval_upper_tco2e),
+    confidence: Number(raw.confidence),
+    top_driver: String(raw.top_driver ?? ""),
+    model_version: String(raw.model_version ?? ""),
+  };
+}
+
 function getToken() {
   return localStorage.getItem("token");
 }
@@ -155,11 +168,13 @@ export const api = {
   pendingReview: () => fetchJSON<Document[]>(`${API_BASE}/documents/pending-review`),
 
   // ML
-  forecastGreenlight: (metadata: any) =>
-    fetchJSON<GreenlightForecast>(`${API_BASE}/ml/forecast/greenlight`, {
+  forecastGreenlight: async (metadata: any) => {
+    const raw = await fetchJSON<Record<string, unknown>>(`${API_BASE}/ml/forecast/greenlight`, {
       method: "POST",
       body: JSON.stringify({ project_id: "forecast-" + Date.now(), metadata }),
-    }),
+    });
+    return normalizeGreenlightForecast(raw);
+  },
   trainModels: (kinds?: string[]) =>
     fetchJSON<{ status: string; kinds: string[] }>(`${API_BASE}/ml/train`, {
       method: "POST",
