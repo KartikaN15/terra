@@ -55,6 +55,112 @@ function DocIcon({ mimeType, className }: { mimeType?: string; className?: strin
   return <FileText className={className} />;
 }
 
+// ---------------------------------------------------------------------------
+// Synthetic OCR extraction (frontend-only demo)
+// ---------------------------------------------------------------------------
+// The backend OCR is a stub that returns no items. Until it's wired up, we
+// synthesize realistic extracted activity items on the client so the upload →
+// extract → review flow demos end-to-end. Values are seeded from the doc id so
+// they're stable across reloads (a given document always "extracts" the same).
+
+interface SynthItemSpec {
+  category: string;
+  subcategory: string;
+  unit: string;
+  min: number;
+  max: number;
+}
+
+const SYNTH_TEMPLATES: Record<string, { confidence: [number, number]; items: SynthItemSpec[] }> = {
+  FUEL_RECEIPT: {
+    confidence: [0.88, 0.96],
+    items: [{ category: "ENERGY", subcategory: "diesel_generator", unit: "LITRES", min: 120, max: 680 }],
+  },
+  ELECTRICITY_BILL: {
+    confidence: [0.9, 0.97],
+    items: [{ category: "ENERGY", subcategory: "grid_electricity", unit: "KWH", min: 800, max: 5200 }],
+  },
+  TRAVEL_MANIFEST: {
+    confidence: [0.82, 0.93],
+    items: [
+      { category: "TRANSPORT", subcategory: "short_haul_flight", unit: "KM", min: 450, max: 1500 },
+      { category: "TRANSPORT", subcategory: "medium_car_diesel", unit: "KM", min: 60, max: 420 },
+    ],
+  },
+  CATERING_INVOICE: {
+    confidence: [0.84, 0.94],
+    items: [{ category: "CATERING", subcategory: "meals_mixed", unit: "MEALS", min: 30, max: 220 }],
+  },
+  WASTE_TICKET: {
+    confidence: [0.85, 0.95],
+    items: [
+      { category: "WASTE", subcategory: "landfill_general", unit: "KG", min: 80, max: 900 },
+      { category: "WASTE", subcategory: "recycling_mixed", unit: "KG", min: 40, max: 500 },
+    ],
+  },
+  HOTEL_INVOICE: {
+    confidence: [0.87, 0.95],
+    items: [{ category: "ACCOMMODATION", subcategory: "hotel_night", unit: "NIGHTS", min: 4, max: 40 }],
+  },
+};
+
+// Fallback rotation for documents that don't match a known type (so OTHER docs
+// still demo a plausible extraction rather than coming up empty).
+const SYNTH_FALLBACK_TYPES = ["FUEL_RECEIPT", "ELECTRICITY_BILL", "WASTE_TICKET"];
+
+function seedFrom(s: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function makeRng(seed: number): () => number {
+  let x = seed || 1;
+  return () => {
+    x = (Math.imul(x, 1103515245) + 12345) & 0x7fffffff;
+    return x / 0x7fffffff;
+  };
+}
+
+function syntheticExtraction(doc: DocItem): { doc_type: string; confidence: number; items: any[] } {
+  const rng = makeRng(seedFrom(doc.doc_id || doc.filename));
+  let effectiveType = doc.doc_type && doc.doc_type !== "OTHER" ? doc.doc_type : guessDocType(doc.filename);
+  if (!SYNTH_TEMPLATES[effectiveType]) {
+    effectiveType = SYNTH_FALLBACK_TYPES[seedFrom(doc.doc_id || doc.filename) % SYNTH_FALLBACK_TYPES.length];
+  }
+  const tpl = SYNTH_TEMPLATES[effectiveType];
+  const [lo, hi] = tpl.confidence;
+  const confidence = +(lo + rng() * (hi - lo)).toFixed(2);
+
+  // Include the first item always; include optional extra items ~50% of the time.
+  const items = tpl.items
+    .filter((_, idx) => idx === 0 || rng() > 0.5)
+    .map((spec) => ({
+      category: spec.category,
+      subcategory: spec.subcategory,
+      unit: spec.unit,
+      value: Math.round(spec.min + rng() * (spec.max - spec.min)),
+    }));
+
+  return { doc_type: effectiveType, confidence, items };
+}
+
+// Overlay synthetic extraction onto a document that has no real extracted items.
+function withSynthetic(doc: DocItem): DocItem {
+  if (doc.extracted_data?.items?.length > 0) return doc;
+  const synth = syntheticExtraction(doc);
+  return {
+    ...doc,
+    doc_type: doc.doc_type && doc.doc_type !== "OTHER" ? doc.doc_type : synth.doc_type,
+    ocr_status: "EXTRACTED",
+    extracted_confidence: synth.confidence,
+    extracted_data: { items: synth.items, synthetic: true },
+  };
+}
+
 export default function Documents() {
   const [productions, setProductions] = useState<Production[]>([]);
   const [selectedId, setSelectedId] = useState<string>("");
@@ -69,12 +175,14 @@ export default function Documents() {
     api.getProductions().then(setProductions).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
-  const loadDocs = async (pid: string) => {
+  const loadDocs = async (pid: string): Promise<DocItem[]> => {
     try {
       const data = await api.getDocuments(pid);
       setDocs(data);
+      return data;
     } catch (e: any) {
       setError(e.message);
+      return [];
     }
   };
 
@@ -92,7 +200,11 @@ export default function Documents() {
     try {
       const guessedType = guessDocType(file.name);
       await api.uploadDocument(selectedId, guessedType, file);
-      await loadDocs(selectedId);
+      const data = await loadDocs(selectedId);
+      // Auto-expand the freshly uploaded doc so the (synthetic) extraction is
+      // visible immediately, mirroring a real OCR result.
+      const newest = [...data].sort((a, b) => b.uploaded_at.localeCompare(a.uploaded_at))[0];
+      if (newest) setExpandedDoc(newest.doc_id);
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -208,7 +320,7 @@ export default function Documents() {
       {/* Document list */}
       {selectedId && docs.length > 0 && (
         <div className="space-y-3">
-          {docs.map((doc) => (
+          {docs.map(withSynthetic).map((doc) => (
             <div
               key={doc.doc_id}
               className="terra-card overflow-hidden"
@@ -282,8 +394,15 @@ export default function Documents() {
               {expandedDoc === doc.doc_id && doc.extracted_data && (
                 <div className="px-5 pb-4 border-t border-slate-100">
                   <div className="mt-3">
-                    <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">
-                      Extracted items
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        Extracted items
+                      </div>
+                      {doc.extracted_data.synthetic && (
+                        <span className="text-[9px] font-semibold uppercase tracking-wider text-amber-700 bg-amber-50 border border-amber-100 px-1.5 py-0.5 rounded">
+                          demo data
+                        </span>
+                      )}
                     </div>
                     {doc.extracted_data.items?.length > 0 ? (
                       <div className="space-y-2">
