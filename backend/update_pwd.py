@@ -1,31 +1,26 @@
-from passlib.context import CryptContext
+"""Reset demo user password. Run: python update_pwd.py"""
 from app.database import SessionLocal
 from app import models
-import sys
+from app.security import hash_password
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def update_password():
     db = SessionLocal()
     try:
         user = db.query(models.User).filter(models.User.email == "demo@terra.app").first()
         if not user:
-            print("User not found")
+            print("User demo@terra.app not found")
             return
-        
-        # Set pre-generated hash for 'password123'
-        print(f"Setting hash for {user.email}...")
-        user.hashed_password = "$2b$12$z6nntHXruyv1OH2cBcUK7eW9NJKQ92OeOiXmjydSjQBT0WhX7OxM."
-        print("Committing...")
+        user.hashed_password = hash_password("password123")
         db.commit()
-        print("Updated password hash successfully")
+        print("Updated password for demo@terra.app -> password123")
     except Exception as e:
         db.rollback()
-        print(f"Error during update: {e}")
-        import traceback
-        traceback.print_exc()
+        print(f"Error: {e}")
+        raise
     finally:
         db.close()
+
 
 if __name__ == "__main__":
     update_password()

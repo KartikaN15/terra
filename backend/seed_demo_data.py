@@ -25,6 +25,7 @@ sys.path.insert(0, str(backend_dir))
 
 from app.database import SessionLocal, engine
 from app import models
+from app.security import hash_password
 
 TEST_DATA = backend_dir.parent / "test_data"
 
@@ -40,23 +41,26 @@ def parse_datetime(s: str) -> datetime:
 
 
 def seed_default_user(db):
-    """Create a default demo user."""
+    """Create or refresh the default demo user (demo@terra.app / password123)."""
     demo_id = "00000000-0000-0000-0000-000000000001"
+    demo_hash = hash_password("password123")
     existing = db.query(models.User).filter(models.User.user_id == demo_id).first()
     if existing:
-        print(f"  Demo user already exists: {demo_id}")
+        existing.hashed_password = demo_hash
+        db.commit()
+        print(f"  Demo user exists — password reset: demo@terra.app / password123")
         return existing
 
     user = models.User(
         user_id=demo_id,
         email="demo@terra.app",
         full_name="Demo User",
-        hashed_password="$2b$12$z6nntHXruyv1OH2cBcUK7eW9NJKQ92OeOiXmjydSjQBT0WhX7OxM.",  # password123
+        hashed_password=demo_hash,
     )
     db.add(user)
     db.commit()
     db.refresh(user)
-    print(f"  Created demo user: demo@terra.app (id={demo_id})")
+    print(f"  Created demo user: demo@terra.app / password123 (id={demo_id})")
     return user
 
 
